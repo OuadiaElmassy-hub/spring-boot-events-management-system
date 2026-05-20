@@ -2,25 +2,27 @@ package com.ouadia.rovista1.entities;
 
 import com.ouadia.rovista1.entities.enums.StatutCompte;
 import jakarta.persistence.Entity;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
+@Data // pour les methode getter, setter, toString() , hachcode() ,equals()
+@NoArgsConstructor @AllArgsConstructor
+@Builder
 public class Admin extends Utilisateur{
-
-    private String nom;
-    private String prenom;
-    private LocalDate dateNaissance;
-
-    public Admin(String nom, String prenom, LocalDate dateNaissance) {
-        this.nom = nom;
-        this.prenom = prenom;
-        this.dateNaissance = dateNaissance;
-    }
-
-    public Admin() {
-    }
+@NotEmpty
+private String nom;
+@NotEmpty
+private String prenom;
+@NotEmpty
+private LocalDate dateNaissance;
 
     public Admin(Long id, String username, String email, String motDePasse, StatutCompte statutCompte, String phone,
                     String adresse, List<Notification> notifications, List<Role> roles, String nom, String prenom,
@@ -31,27 +33,8 @@ public class Admin extends Utilisateur{
         this.dateNaissance = dateNaissance;
     }
 
-    public String getNom() {
-        return nom;
+
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
 
-    public String getPrenom() {
-        return prenom;
-    }
 
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
-    }
-
-    public LocalDate getDateNaissance() {
-        return dateNaissance;
-    }
-
-    public void setDateNaissance(LocalDate dateNaissance) {
-        this.dateNaissance = dateNaissance;
-    }
-}

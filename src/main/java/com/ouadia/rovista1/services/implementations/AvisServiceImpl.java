@@ -2,21 +2,21 @@ package com.ouadia.rovista1.services.implementations;
 
 import com.ouadia.rovista1.entities.Avis;
 import com.ouadia.rovista1.repositories.AvisRepository;
-import com.ouadia.rovista1.services.IAvisService;
+import com.ouadia.rovista1.services.interfaces.IAvisService;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class AvisServiceImpl implements IAvisService {
 
     private AvisRepository repository;
 
-    public AvisServiceImpl(AvisRepository repository) {
-        this.repository = repository;
-    }
+
 
     @Override
     public Avis addAvis(Avis avis) {

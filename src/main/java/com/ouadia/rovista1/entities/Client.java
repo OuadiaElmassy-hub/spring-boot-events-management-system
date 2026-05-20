@@ -2,18 +2,29 @@ package com.ouadia.rovista1.entities;
 
 import com.ouadia.rovista1.entities.enums.StatutCompte;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
+@Data // pour les methode getter, setter, toString() , hachcode() ,equals()
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Client extends Utilisateur{
-
+    @NotEmpty
     private String nom;
+    @NotEmpty
     private String prenom;
+    @NotEmpty
     private LocalDate dateNaissance;
 
-    @ManyToMany(mappedBy = "clients")
+    @ManyToMany(mappedBy = "clients" )
     private List<Promotion> promotions;
     @OneToMany(mappedBy = "client")
     private List<Reservation> reservations;
@@ -22,17 +33,7 @@ public class Client extends Utilisateur{
     @OneToMany(mappedBy = "client")
     private List<Favorie> favories;
 
-    public Client() {}
 
-    public Client(String nom, String prenom, LocalDate dateNaissance, List<Promotion> promotions, List<Reservation> reservations, List<Avis> avis, List<Favorie> favories) {
-        this.nom = nom;
-        this.prenom = prenom;
-        this.dateNaissance = dateNaissance;
-        this.promotions = promotions;
-        this.reservations = reservations;
-        this.avis = avis;
-        this.favories = favories;
-    }
 
     public Client(Long id, String username, String email, String motDePasse, StatutCompte statutCompte, String phone, String adresse, List<Notification> notifications, List<Role> roles, String nom, String prenom, LocalDate dateNaissance, List<Promotion> promotions, List<Reservation> reservations, List<Avis> avis, List<Favorie> favories) {
         super(id, username, email, motDePasse, statutCompte, phone, adresse, notifications, roles);
@@ -56,58 +57,5 @@ public class Client extends Utilisateur{
         this.favories = favories;
     }
 
-    public String getPrenom() {
-        return prenom;
-    }
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
-    }
 
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public LocalDate getDateNaissance() {
-        return dateNaissance;
-    }
-
-    public void setDateNaissance(LocalDate dateNaissance) {
-        this.dateNaissance = dateNaissance;
-    }
-
-    public List<Promotion> getPromotions() {
-        return promotions;
-    }
-
-    public void setPromotions(List<Promotion> promotions) {
-        this.promotions = promotions;
-    }
-
-    public List<Reservation> getReservations() {
-        return reservations;
-    }
-
-    public void setReservations(List<Reservation> reservations) {
-        this.reservations = reservations;
-    }
-
-    public List<Avis> getAvis() {
-        return avis;
-    }
-
-    public void setAvis(List<Avis> avis) {
-        this.avis = avis;
-    }
-
-    public List<Favorie> getFavories() {
-        return favories;
-    }
-
-    public void setFavories(List<Favorie> favories) {
-        this.favories = favories;
-    }
 }

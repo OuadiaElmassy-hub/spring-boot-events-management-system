@@ -3,13 +3,24 @@ package com.ouadia.rovista1.entities;
 import com.ouadia.rovista1.entities.enums.StatutCompte;
 import com.ouadia.rovista1.entities.enums.StatutOrganisateur;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 @Entity
+@Data // pour les methode getter, setter, toString() , hachcode() ,equals()
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Organisateur extends Utilisateur{
-
+    @NotEmpty
     private String nomOrganisation;
+    @NotEmpty
     private int numRegistre;
+    @NotEmpty
     @Enumerated(EnumType.STRING)
     private StatutOrganisateur statutOrganisateur;
 
@@ -18,7 +29,7 @@ public class Organisateur extends Utilisateur{
     @OneToMany(mappedBy = "organisateur")
     private List<Promotion> promotions;
 
-    public Organisateur() {}
+
 
     public Organisateur(Long id, String email, String username, String motDePasse,
                         StatutCompte statutCompte, String adresse, String telephonePro,
@@ -31,38 +42,5 @@ public class Organisateur extends Utilisateur{
         this.promotions = promotions;
     }
 
-    public int getNumRegistre() {
-        return numRegistre;
-    }
 
-    public void setNumRegistre(int numRegistre) {
-        this.numRegistre = numRegistre;
-    }
-
-    public String getNomOrganisation() {
-        return nomOrganisation;
-    }
-
-    public void setNomOrganisation(String nomOrganisation) {
-        this.nomOrganisation = nomOrganisation;
-    }
-
-    public List<Evenement> getEvenements() {
-        return evenements;
-    }
-
-    public void setEvenements(List<Evenement> evenements) {
-        this.evenements = evenements;
-    }
-
-    public StatutOrganisateur getStatutOrganisateur() { return statutOrganisateur; }
-    public void setStatutOrganisateur(StatutOrganisateur statutOrganisateur) { this.statutOrganisateur = statutOrganisateur; }
-
-    public List<Promotion> getPromotions() {
-        return promotions;
-    }
-
-    public void setPromotions(List<Promotion> promotions) {
-        this.promotions = promotions;
-    }
 }

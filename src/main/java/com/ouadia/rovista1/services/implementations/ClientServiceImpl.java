@@ -2,21 +2,21 @@ package com.ouadia.rovista1.services.implementations;
 
 import com.ouadia.rovista1.entities.Client;
 import com.ouadia.rovista1.repositories.ClientRepository;
-import com.ouadia.rovista1.services.IClientService;
+import com.ouadia.rovista1.services.interfaces.IClientService;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class ClientServiceImpl implements IClientService {
 
     private ClientRepository repository;
 
-    public ClientServiceImpl(ClientRepository repository) {
-        this.repository = repository;
-    }
+
 
     @Override
     public Client addClient(Client client) {
