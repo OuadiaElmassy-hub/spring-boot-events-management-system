@@ -2,21 +2,20 @@ package com.ouadia.rovista1.services.implementations;
 
 import com.ouadia.rovista1.entities.Notification;
 import com.ouadia.rovista1.repositories.NotificationRepository;
-import com.ouadia.rovista1.services.INotificationService;
+import com.ouadia.rovista1.services.interfaces.INotificationService;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class NotificationServiceImpl implements INotificationService {
 
     private NotificationRepository repository;
 
-    public NotificationServiceImpl(NotificationRepository repository) {
-        this.repository = repository;
-    }
 
     @Override
     public Notification addNotification(Notification notification) {

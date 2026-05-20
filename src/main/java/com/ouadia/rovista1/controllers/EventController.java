@@ -8,7 +8,7 @@ import com.ouadia.rovista1.entities.enums.Categorie;
 import com.ouadia.rovista1.entities.enums.StatutEvenement;
 import com.ouadia.rovista1.exceptions.EventNotFoundException;
 import com.ouadia.rovista1.exceptions.StorageProblemException;
-import com.ouadia.rovista1.services.IEventService;
+import com.ouadia.rovista1.services.interfaces.IEventService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

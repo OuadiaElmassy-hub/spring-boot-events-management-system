@@ -2,21 +2,21 @@ package com.ouadia.rovista1.services.implementations;
 
 import com.ouadia.rovista1.entities.Billet;
 import com.ouadia.rovista1.repositories.BilletRepository;
-import com.ouadia.rovista1.services.IBilletService;
+import com.ouadia.rovista1.services.interfaces.IBilletService;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class BilletServiceImpl implements IBilletService {
 
     private BilletRepository repository;
 
-    public BilletServiceImpl(BilletRepository repository) {
-        this.repository = repository;
-    }
+
 
     @Override
     public Billet addBillet(Billet billet) {

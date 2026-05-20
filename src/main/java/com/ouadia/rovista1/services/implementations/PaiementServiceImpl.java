@@ -1,7 +1,8 @@
 package com.ouadia.rovista1.services.implementations;
 
-import com.ouadia.rovista1.services.IPaiementService;
+import com.ouadia.rovista1.services.interfaces.IPaiementService;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.ouadia.rovista1.entities.Paiement;
 import com.ouadia.rovista1.repositories.PaiementRepository;
@@ -10,13 +11,11 @@ import java.util.List;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class PaiementServiceImpl implements IPaiementService {
 
     private PaiementRepository repository;
 
-    public PaiementServiceImpl(PaiementRepository repository) {
-        this.repository = repository;
-    }
 
     @Override
     public Paiement addPaiement(Paiement paiement) {

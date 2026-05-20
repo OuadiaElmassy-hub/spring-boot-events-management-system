@@ -2,21 +2,20 @@ package com.ouadia.rovista1.services.implementations;
 
 import com.ouadia.rovista1.entities.Organisateur;
 import com.ouadia.rovista1.repositories.OrganisateurRepository;
-import com.ouadia.rovista1.services.IOrganisateurService;
+import com.ouadia.rovista1.services.interfaces.IOrganisateurService;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class OrganisateurServiceImpl implements IOrganisateurService {
 
     private OrganisateurRepository repository;
 
-    public OrganisateurServiceImpl(OrganisateurRepository repository) {
-        this.repository = repository;
-    }
 
     @Override
     public Organisateur addOrganisateur(Organisateur organisateur) {

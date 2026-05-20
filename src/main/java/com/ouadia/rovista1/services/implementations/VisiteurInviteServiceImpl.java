@@ -2,21 +2,19 @@ package com.ouadia.rovista1.services.implementations;
 
 import com.ouadia.rovista1.entities.VisiteurInvite;
 import com.ouadia.rovista1.repositories.VisiteurRepository;
-import com.ouadia.rovista1.services.IVisiteurService;
+import com.ouadia.rovista1.services.interfaces.IVisiteurService;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class VisiteurInviteServiceImpl implements IVisiteurService {
 
     private VisiteurRepository repository;
-
-    public VisiteurInviteServiceImpl(VisiteurRepository repository) {
-        this.repository = repository;
-    }
 
     @Override
     public VisiteurInvite addVisiteurInvite(VisiteurInvite visiteurInvite) {

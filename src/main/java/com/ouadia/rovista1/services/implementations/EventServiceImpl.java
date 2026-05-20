@@ -8,8 +8,9 @@ import com.ouadia.rovista1.exceptions.EventNotFoundException;
 import com.ouadia.rovista1.exceptions.StorageProblemException;
 import com.ouadia.rovista1.repositories.CategorieRepository;
 import com.ouadia.rovista1.repositories.EventRepository;
-import com.ouadia.rovista1.services.IEventService;
+import com.ouadia.rovista1.services.interfaces.IEventService;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,14 +23,11 @@ import java.util.UUID;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class EventServiceImpl implements IEventService {
     private EventRepository repository;
     private CategorieRepository categorieRepository;
 
-    public EventServiceImpl(EventRepository repository, CategorieRepository categorieRepository) {
-        this.repository = repository;
-        this.categorieRepository = categorieRepository;
-    }
 
     @Override
     public Evenement getEventById(Long id){

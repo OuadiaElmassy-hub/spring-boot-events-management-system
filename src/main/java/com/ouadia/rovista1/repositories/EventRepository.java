@@ -4,9 +4,11 @@ import com.ouadia.rovista1.entities.Evenement;
 import com.ouadia.rovista1.entities.enums.StatutEvenement;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface EventRepository extends JpaRepository<Evenement,Long> {
 
     @Query("SELECT DISTINCT e FROM Evenement e LEFT JOIN e.categorie c WHERE" +

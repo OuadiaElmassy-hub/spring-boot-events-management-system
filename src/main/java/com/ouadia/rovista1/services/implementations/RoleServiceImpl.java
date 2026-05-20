@@ -2,21 +2,20 @@ package com.ouadia.rovista1.services.implementations;
 
 import com.ouadia.rovista1.entities.Role;
 import com.ouadia.rovista1.repositories.RoleRepository;
-import com.ouadia.rovista1.services.IRoleService;
+import com.ouadia.rovista1.services.interfaces.IRoleService;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class RoleServiceImpl implements IRoleService {
 
     private RoleRepository repository;
 
-    public RoleServiceImpl(RoleRepository repository) {
-        this.repository = repository;
-    }
 
     @Override
     public Role addRole(Role role) {
