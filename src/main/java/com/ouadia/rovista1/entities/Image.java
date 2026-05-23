@@ -26,5 +26,5 @@ public class Image {
     @NotEmpty
     private TypePhoto type;
     @ManyToOne
-    private List<Evenement> evenement;
+    private Evenement evenement;
 }

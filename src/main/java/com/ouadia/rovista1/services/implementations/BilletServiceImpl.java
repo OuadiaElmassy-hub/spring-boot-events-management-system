@@ -1,6 +1,9 @@
 package com.ouadia.rovista1.services.implementations;
 
+import com.ouadia.rovista1.dtos.billet.BilletResponseDto;
 import com.ouadia.rovista1.entities.Billet;
+import com.ouadia.rovista1.exceptions.BilletNotFoundException;
+import com.ouadia.rovista1.mappers.BilletMapper;
 import com.ouadia.rovista1.repositories.BilletRepository;
 import com.ouadia.rovista1.services.interfaces.IBilletService;
 import jakarta.transaction.Transactional;
@@ -15,7 +18,7 @@ import java.util.List;
 public class BilletServiceImpl implements IBilletService {
 
     private BilletRepository repository;
-
+    private BilletMapper billetMapper;
 
 
     @Override
@@ -29,8 +32,8 @@ public class BilletServiceImpl implements IBilletService {
     }
 
     @Override
-    public Billet getBilletById(Long id) {
-        return repository.findById(id).orElseThrow();
+    public BilletResponseDto getBilletById(Long id) throws BilletNotFoundException {
+        return billetMapper.mappingBilletToBilletDtoResponse(repository.findById(id).orElseThrow(()->new BilletNotFoundException("not found")));
     }
 
     @Override

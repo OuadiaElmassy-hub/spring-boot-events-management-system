@@ -1,30 +1,51 @@
 package com.ouadia.rovista1.services.interfaces;
 
-import com.ouadia.rovista1.dtos.EvenementDtoAdd;
-import com.ouadia.rovista1.dtos.EvenementDtoAddIn;
+import com.ouadia.rovista1.dtos.evenement.EvenementRequestDto;
+import com.ouadia.rovista1.dtos.evenement.EvenementResponseDto;
 import com.ouadia.rovista1.entities.Evenement;
 import com.ouadia.rovista1.entities.enums.StatutEvenement;
-import com.ouadia.rovista1.exceptions.EventNotFoundException;
-import com.ouadia.rovista1.exceptions.StorageProblemException;
+import com.ouadia.rovista1.exceptions.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface IEventService {
 
-    public Evenement getEventById(Long id);
-    public List<Evenement> getAllEvents();
-    public List<Evenement> getEventsByStatut(StatutEvenement statut);
-    public List<Evenement> searchEvents(String keyword);
+    // version 2
+    EvenementResponseDto createEvenement(
+            EvenementRequestDto dto,
+            List<MultipartFile> images,
+            Long organisateurId
+    ) throws OrganisateurNotFoundException, StorageProblemException, CategorieNotFoundException, BusinessException;
 
-    public Evenement addEvent(EvenementDtoAdd dto, MultipartFile imageFile, MultipartFile document) throws StorageProblemException;
-    public Evenement addEvent(EvenementDtoAddIn dto) throws IOException, StorageProblemException; // dto avec les fichiers aussi
+    Evenement stockageDesImages(Evenement evenement, List<MultipartFile> images) throws StorageProblemException;
 
-    public Evenement stockageDuDocument(Evenement evenement, MultipartFile document) throws StorageProblemException;
-    public Evenement stockageDeLimage(Evenement evenement, MultipartFile image) throws StorageProblemException;
+    EvenementResponseDto updateEvenement(
+            Long id,
+            EvenementRequestDto dto
+    ) throws EventNotFoundException, BusinessException;
 
-    public Evenement editEvent(Long id, Evenement evenement, MultipartFile imageFile, MultipartFile document) throws StorageProblemException, EventNotFoundException;
+    void deleteEvenement(Long id) throws EventNotFoundException;
 
-    public void deleteEventById(Long id) throws EventNotFoundException;
+    EvenementResponseDto getEvenementById(Long id) throws EventNotFoundException;
+
+    //Page<EvenementResponseDto> getAllEvents(int numPage, int size);
+
+    List<Evenement> getEventsByStatut(StatutEvenement statut);
+
+    Page<EvenementResponseDto> getAllPublishedEvenements(int numPage, int size);
+
+    List<EvenementResponseDto> getEvenementsByOrganisateur( Long organisateurId);
+
+    Page<EvenementResponseDto> searchEvents(String ville, Long categorieId, LocalDate date, int numPage, int size);
+
+    void validAndPublieEvent(Long id) throws EventNotFoundException;
+    void rejeterEvent(Long id) throws EventNotFoundException;
+
+    //____________________________________________
+
 }

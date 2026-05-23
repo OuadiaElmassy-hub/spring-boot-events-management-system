@@ -2,11 +2,8 @@ package com.ouadia.rovista1.entities;
 
 import com.ouadia.rovista1.entities.enums.StatutEvenement;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -14,7 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data // pour les methode getter, setter, toString() , hachcode() ,equals()
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -22,49 +20,42 @@ public class Evenement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotEmpty
+    @Column(nullable = false)
     private String titre;
-    @NotEmpty
+    @Column(columnDefinition = "TEXT")
     private String description;
-    @NotEmpty
+    @Column(nullable = false)
     private LocalDate dateDebut;
-    @NotEmpty
+    @Column(nullable = false)
     private LocalDate dateFin;
-    @NotEmpty
+    @Column(nullable = false)
     private LocalTime heureDebut;
-    @NotEmpty
+    @Column(nullable = false)
     private String lieuSpecifique;
-    @NotEmpty
-    private String ville; //enum
-    @NotEmpty
+    @Column(nullable = false)
+    private String ville; //enum Ou class
+    @Column(nullable = false)
     private int capacite;
-    @NotEmpty
-    private double prix;
-    @NotEmpty
-    // pour une place normale
+    private double prix; // pour une place normale
+    @CreationTimestamp
+    private LocalDate dateCreation;
+    private LocalDate dateValidation;
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private StatutEvenement statutEvenement;
-    @NotEmpty
-    private String fichierUri;
-    @NotEmpty
-    private String imageUri;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Organisateur organisateur;
-    @OneToMany(mappedBy = "evenement")
+    @OneToMany(mappedBy = "evenement") // par defaut : fetch = FetchType.LAZY
     private List<Reservation> reservations;
-    @OneToMany(mappedBy = "evenement")
-    private List<Avis> avis;
-    @ManyToOne
+    @OneToMany(mappedBy = "evenement", fetch = FetchType.EAGER)
+    private List<Avis> avis = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
     private Categorie categorie;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private Promotion promotion;
-    @ManyToMany(mappedBy = "evenements" )
+    @ManyToMany(mappedBy = "evenements", fetch = FetchType.LAZY)
     private List<Favorie> favories;
-    @OneToMany(mappedBy = "evenement")
-    private List<Image> images;
-
-
-
-
+    @OneToMany(mappedBy = "evenement", fetch = FetchType.EAGER)
+    private List<Image> images = new ArrayList<>();
 }

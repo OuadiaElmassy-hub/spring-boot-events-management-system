@@ -58,5 +58,4 @@ public class EvenementDtoAdd {
 
     public StatutEvenement getStatut() { return statut; }
     public void setStatut(StatutEvenement statut) { this.statut = statut; }
-
 }

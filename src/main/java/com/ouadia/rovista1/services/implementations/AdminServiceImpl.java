@@ -26,7 +26,7 @@ public class AdminServiceImpl implements IAdminService {
     public Admin addAdmin(Admin admin) {
         if (repository.findById(admin.getId()).isPresent()){
             throw new RuntimeException(" admin exsist ");
-        }else
+        }
         return repository.save(admin);
     }
 
@@ -34,7 +34,7 @@ public class AdminServiceImpl implements IAdminService {
     public Admin editAdmin(Admin admin ,long idReche) {
         if (admin == null) return null;
         else {
-            Admin admin1 = repository.findById(idReche);
+            Admin admin1 = repository.findById(idReche).orElse(null);
             if (admin1 == null) {return null;}
                 admin1.setUsername(admin.getUsername());
                 admin1.setEmail(admin.getEmail());
@@ -55,7 +55,7 @@ public class AdminServiceImpl implements IAdminService {
     public Admin editAdmin(long idReche, Map<String, Object> map) {
         if (map == null ) return null;
         else {
-            Admin admin1 = repository.findById(idReche);
+            Admin admin1 = repository.findById(idReche).orElse(null);
             if (admin1 == null) {return null;}
             if (map.containsKey("username")){
             admin1.setUsername((String) map.get("username"));
