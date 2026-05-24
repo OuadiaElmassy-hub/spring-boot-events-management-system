@@ -1,11 +1,13 @@
 package com.ouadia.rovista1.repositories;
 
+import com.ouadia.rovista1.entities.Admin;
 import com.ouadia.rovista1.entities.Categorie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 
 @Repository
-public interface CategorieRepository extends JpaRepository<Categorie,Long> {
+public interface CategorieRepository extends JpaRepository<Categorie,Integer> {
     Categorie findByNom(String nom);
+
 }

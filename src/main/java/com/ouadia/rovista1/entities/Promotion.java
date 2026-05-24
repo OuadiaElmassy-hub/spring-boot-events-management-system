@@ -20,15 +20,15 @@ public class Promotion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotEmpty
+    @Column(nullable = false)
     private String titre;
-    @NotEmpty
+    @Column(nullable = false)
     private LocalDateTime dateDebut;
-    @NotEmpty
+    @Column(nullable = false)
     private LocalDateTime dateFin;
-    @NotEmpty
+    @Column(nullable = false)
     private TypePromotion type;
-    @NotEmpty
+    @Column(nullable = false)
     private boolean estApprove;
 
     @ManyToOne

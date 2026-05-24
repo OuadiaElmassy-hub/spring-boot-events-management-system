@@ -1,5 +1,6 @@
 package com.ouadia.rovista1.repositories;
 
+import com.ouadia.rovista1.entities.Admin;
 import com.ouadia.rovista1.entities.Evenement;
 import com.ouadia.rovista1.entities.enums.StatutEvenement;
 import org.springframework.data.jpa.repository.JpaRepository;

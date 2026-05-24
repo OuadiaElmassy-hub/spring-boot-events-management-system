@@ -1,13 +1,20 @@
 package com.ouadia.rovista1.dtos;
 
 
+import jakarta.validation.constraints.NotNull;
+
 public class VisiteurInviteDto {
 
     private  Long id;
+    @NotNull
     private String nom;
+    @NotNull
     private  String prenom;
+    @NotNull
     private String email;
+    @NotNull
     private String phone;
+    @NotNull
     private String adresse;
 
     public VisiteurInviteDto() {

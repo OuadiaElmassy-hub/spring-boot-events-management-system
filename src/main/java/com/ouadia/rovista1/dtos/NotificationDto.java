@@ -2,13 +2,17 @@ package com.ouadia.rovista1.dtos;
 
 import com.ouadia.rovista1.entities.enums.TypeMessage;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
 public class NotificationDto {
     private Long id;
+    @NotNull
     private String content;
+    @NotNull
     private LocalDateTime dateEnvoi;
+    @NotNull
     private TypeMessage typeMessage;
 
     public NotificationDto() {

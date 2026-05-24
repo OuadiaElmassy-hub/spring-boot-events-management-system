@@ -19,12 +19,13 @@ public class Image {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private  Long id;
-    @NotEmpty
+    @Column(nullable = false)
     private  String nom;
-    @NotEmpty
+    @Column(nullable = false)
     private  String url;
-    @NotEmpty
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private TypePhoto type;
     @ManyToOne
-    private List<Evenement> evenement;
+    private Evenement evenement;
 }

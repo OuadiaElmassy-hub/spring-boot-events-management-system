@@ -1,5 +1,6 @@
 package com.ouadia.rovista1.services.interfaces;
 
+import com.ouadia.rovista1.dtos.EvenementDto;
 import com.ouadia.rovista1.dtos.EvenementDtoAdd;
 import com.ouadia.rovista1.dtos.EvenementDtoAddIn;
 import com.ouadia.rovista1.entities.Evenement;
@@ -13,18 +14,18 @@ import java.util.List;
 
 public interface IEventService {
 
-    public Evenement getEventById(Long id);
-    public List<Evenement> getAllEvents();
-    public List<Evenement> getEventsByStatut(StatutEvenement statut);
-    public List<Evenement> searchEvents(String keyword);
+    public EvenementDto getEventById(Long id);
+    public List<EvenementDto> getAllEvents();
+    public List<EvenementDto> getEventsByStatut(StatutEvenement statut);
+    public List<EvenementDto> searchEvents(String keyword);
 
-    public Evenement addEvent(EvenementDtoAdd dto, MultipartFile imageFile, MultipartFile document) throws StorageProblemException;
-    public Evenement addEvent(EvenementDtoAddIn dto) throws IOException, StorageProblemException; // dto avec les fichiers aussi
+    public EvenementDto addEvent(EvenementDtoAdd dto, MultipartFile imageFile, MultipartFile document) throws StorageProblemException;
+    public EvenementDto addEvent(EvenementDtoAddIn dto) throws IOException, StorageProblemException; // dto avec les fichiers aussi
 
-    public Evenement stockageDuDocument(Evenement evenement, MultipartFile document) throws StorageProblemException;
-    public Evenement stockageDeLimage(Evenement evenement, MultipartFile image) throws StorageProblemException;
+    public EvenementDto stockageDuDocument(Evenement evenement, MultipartFile document) throws StorageProblemException;
+    public EvenementDto stockageDeLimage(EvenementDto evenementDto, MultipartFile image) throws StorageProblemException;
 
-    public Evenement editEvent(Long id, Evenement evenement, MultipartFile imageFile, MultipartFile document) throws StorageProblemException, EventNotFoundException;
+    public EvenementDto editEvent(Long id, EvenementDto evenementDto, MultipartFile imageFile, MultipartFile document) throws StorageProblemException, EventNotFoundException;
 
     public void deleteEventById(Long id) throws EventNotFoundException;
 }

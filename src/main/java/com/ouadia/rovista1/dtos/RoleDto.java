@@ -3,6 +3,7 @@ package com.ouadia.rovista1.dtos;
 public class RoleDto {
 
     private int id;
+
     private String roleName;
 
     public RoleDto() {

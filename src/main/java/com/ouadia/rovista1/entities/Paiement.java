@@ -20,8 +20,11 @@ public class Paiement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(nullable = false)
     private BigDecimal montant;
+    @Column(nullable = false)
     private LocalDateTime datePaiement;
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private StatutPaiement statut;
     @Enumerated(EnumType.STRING)

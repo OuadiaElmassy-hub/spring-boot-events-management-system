@@ -2,6 +2,7 @@ package com.ouadia.rovista1.dtos;
 
 import com.ouadia.rovista1.entities.enums.Categorie;
 import com.ouadia.rovista1.entities.enums.StatutEvenement;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -9,18 +10,31 @@ import java.time.LocalTime;
 public class EvenementDto {
 
     private Long id;
+    @NotNull
     private String titre;
+    @NotNull
     private String description;
+    @NotNull
     private LocalDate dateDebut;
+    @NotNull
     private LocalDate dateFin;
+    @NotNull
     private LocalTime heureDebut;
+    @NotNull
     private String lieuSpecifique;
-    private String ville; //enum
+    @NotNull
+    private String ville;
+    @NotNull//enum
     private int capacite;
-    private double prix; // pour une place normale
+    @NotNull
+    private double prix;
+    // pour une place normale
     private StatutEvenement statutEvenement;
+    @NotNull
     private Categorie categorie;
+    @NotNull
     private String fichierUri;
+    @NotNull
     private String imageUri;
 
     public EvenementDto() {}

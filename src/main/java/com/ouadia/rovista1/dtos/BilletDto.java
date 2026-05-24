@@ -1,15 +1,20 @@
 package com.ouadia.rovista1.dtos;
 
 import com.ouadia.rovista1.entities.enums.TypeBillet;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 
 public class BilletDto {
 
     private Long id;
+    @NotNull
     private String code;
+    @NotNull
     private String qrCode;
+    @NotNull
     private LocalDateTime dateBillet;
+    @NotNull
     private TypeBillet type;
 
     public BilletDto() {}

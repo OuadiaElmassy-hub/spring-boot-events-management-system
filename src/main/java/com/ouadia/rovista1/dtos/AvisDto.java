@@ -1,13 +1,19 @@
 package com.ouadia.rovista1.dtos;
 
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDate;
 
 public class AvisDto {
 
     private Long id;
+    @NotNull
     private String comment;
+    @NotNull
     private double note;
+    @NotNull
     private LocalDate dateAvis;
+
 
     public AvisDto(){
     }

@@ -2,7 +2,6 @@ package com.ouadia.rovista1.entities;
 
 import com.ouadia.rovista1.entities.enums.StatutCompte;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,11 +16,11 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Client extends Utilisateur{
-    @NotEmpty
+    @Column(nullable = false)
     private String nom;
-    @NotEmpty
+    @Column(nullable = false)
     private String prenom;
-    @NotEmpty
+    @Column(nullable = false)
     private LocalDate dateNaissance;
 
     @ManyToMany(mappedBy = "clients" )
@@ -58,4 +57,7 @@ public class Client extends Utilisateur{
     }
 
 
+    public Client(Long id, String username, String email, String motDePasse, StatutCompte statutCompte, String phone, String adresse) {
+        super(id, username, email, motDePasse, statutCompte, phone, adresse);
+    }
 }

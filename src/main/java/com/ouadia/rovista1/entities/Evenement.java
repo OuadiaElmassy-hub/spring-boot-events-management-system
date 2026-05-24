@@ -22,31 +22,31 @@ public class Evenement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotEmpty
+    @Column(nullable = false)
     private String titre;
-    @NotEmpty
+    @Column(nullable = false,columnDefinition = "text")
     private String description;
-    @NotEmpty
+    @Column(nullable = false)
     private LocalDate dateDebut;
-    @NotEmpty
+    @Column(nullable = false)
     private LocalDate dateFin;
-    @NotEmpty
+    @Column(nullable = false)
     private LocalTime heureDebut;
-    @NotEmpty
+    @Column(nullable = false)
     private String lieuSpecifique;
-    @NotEmpty
+    @Column(nullable = false)
     private String ville; //enum
-    @NotEmpty
+    @Column(nullable = false)
     private int capacite;
-    @NotEmpty
+    @Column(nullable = false)
     private double prix;
-    @NotEmpty
+    @Column(nullable = false)
     // pour une place normale
     @Enumerated(EnumType.STRING)
     private StatutEvenement statutEvenement;
-    @NotEmpty
+    @Column(nullable = false)
     private String fichierUri;
-    @NotEmpty
+    @Column(nullable = false)
     private String imageUri;
 
     @ManyToOne

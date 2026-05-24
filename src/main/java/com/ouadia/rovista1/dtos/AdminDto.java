@@ -4,15 +4,18 @@ import com.ouadia.rovista1.entities.Notification;
 import com.ouadia.rovista1.entities.Role;
 import com.ouadia.rovista1.entities.Utilisateur;
 import com.ouadia.rovista1.entities.enums.StatutCompte;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.List;
 
 
 public class AdminDto extends Utilisateur {
-
+    @NotNull
     private String nom;
+    @NotNull
     private String prenom;
+    @NotNull
     private LocalDate dateNaissance;
 
     public AdminDto(String nom, String prenom, LocalDate dateNaissance) {

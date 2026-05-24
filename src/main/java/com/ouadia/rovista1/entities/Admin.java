@@ -1,9 +1,9 @@
 package com.ouadia.rovista1.entities;
 
 import com.ouadia.rovista1.entities.enums.StatutCompte;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,11 +17,11 @@ import java.util.List;
 @NoArgsConstructor @AllArgsConstructor
 @Builder
 public class Admin extends Utilisateur{
-@NotEmpty
+@Column(nullable = false)
 private String nom;
-@NotEmpty
+@Column(nullable = false)
 private String prenom;
-@NotEmpty
+@Column(nullable = false)
 private LocalDate dateNaissance;
 
     public Admin(Long id, String username, String email, String motDePasse, StatutCompte statutCompte, String phone,

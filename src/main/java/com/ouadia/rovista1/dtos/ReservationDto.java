@@ -2,6 +2,7 @@ package com.ouadia.rovista1.dtos;
 
 import com.ouadia.rovista1.entities.enums.StatutReservation;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -10,9 +11,13 @@ import java.util.List;
 public class ReservationDto {
 
     private Long id;
+    @NotNull
     private LocalDateTime dateReservation;
+    @NotNull
     private int nombrePlaces;
+    @NotNull
     private StatutReservation statut;
+    @NotNull
     private BigDecimal montant;
 
     public ReservationDto() {}

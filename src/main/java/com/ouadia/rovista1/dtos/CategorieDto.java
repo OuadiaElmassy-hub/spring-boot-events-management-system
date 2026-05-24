@@ -1,22 +1,25 @@
 package com.ouadia.rovista1.dtos;
 
+import jakarta.validation.constraints.NotNull;
+
 import java.util.List;
 
 public class CategorieDto {
 
     private int id;
+    @NotNull
     private String nom;
+    @NotNull
     private String description;
-    private String urlPhoto;
 
     public CategorieDto() {
     }
 
-    public CategorieDto(int id, String nom, String description, String urlPhoto) {
+    public CategorieDto(int id, String nom, String description) {
         this.id = id;
+
         this.nom = nom;
         this.description = description;
-        this.urlPhoto = urlPhoto;
     }
 
     public int getId() {
@@ -43,11 +46,5 @@ public class CategorieDto {
         this.description = description;
     }
 
-    public String getUrlPhoto() {
-        return urlPhoto;
-    }
 
-    public void setUrlPhoto(String urlPhoto) {
-        this.urlPhoto = urlPhoto;
-    }
 }

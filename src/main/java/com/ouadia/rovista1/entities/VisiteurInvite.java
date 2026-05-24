@@ -18,15 +18,15 @@ public class VisiteurInvite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Long id;
-    @NotEmpty
+    @Column(nullable = false)
     private String nom;
-    @NotEmpty
+    @Column(nullable = false)
     private  String prenom;
-    @NotEmpty
+    @Column(nullable = false)
     private String email;
-    @NotEmpty
+    @Column(nullable = false)
     private String phone;
-    @NotEmpty
+    @Column(nullable = false)
     private String adresse;
 
     @OneToMany(mappedBy = "visiteurInvite")
