@@ -92,7 +92,7 @@ public class CategorieServiceImpl implements ICategorieService {
 
     @Override
     public void deleteAllByIds(Integer... ids) {
-        for (int id :ids){
+        for (Integer id :ids){
             deleteCategorieById(id);
         }
     }

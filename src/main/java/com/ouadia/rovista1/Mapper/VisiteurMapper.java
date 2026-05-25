@@ -14,7 +14,7 @@ public class VisiteurMapper {
                 visiteurInvite.getAdresse()
         );
     }
-    public  static VisiteurInvite mapToVisiteurInviteDto(VisiteurInviteDto visiteurInviteDto){
+    public  static VisiteurInvite mapToVisiteurInvite(VisiteurInviteDto visiteurInviteDto){
         return new VisiteurInvite(
                 visiteurInviteDto.getId(),
                 visiteurInviteDto.getNom(),

@@ -3,7 +3,7 @@ package com.ouadia.rovista1.Mapper;
 import com.ouadia.rovista1.dtos.PaiementDto;
 import com.ouadia.rovista1.entities.Paiement;
 
-public class PaimentMapper {
+public class PaiementMapper {
     public static PaiementDto mapToPaiementDto(Paiement paiement){
 
         return new PaiementDto(

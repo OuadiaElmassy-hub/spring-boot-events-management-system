@@ -5,12 +5,14 @@ import com.ouadia.rovista1.Mapper.NotificationMapper;
 import com.ouadia.rovista1.Mapper.NotificationMapper;
 import com.ouadia.rovista1.Mapper.NotificationMapper;
 import com.ouadia.rovista1.dtos.NotificationDto;
+import com.ouadia.rovista1.dtos.UtilisateurDto;
 import com.ouadia.rovista1.entities.*;
 import com.ouadia.rovista1.entities.Notification;
 import com.ouadia.rovista1.entities.Notification;
 import com.ouadia.rovista1.entities.enums.TypeMessage;
 import com.ouadia.rovista1.entities.enums.TypePhoto;
 import com.ouadia.rovista1.exceptions.NotificationNotFoundException;
+import com.ouadia.rovista1.exceptions.UserNotFoundException;
 import com.ouadia.rovista1.repositories.NotificationRepository;
 import com.ouadia.rovista1.services.interfaces.INotificationService;
 import jakarta.transaction.Transactional;
@@ -78,6 +80,11 @@ public class NotificationServiceImpl implements INotificationService {
     public NotificationDto getNotificationById(Long id)throws NotificationNotFoundException {
         Notification notification = repository.findById(id).orElseThrow(() -> new NotificationNotFoundException("notification not found"));
         return NotificationMapper.mapToNotificationDto(notification);
+    }
+
+    @Override
+    public List<NotificationDto> getNotificationsByUtilisateur(Utilisateur utilisateur) throws NotificationNotFoundException, UserNotFoundException {
+     return repository.findByUtilisateur(utilisateur).stream().map(notification -> NotificationMapper.mapToNotificationDto(notification)).toList();
     }
 
     @Override
