@@ -18,7 +18,9 @@ public class Favorie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Long id;
+    @Column(nullable = false,columnDefinition = "text")
     private String description;
+    @Column(nullable = false)
     private LocalDateTime dateCreation;
 
     @ManyToOne

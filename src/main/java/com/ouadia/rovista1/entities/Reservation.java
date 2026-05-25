@@ -21,13 +21,13 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotEmpty
+    @Column(nullable = false)
     private LocalDateTime dateReservation;
-    @NotEmpty
+    @Column(nullable = false)
     private int nombrePlaces;
-    @NotEmpty
+    @Column(nullable = false)
     private StatutReservation statut;
-    @NotEmpty
+    @Column(nullable = false)
     private BigDecimal montant;
 
     @OneToMany(mappedBy = "reservation")

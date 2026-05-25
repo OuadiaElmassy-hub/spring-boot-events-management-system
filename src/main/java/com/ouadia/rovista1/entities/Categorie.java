@@ -17,10 +17,10 @@ public class Categorie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(nullable = false)
     private String nom;
+    @Column(nullable = false,columnDefinition = "text")
     private String description;
-    private String urlPhoto;
-
     @OneToMany(mappedBy = "categorie")
     private List<Evenement> evenements;
 //    @OneToOne

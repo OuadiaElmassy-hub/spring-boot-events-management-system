@@ -2,6 +2,7 @@ package com.ouadia.rovista1.dtos;
 
 import com.ouadia.rovista1.entities.enums.MethodePaiement;
 import com.ouadia.rovista1.entities.enums.StatutPaiement;
+import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -9,9 +10,13 @@ import java.time.LocalDateTime;
 public class PaiementDto {
 
     private int id;
+    @NotNull
     private BigDecimal montant;
+    @NotNull
     private LocalDateTime datePaiement;
+    @NotNull
     private StatutPaiement statut;
+    @NotNull
     private MethodePaiement methodePaiement;
 
     public PaiementDto() {

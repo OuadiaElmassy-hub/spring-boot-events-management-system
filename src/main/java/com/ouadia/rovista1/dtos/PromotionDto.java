@@ -2,16 +2,22 @@ package com.ouadia.rovista1.dtos;
 
 import com.ouadia.rovista1.entities.enums.TypePromotion;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.List;
 public class PromotionDto {
 
     private Long id;
+    @NotNull
     private String titre;
+    @NotNull
     private LocalDateTime dateDebut;
+    @NotNull
     private LocalDateTime dateFin;
+    @NotNull
     private TypePromotion type;
+    @NotNull
     private boolean estApprove;
 
     public PromotionDto(){

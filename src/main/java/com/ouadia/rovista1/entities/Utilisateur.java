@@ -20,18 +20,18 @@ public abstract class Utilisateur {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotEmpty
+    @Column(nullable = false)
     private String email;
-    @NotEmpty
+    @Column(nullable = false)
     private String username;
-    @NotEmpty
+    @Column(nullable = false)
     private String motDePasse;
-    @NotEmpty
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private StatutCompte statutCompte;
-    @NotEmpty
+    @Column(nullable = false)
     private String phone;
-    @NotEmpty
+    @Column(nullable = false)
     private String adresse;
 
     @OneToMany(mappedBy = "destinataire")

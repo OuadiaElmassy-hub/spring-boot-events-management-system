@@ -16,11 +16,11 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class Organisateur extends Utilisateur{
-    @NotEmpty
+    @Column(nullable = false)
     private String nomOrganisation;
-    @NotEmpty
+    @Column(nullable = false)
     private int numRegistre;
-    @NotEmpty
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private StatutOrganisateur statutOrganisateur;
 

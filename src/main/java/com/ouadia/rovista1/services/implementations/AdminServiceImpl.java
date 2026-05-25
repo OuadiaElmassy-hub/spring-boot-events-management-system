@@ -1,5 +1,7 @@
 package com.ouadia.rovista1.services.implementations;
 
+import com.ouadia.rovista1.Mapper.AdminMapper;
+import com.ouadia.rovista1.dtos.AdminDto;
 import com.ouadia.rovista1.entities.Admin;
 import com.ouadia.rovista1.entities.Notification;
 import com.ouadia.rovista1.entities.Role;
@@ -23,18 +25,20 @@ public class AdminServiceImpl implements IAdminService {
     private AdminRepository repository;
 
     @Override
-    public Admin addAdmin(Admin admin) {
+    public AdminDto addAdmin(AdminDto adminDto) {
+        Admin admin= AdminMapper.mapToAdmin(adminDto);
         if (repository.findById(admin.getId()).isPresent()){
             throw new RuntimeException(" admin exsist ");
-        }
-        return repository.save(admin);
+        }else
+        return AdminMapper.mapToAdminDto(repository.save(admin));
     }
 
     @Override
-    public Admin editAdmin(Admin admin ,long idReche) {
+    public AdminDto editAdmin(AdminDto adminDto ,Long idReche) {
+        Admin admin= AdminMapper.mapToAdmin(adminDto);
         if (admin == null) return null;
         else {
-            Admin admin1 = repository.findById(idReche).orElse(null);
+            Admin admin1 = repository.findById(idReche).get();
             if (admin1 == null) {return null;}
                 admin1.setUsername(admin.getUsername());
                 admin1.setEmail(admin.getEmail());
@@ -47,15 +51,15 @@ public class AdminServiceImpl implements IAdminService {
                 admin1.setNom(admin.getNom());
                 admin1.setPrenom(admin.getPrenom());
                 admin1.setDateNaissance(admin.getDateNaissance());
-                return repository.save(admin1);
+                return AdminMapper.mapToAdminDto(repository.save(admin1));
             }
         }
 
     @Override
-    public Admin editAdmin(long idReche, Map<String, Object> map) {
+    public AdminDto editAdminMap(Long idReche, Map<String, Object> map) {
         if (map == null ) return null;
         else {
-            Admin admin1 = repository.findById(idReche).orElse(null);
+            Admin admin1 = repository.findById(idReche).get();
             if (admin1 == null) {return null;}
             if (map.containsKey("username")){
             admin1.setUsername((String) map.get("username"));
@@ -90,20 +94,20 @@ public class AdminServiceImpl implements IAdminService {
             if (map.containsKey("dateNaissance")) {
                 admin1.setDateNaissance((LocalDate) map.get("dateNaissance"));
             }
-            return repository.save(admin1);
+            return AdminMapper.mapToAdminDto(repository.save(admin1));
         }
     }
 
 
     @Override
-    public Admin getAdminById(Long id) {
-        return repository.findById(id)
-                        .orElseThrow(()->new RuntimeException("admin not found"));
+    public AdminDto getAdminById(Long id) {
+        return AdminMapper.mapToAdminDto(repository.findById(id)
+                        .orElseThrow(()->new RuntimeException("admin not found")));
     }
 
     @Override
-    public List<Admin> getAllAdmins() {
-        return repository.findAll();
+    public List<AdminDto> getAllAdmins() {
+        return (repository.findAll().stream().map(admin->AdminMapper.mapToAdminDto(admin)).toList());
     }
 
     @Override
@@ -113,7 +117,7 @@ public class AdminServiceImpl implements IAdminService {
 
     @Override
     public void deleteAllByIds(Long... ids) {
-         for (long id :ids){
+         for (Long id :ids){
              deleteAdminById(id);
          }
     }

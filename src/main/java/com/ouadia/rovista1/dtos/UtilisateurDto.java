@@ -2,7 +2,7 @@ package com.ouadia.rovista1.dtos;
 
 import com.ouadia.rovista1.entities.enums.StatutCompte;
 
-public abstract class UtilisateurDto {
+public  class UtilisateurDto {
 
     private Long id;
     private String email;

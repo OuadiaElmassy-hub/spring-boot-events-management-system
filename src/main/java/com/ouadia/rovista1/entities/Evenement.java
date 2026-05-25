@@ -22,7 +22,7 @@ public class Evenement {
     private Long id;
     @Column(nullable = false)
     private String titre;
-    @Column(columnDefinition = "TEXT")
+    @Column(nullable = false,columnDefinition = "text")
     private String description;
     @Column(nullable = false)
     private LocalDate dateDebut;
@@ -36,6 +36,7 @@ public class Evenement {
     private String ville; //enum Ou class
     @Column(nullable = false)
     private int capacite;
+    @Column(nullable = false)
     private double prix; // pour une place normale
     @CreationTimestamp
     private LocalDate dateCreation;

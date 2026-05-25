@@ -20,7 +20,9 @@ public class Billet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private String code;
+    @Column(nullable = false)
     private String qrCode;
     private LocalDateTime dateBillet;
     @Enumerated(EnumType.STRING)

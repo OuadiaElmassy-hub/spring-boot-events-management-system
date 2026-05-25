@@ -18,8 +18,11 @@ public class Avis {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false,columnDefinition = "text")
     private String comment;
+    @Column(nullable = false)
     private double note;
+    @Column(nullable = false)
     private LocalDate dateAvis;
 
     @ManyToOne

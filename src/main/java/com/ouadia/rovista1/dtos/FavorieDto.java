@@ -1,11 +1,15 @@
 package com.ouadia.rovista1.dtos;
 
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDateTime;
 
 public class FavorieDto {
 
     private  Long id;
+    @NotNull
     private String description;
+    @NotNull
     private LocalDateTime dateCreation;
 
     public FavorieDto() {
