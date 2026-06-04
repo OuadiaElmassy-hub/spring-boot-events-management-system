@@ -17,9 +17,9 @@ public interface EventRepository extends JpaRepository<Evenement,Long>,
 
     // version 2
 
-    Page<EvenementResponseDto> findByStatutEvenement(StatutEvenement statutEvenement, Pageable pageable);
+    Page<Evenement> findByStatutEvenement(StatutEvenement statutEvenement, Pageable pageable);
     List<Evenement> findByStatutEvenement(StatutEvenement statut);
-
+    Page<Evenement> findByCategorieIdAndStatutEvenement(Long categorieId, StatutEvenement statutEvenement, Pageable pageable);
     List<Evenement> findByOrganisateurId(Long organisateurId);
     Page<Evenement> findByVilleIgnoreCase(String ville, Pageable pageable);
     List<Evenement> findByLieuSpecifique(String lieu);

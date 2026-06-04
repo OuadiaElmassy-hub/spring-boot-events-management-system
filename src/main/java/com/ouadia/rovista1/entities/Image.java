@@ -24,8 +24,11 @@ public class Image {
     @Column(nullable = false)
     private  String url;
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private TypePhoto type;
+//    @Enumerated(EnumType.STRING)
+    private String type;
+
     @ManyToOne
     private Evenement evenement;
+    @OneToOne
+    private Categorie categorie;
 }

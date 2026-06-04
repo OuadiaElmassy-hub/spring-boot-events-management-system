@@ -14,15 +14,14 @@ public class ImageMapper {
         );
     }
 
-    public static Image mapToImage(ImageDto imageDto){
+    public Image mapToImage(ImageDto imageDto){
 
-        return new Image(
-                imageDto.getId(),
-                imageDto.getNom(),
-                imageDto.getUrl(),
-                imageDto.getType(),
-                null
-        );
+         new Image();
+         return Image.builder()
+                 .nom(imageDto.getNom())
+                 .url(imageDto.getUrl())
+                 .type(imageDto.getType())
+                 .build();
     }
 
 }

@@ -14,7 +14,7 @@ import java.util.Optional;
 @Repository
 public interface FavorieRepository extends JpaRepository<Favorie,Long> {
     List<Favorie> findByClientId(Long clientId);
-    boolean existsByClientIdAndEvenementId(Long clientId, Long evenementId);
-    void deleteByClientIdAndEvenementId(Long clientId, Long evenementId);
+    //boolean existsEvenementIdIn(Long evenementId);
+    //void deleteByClientIdAndEvenementIdIn(Long clientId, Long evenementId);
     Favorie findByClient(Client client);
 }

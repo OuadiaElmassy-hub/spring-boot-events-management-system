@@ -1,18 +1,19 @@
 package com.ouadia.rovista1.services.interfaces;
 
 
-import com.ouadia.rovista1.dtos.OrganisateurDto;
-import com.ouadia.rovista1.entities.Organisateur;
+import com.ouadia.rovista1.dtos.organisateur.OrganisateurRequestDto;
+import com.ouadia.rovista1.dtos.organisateur.OrganisateurResponseDto;
+import com.ouadia.rovista1.exceptions.BusinessException;
 
 import java.util.List;
 import java.util.Map;
 
 public interface IOrganisateurService {
-    public OrganisateurDto addOrganisateur(OrganisateurDto organisateurDto);
-    public OrganisateurDto editOrganisateur(OrganisateurDto organisateurDto ,Long idRech);
-    public OrganisateurDto editOrganisateurMap(Long idReche , Map<String,Object> map);
-    public OrganisateurDto getOrganisateurById(Long id);
-    public List<OrganisateurDto> getAllOrganisateurs();
-    public void deleteOrganisateurById(Long id);
-    public void deleteAllByIds(Long ... ids);
+    OrganisateurResponseDto addOrganisateur(OrganisateurRequestDto organisateurRequestDto) throws BusinessException;
+    OrganisateurResponseDto editOrganisateur(OrganisateurRequestDto organisateurRequestDto, Long idReche) throws BusinessException;
+    OrganisateurResponseDto editOrganisateurMap(Long idReche , Map<String,Object> map) throws BusinessException;
+    OrganisateurResponseDto getOrganisateurById(Long id);
+    List<OrganisateurResponseDto> getAllOrganisateurs();
+    void deleteOrganisateurById(Long id);
+    void deleteAllByIds(Long ... ids);
 }

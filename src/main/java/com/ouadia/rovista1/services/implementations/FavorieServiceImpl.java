@@ -41,9 +41,9 @@ public class FavorieServiceImpl implements IFavorieService {
         Evenement ev = eventRepository.findById(IdEvent).
                 orElseThrow(() -> new EventNotFoundException("Aucun événement introuvable pour les IDs fournis"));
 
-        if (favorieRepository.existsByClientIdAndEvenementId(IdClient, IdEvent)) {
-            throw new FavorieNotFoundException("Cet événement est déjà dans vos favoris");
-        }
+//        if (favorieRepository.existsEvenementIdIn(IdEvent)) {
+//            throw new FavorieNotFoundException("Cet événement est déjà dans vos favoris");
+//        }
 
         Favorie favorie1 = Favorie.builder()
                 .id(favorie.getId())

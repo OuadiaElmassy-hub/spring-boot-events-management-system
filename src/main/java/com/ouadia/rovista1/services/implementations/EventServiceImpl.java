@@ -1,7 +1,9 @@
 package com.ouadia.rovista1.services.implementations;
 
+import com.ouadia.rovista1.dtos.PageResponse;
 import com.ouadia.rovista1.dtos.evenement.EvenementRequestDto;
 import com.ouadia.rovista1.dtos.evenement.EvenementResponseDto;
+import com.ouadia.rovista1.dtos.evenement.UpdateEvenementRequestDto;
 import com.ouadia.rovista1.entities.*;
 import com.ouadia.rovista1.entities.enums.StatutEvenement;
 import com.ouadia.rovista1.exceptions.*;
@@ -9,34 +11,31 @@ import com.ouadia.rovista1.mappers.EvenementMapper;
 import com.ouadia.rovista1.repositories.*;
 import com.ouadia.rovista1.services.EvenementSpecification;
 import com.ouadia.rovista1.services.interfaces.IEventService;
-import lombok.RequiredArgsConstructor;
+import com.ouadia.rovista1.services.interfaces.IImageService;
+import lombok.AllArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.transaction.annotation.Transactional;
-import lombok.AllArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @Transactional
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class EventServiceImpl implements IEventService {
 
     private EventRepository repository;
     private CategorieRepository categorieRepository;
     private EvenementMapper evenementMapper;
     private OrganisateurRepository organisateurRepo;
-    private ImageRepository imageRepository;
+    private IImageService imageService ;
     private AvisRepository avisRepository;
+    private PromotionRepository promotionRepository;
 
     // version 2
 
@@ -52,40 +51,55 @@ public class EventServiceImpl implements IEventService {
 
         Organisateur org = organisateurRepo.findById
                 (organisateurId).orElseThrow
-                (()-> new OrganisateurNotFoundException("Organizer not found with id : "+ organisateurId));
+                (() -> new OrganisateurNotFoundException("Organizer not found with id : " + organisateurId));
         evenement.setOrganisateur(org);
 
         Categorie c = categorieRepository.findById(dto.getCategorieId()).orElseThrow
-                (()-> new CategorieNotFoundException(" categorie not found with id : "+ dto.getCategorieId()));
+                (() -> new CategorieNotFoundException(" categorie not found with id : " + dto.getCategorieId()));
 
         evenement.setCategorie(c);
 
-        evenement = stockageDesImages(evenement, images);
+        if(images != null)
+            evenement = imageService.stockageDesImagesEvenement(evenement, images);
 
-        evenement.setStatutEvenement(StatutEvenement.EN_ATTENTE);
+        evenement.setStatutEvenement(StatutEvenement.CREE);
+
+        evenement.setPlacesRestants(evenement.getCapacite());
 
         Evenement saved = repository.save(evenement);
         return evenementMapper.mappingEvenementToEvenementDtoResponse(saved);
     }
 
     @Override
-    public EvenementResponseDto updateEvenement(Long id, EvenementRequestDto dto) throws EventNotFoundException, BusinessException {
+    public EvenementResponseDto updateEvenement(Long id, UpdateEvenementRequestDto dto) throws EventNotFoundException, BusinessException, PromotionNotFoundException, CategorieNotFoundException {
 
-        Evenement existing = repository.findById(id).orElseThrow(() -> new EventNotFoundException("Event not found with id : "+ id));
+        Evenement existing = repository.findById(id).orElseThrow(() -> new EventNotFoundException("Event not found with id : " + id));
 
         if (dto.getDateFin().isBefore(dto.getDateDebut())) {
             throw new BusinessException("La date fin doit être après date début");
         }
 
-        existing.setTitre(dto.getTitre());
-        existing.setLieuSpecifique(dto.getLieuSpecifique());
-        existing.setVille(dto.getVille());
-        existing.setDescription(dto.getDescription());
-        existing.setDateDebut(dto.getDateDebut());
-        existing.setDateFin(dto.getDateFin());
-        existing.setHeureDebut(dto.getHeureDebut());
-        existing.setCapacite(dto.getCapacite());
-        existing.setPrix(dto.getPrix());
+        if (dto.getTitre() != null) existing.setTitre(dto.getTitre());
+        if (dto.getLieuSpecifique() != null) existing.setLieuSpecifique(dto.getLieuSpecifique());
+        if (dto.getVille() != null) existing.setVille(dto.getVille());
+        if (dto.getDescription() != null) existing.setDescription(dto.getDescription());
+        if (dto.getDateDebut() != null) existing.setDateDebut(dto.getDateDebut());
+        if (dto.getDateFin() != null) existing.setDateFin(dto.getDateFin());
+        if (dto.getCapacite() != 0) existing.setCapacite(dto.getCapacite());
+        if (dto.getPrix() != 0) existing.setPrix(dto.getPrix());
+        if (dto.getPlacesRestant() != 0) existing.setPlacesRestants(dto.getPlacesRestant());
+
+        if (dto.getPromotionId() != 0) {
+            existing.setPromotion(promotionRepository.findById(dto.getPromotionId()).orElseThrow
+                    (() -> new PromotionNotFoundException("Promotion not found with id : " + dto.getPromotionId())));
+
+        }
+        if (dto.getCategorieId() != 0) {
+            existing.setCategorie(categorieRepository.findById(dto.getCategorieId()).orElseThrow
+                    (() -> new CategorieNotFoundException("Categorie not found with id : " + dto.getCategorieId())));
+
+        }
+        existing.setDateModification(LocalDateTime.now());
 
 //        // Update image que si nouvelle image uploadée
 //        if (imageFile != null && !imageFile.isEmpty()) {
@@ -96,17 +110,30 @@ public class EventServiceImpl implements IEventService {
     }
 
     @Override
+    public EvenementResponseDto updateImagesEvenement(Long id, List<MultipartFile> images) throws EventNotFoundException, StorageProblemException {
+
+        Evenement existing = repository.findById(id).orElseThrow(() -> new EventNotFoundException("Event not found with id : " + id));
+
+        // Update image que si nouvelle image uploadée
+        if (images != null && !images.isEmpty()) {
+            existing = imageService.stockageDesImagesEvenement(existing, images);
+        }
+
+        return evenementMapper.mappingEvenementToEvenementDtoResponse(repository.save(existing));
+    }
+
+    @Override
     public void deleteEvenement(Long id) throws EventNotFoundException {
         Evenement existing = repository.findById(id).orElseThrow(() -> new EventNotFoundException("Event not found"));
 
-        if (existing.getAvis() != null){
-            for (Avis a : existing.getAvis()){
+        if (existing.getAvis() != null) {
+            for (Avis a : existing.getAvis()) {
                 avisRepository.deleteById(a.getId());
             }
         }
-        if (existing.getImages() != null){
-            for (Image img : existing.getImages()){
-                imageRepository.deleteById(img.getId());
+        if (existing.getImages() != null) {
+            for (Image img : existing.getImages()) {
+                imageService.deleteImage(img.getId());
             }
         }
 
@@ -117,7 +144,7 @@ public class EventServiceImpl implements IEventService {
     @Transactional(readOnly = true)
     public EvenementResponseDto getEvenementById(Long id) throws EventNotFoundException {
         return evenementMapper.mappingEvenementToEvenementDtoResponse(repository.findById(id).orElseThrow
-                (()-> new EventNotFoundException("Event Not Found with id : "+ id)));
+                (() -> new EventNotFoundException("Event Not Found with id : " + id)));
     }
 
     // get all events
@@ -125,7 +152,7 @@ public class EventServiceImpl implements IEventService {
     // get seulement les events d'un organisateurs
 
 //    @Override
-//    public Page<EvenementResponseDto> getAllEvents(int numPage, int size) {
+//    public PageResponse<EvenementResponseDto> getAllEvents(int numPage, int size) {
 //        Pageable pageable = PageRequest.of(numPage, size,
 //                Sort.by("dateDebut").descending());
 //        Page<Evenement> evenementPage = repository.findAll(pageable);
@@ -135,15 +162,61 @@ public class EventServiceImpl implements IEventService {
 //            EvenementResponseDto dto = evenementMapper.mappingEvenementToEvenementDtoResponse(evenement);
 //            dtoList.add(dto);
 //        }
+
+//        PageResponse<EvenementResponseDto> response = new PageResponse<>();
+//
+//        response.setContent(dtoList);
+//        response.setPage(evenementPage.getNumber());
+//        response.setSize(evenementPage.getSize());
+//        response.setTotalElements(evenementPage.getTotalElements());
+//        response.setTotalPages(evenementPage.getTotalPages());
+//
+//        return response;
+//     }
+
 //        return new PageImpl<>(dtoList, pageable, evenementPage.getTotalElements());
 //        // == avec lambda expressions: return evenementPage.map(evenementMapper::mappingEvenementToEvenementDtoResponse);
-//    }
+
 
     @Override
     @Transactional(readOnly = true)
-    public Page<EvenementResponseDto> getAllPublishedEvenements(int numPage, int size) {
-        return repository.findByStatutEvenement(StatutEvenement.PUBLIE, PageRequest.of(numPage, size,
+    public PageResponse<EvenementResponseDto> getAllPublishedEvenements(int numPage, int size) {
+
+        Page<Evenement> evenementPage = repository.findByStatutEvenement(StatutEvenement.PUBLIE, PageRequest.of(numPage, size,
                 Sort.by("dateDebut").descending()));
+        List<EvenementResponseDto> content = evenementPage.getContent().stream()
+                .map(evenementMapper::mappingEvenementToEvenementDtoResponse).toList();
+
+        PageResponse<EvenementResponseDto> response = new PageResponse<>();
+
+        response.setContent(content);
+        response.setPage(evenementPage.getNumber());
+        response.setSize(evenementPage.getSize());
+        response.setTotalElements(evenementPage.getTotalElements());
+        response.setTotalPages(evenementPage.getTotalPages());
+
+        return response;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public PageResponse<EvenementResponseDto> getAllPublishedEvenementsForCategorie(Long categorieId, int numPage, int size) {
+
+        Page<Evenement> evenementPage = repository.findByCategorieIdAndStatutEvenement(categorieId, StatutEvenement.PUBLIE,
+                PageRequest.of(numPage, size, Sort.by("dateDebut").descending()));
+
+        List<EvenementResponseDto> content = evenementPage.getContent().stream()
+                .map(evenementMapper::mappingEvenementToEvenementDtoResponse).toList();
+
+        PageResponse<EvenementResponseDto> response = new PageResponse<>();
+
+        response.setContent(content);
+        response.setPage(evenementPage.getNumber());
+        response.setSize(evenementPage.getSize());
+        response.setTotalElements(evenementPage.getTotalElements());
+        response.setTotalPages(evenementPage.getTotalPages());
+
+        return response;
     }
 
     @Override
@@ -155,7 +228,7 @@ public class EventServiceImpl implements IEventService {
 
     @Override
     @Transactional(readOnly = true)
-    public Page<EvenementResponseDto> searchEvents(String ville, Long categorieId, LocalDate date, int numPage, int size) {
+    public PageResponse<EvenementResponseDto> searchEvents(String ville, Long categorieId, LocalDate date, int numPage, int size) {
 
         Pageable pageable = PageRequest.of(numPage, size);
         Specification<Evenement> specification = EvenementSpecification.serch(ville, categorieId, date);
@@ -166,8 +239,48 @@ public class EventServiceImpl implements IEventService {
             EvenementResponseDto dto = evenementMapper.mappingEvenementToEvenementDtoResponse(evenement);
             dtoList.add(dto);
         }
-        return new PageImpl<>(dtoList, pageable, evenementPage.getTotalElements());
-        //return evenementPage.map(evenementMapper::mappingEvenementToEvenementDtoResponse);
+
+        PageResponse<EvenementResponseDto> response = new PageResponse<>();
+
+        response.setContent(dtoList);
+        response.setPage(evenementPage.getNumber());
+        response.setSize(evenementPage.getSize());
+        response.setTotalElements(evenementPage.getTotalElements());
+        response.setTotalPages(evenementPage.getTotalPages());
+
+        return response;
+
+//        return new PageImpl<>(dtoList, pageable, evenementPage.getTotalElements());
+//        //return evenementPage.map(evenementMapper::mappingEvenementToEvenementDtoResponse);
+    }
+
+    @Override
+    public PageResponse<EvenementResponseDto> searchEvents(int page, int size, Long categorieId, String keyword, String ville, LocalDate date, Double prixMax) {
+        Pageable pageable = PageRequest.of(page, size);
+        Specification<Evenement> specification = EvenementSpecification.filter(
+                categorieId,
+                keyword,
+                ville,
+                date,
+                prixMax
+        );
+        Page<Evenement> evenementPage = repository.findAll(specification, pageable);
+
+        List<EvenementResponseDto> dtoList = new ArrayList<>();
+        for (Evenement evenement: evenementPage.getContent()){
+            EvenementResponseDto dto = evenementMapper.mappingEvenementToEvenementDtoResponse(evenement);
+            dtoList.add(dto);
+        }
+
+        PageResponse<EvenementResponseDto> response = new PageResponse<>();
+
+        response.setContent(dtoList);
+        response.setPage(evenementPage.getNumber());
+        response.setSize(evenementPage.getSize());
+        response.setTotalElements(evenementPage.getTotalElements());
+        response.setTotalPages(evenementPage.getTotalPages());
+
+        return response;
     }
 
     @Override
@@ -177,32 +290,14 @@ public class EventServiceImpl implements IEventService {
     }
 
     @Override
-    public Evenement stockageDesImages(Evenement evenement, List<MultipartFile> images) throws StorageProblemException {
-        // stockage des fichiers dans notre machine :
-        Path imagesFolderPath = Paths.get(System.getProperty("user.home"), "spring-pfe-data", "events-images", "event_num_"+evenement.getId());// chemin de l'image
-        try{
-            if (!Files.exists(imagesFolderPath)){ // si'il n'exist pas on va le cree
-                Files.createDirectories(imagesFolderPath);
-            }
-            for (MultipartFile imgFile : images) {
-                String imageName = UUID.randomUUID().toString() + "_" + imgFile.getOriginalFilename();
-                Path imagePath = Paths.get(System.getProperty("user.home"), "spring-pfe-data", "events-images", "event_num_"+evenement.getId(), imageName); //+".png"
-                Files.copy(imgFile.getInputStream(), imagePath);
+    public boolean demandeValidation(Long id) throws EventNotFoundException {
 
-                new Image();
-                Image img = imageRepository.save(
-                        Image.builder()
-                                .nom(imageName)
-                                .url(imagePath.toString())
-                                .evenement(evenement)
-                                .build());
+        Evenement evenement = repository.findById
+                (id).orElseThrow
+                (() -> new EventNotFoundException("Event not found with id : " + id));
 
-                evenement.getImages().add(img); // stockage du img dans event list
-            }
-        } catch (IOException e) {
-            throw new StorageProblemException(e.getMessage());
-        }
-        return evenement;
+        evenement.setStatutEvenement(StatutEvenement.EN_ATTENTE);
+        return(repository.save(evenement).getStatutEvenement().equals(StatutEvenement.EN_ATTENTE));
     }
 
     @Override
@@ -222,6 +317,8 @@ public class EventServiceImpl implements IEventService {
         evenement.setStatutEvenement(StatutEvenement.REJETE);
         repository.save(evenement);
     }
+
+
 
     // methode d'annulation
     //____________________________________________

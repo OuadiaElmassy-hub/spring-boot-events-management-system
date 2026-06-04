@@ -16,15 +16,18 @@ import java.util.List;
 public class Categorie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
     @Column(nullable = false)
     private String nom;
     @Column(nullable = false,columnDefinition = "text")
     private String description;
     @OneToMany(mappedBy = "categorie")
     private List<Evenement> evenements;
-//    @OneToOne
-//    private Image image;
+    @OneToOne(mappedBy = "categorie")
+    private Image image;
 
-
+    public Categorie(String nom, String description) {
+        this.nom = nom;
+        this.description = description;
+    }
 }

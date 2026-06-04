@@ -84,7 +84,7 @@ public class NotificationServiceImpl implements INotificationService {
 
     @Override
     public List<NotificationDto> getNotificationsByUtilisateur(Utilisateur utilisateur) throws NotificationNotFoundException, UserNotFoundException {
-     return repository.findByUtilisateur(utilisateur).stream().map(notification -> NotificationMapper.mapToNotificationDto(notification)).toList();
+     return repository.findByDestinataireId(utilisateur.getId()).stream().map(notification -> NotificationMapper.mapToNotificationDto(notification)).toList();
     }
 
     @Override

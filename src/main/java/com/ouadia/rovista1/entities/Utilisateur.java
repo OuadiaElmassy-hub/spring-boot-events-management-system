@@ -3,16 +3,14 @@ package com.ouadia.rovista1.entities;
 import com.ouadia.rovista1.entities.enums.StatutCompte;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data // pour les methode getter, setter, toString() , hachcode() ,equals()
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -44,6 +42,16 @@ public abstract class Utilisateur {
     public Utilisateur(Long id, String username, String email, String motDePasse,
                        StatutCompte statutCompte, String phone, String adresse) {
         this.id = id;
+        this.username = username;
+        this.email = email;
+        this.motDePasse = motDePasse;
+        this.statutCompte = statutCompte;
+        this.phone = phone;
+        this.adresse = adresse;
+    }
+
+    public Utilisateur(String username, String email, String motDePasse,
+                       StatutCompte statutCompte, String phone, String adresse) {
         this.username = username;
         this.email = email;
         this.motDePasse = motDePasse;

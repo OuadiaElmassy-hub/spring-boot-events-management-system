@@ -1,21 +1,21 @@
 package com.ouadia.rovista1.services.implementations;
 
-import com.ouadia.rovista1.Mapper.BilletMapper;
 import com.ouadia.rovista1.Mapper.CategorieMapper;
-import com.ouadia.rovista1.Mapper.CategorieMapper;
-import com.ouadia.rovista1.dtos.BilletDto;
-import com.ouadia.rovista1.dtos.CategorieDto;
+import com.ouadia.rovista1.dtos.categorie.CategorieRequestDto;
+import com.ouadia.rovista1.dtos.categorie.CategorieResponseDto;
 import com.ouadia.rovista1.entities.*;
 import com.ouadia.rovista1.entities.Categorie;
-import com.ouadia.rovista1.entities.enums.TypeBillet;
+import com.ouadia.rovista1.exceptions.BusinessException;
 import com.ouadia.rovista1.exceptions.CategorieNotFoundException;
+import com.ouadia.rovista1.exceptions.StorageProblemException;
 import com.ouadia.rovista1.repositories.CategorieRepository;
 import com.ouadia.rovista1.services.interfaces.ICategorieService;
+import com.ouadia.rovista1.services.interfaces.IImageService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -25,40 +25,39 @@ import java.util.Map;
 public class CategorieServiceImpl implements ICategorieService {
 
     private CategorieRepository repository;
+    private CategorieMapper categorieMapper;
+    private IImageService imageService;
 
 
     @Override
-    public CategorieDto addCategorie(CategorieDto categorieDto) {
-        Categorie categorie = CategorieMapper.mapToCategorie(categorieDto);
-        if (repository.findById(categorie.getId()).isPresent()) {
-            throw new RuntimeException(" billet exsist ");
-        } else
-            return CategorieMapper.mapToCategorieDto (repository.save(categorie));
-    }
+    public CategorieResponseDto addCategorie(CategorieRequestDto categorieDto, MultipartFile image) throws BusinessException, StorageProblemException {
 
-    @Override
-    public CategorieDto editCategorie(CategorieDto categorieDto,Integer id) {
-        Categorie categorie = CategorieMapper.mapToCategorie(categorieDto);
-        if (categorie == null) return null;
-        else {
-            Categorie categorie1 = repository.findById(id).get();
-            if (categorie1 == null) {
-                return null;
-            }
-            categorie1.setNom(categorie.getNom());
-            categorie1.setDescription(categorie.getDescription());
-            categorie1.setEvenements(categorie.getEvenements());
-            return CategorieMapper.mapToCategorieDto (repository.save(categorie1));
+        Categorie categorie = categorieMapper.mapToCategorie(categorieDto);
+
+        if (repository.findByNom(categorie.getNom()) != null) {
+            throw new BusinessException(" Categorie exsist ");
         }
+
+        categorie = imageService.stockageDesImagesCategorie(categorie, image);
+        return categorieMapper.mapToDto (repository.save(categorie));
     }
 
     @Override
-    public CategorieDto editCategorieMap(Integer id, Map<String, Object> map) {
+    public  CategorieResponseDto editCategorie(CategorieRequestDto categorieDto, Long id) throws CategorieNotFoundException {
+        Categorie categorie = categorieMapper.mapToCategorie(categorieDto);
+
+        Categorie categorie1 = repository.findById(id).orElseThrow(() -> new CategorieNotFoundException("Categorie No found withe id : "+ id));
+
+        categorie1.setNom(categorie.getNom());
+        categorie1.setDescription(categorie.getDescription());
+        categorie1.setEvenements(categorie.getEvenements());
+        return categorieMapper.mapToDto (repository.save(categorie1));
+    }
+
+    @Override
+    public CategorieResponseDto editCategorieMap(Long id, Map<String, Object> map) throws CategorieNotFoundException {
         if (map==null){return null;}
-        Categorie categorie1 = repository.findById(id).get();
-        if (categorie1 == null) {
-            return null;
-        }
+        Categorie categorie1 = repository.findById(id).orElseThrow(() -> new CategorieNotFoundException("Categorie No found withe id : "+ id));
         if (map.containsKey("nom")) {
             categorie1.setNom((String) map.get("nom"));
         }
@@ -70,29 +69,29 @@ public class CategorieServiceImpl implements ICategorieService {
         }
 
 
-        return CategorieMapper.mapToCategorieDto (repository.save(categorie1));
+        return categorieMapper.mapToDto (repository.save(categorie1));
     }
 
     @Override
-    public CategorieDto getCategorieById(Integer id) throws CategorieNotFoundException {
-        return CategorieMapper.mapToCategorieDto( repository.findById(id).
+    public CategorieResponseDto getCategorieById(Long id) throws CategorieNotFoundException {
+        return categorieMapper.mapToDto( repository.findById(id).
                 orElseThrow(()->new CategorieNotFoundException("categorie not found")));
     }
 
     @Override
-    public List<CategorieDto> getAllCategories() {
-            return repository.findAll().stream().map(categorie-> CategorieMapper.mapToCategorieDto(categorie)).toList();
+    public List<CategorieResponseDto> getAllCategories() {
+            return repository.findAll().stream().map(categorieMapper::mapToDto).toList();
 
         }
 
     @Override
-    public void deleteCategorieById(Integer id) {
+    public void deleteCategorieById(Long id) {
         repository.deleteById(id);
     }
 
     @Override
-    public void deleteAllByIds(Integer... ids) {
-        for (Integer id :ids){
+    public void deleteAllByIds(Long... ids) {
+        for (Long id :ids){
             deleteCategorieById(id);
         }
     }

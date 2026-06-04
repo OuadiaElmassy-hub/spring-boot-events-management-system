@@ -4,22 +4,25 @@ import com.ouadia.rovista1.entities.enums.StatutCompte;
 import com.ouadia.rovista1.entities.enums.StatutOrganisateur;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 @Entity
-@Data // pour les methode getter, setter, toString() , hachcode() ,equals()
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Organisateur extends Utilisateur{
+
     @Column(nullable = false)
     private String nomOrganisation;
     @Column(nullable = false)
-    private int numRegistre;
+    private Long numRegistre;
+
+    private LocalDateTime dateCreation;
+    private String logoUrl;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private StatutOrganisateur statutOrganisateur;
@@ -33,7 +36,7 @@ public class Organisateur extends Utilisateur{
 
     public Organisateur(Long id, String email, String username, String motDePasse,
                         StatutCompte statutCompte, String adresse, String telephonePro,
-                        String nomOrganisation, int numRegistre, StatutOrganisateur statutOrganisateur,
+                        String nomOrganisation, Long numRegistre, StatutOrganisateur statutOrganisateur,
                         List<Evenement> evenements, List<Promotion> promotions) {
         super(id, username, email, motDePasse, statutCompte, telephonePro, adresse);
         this.numRegistre = numRegistre;
@@ -42,5 +45,27 @@ public class Organisateur extends Utilisateur{
         this.promotions = promotions;
     }
 
+    public Organisateur(String email, String username, String motDePasse,
+                        StatutCompte statutCompte, String adresse, String telephonePro,
+                        String nomOrganisation, Long numRegistre, StatutOrganisateur statutOrganisateur,
+                        List<Evenement> evenements, List<Promotion> promotions) {
+        super(username, email, motDePasse, statutCompte, telephonePro, adresse);
+        this.numRegistre = numRegistre;
+        this.statutOrganisateur = statutOrganisateur;
+        this.nomOrganisation = nomOrganisation;
+        this.promotions = promotions;
+    }
 
+    public Organisateur(String email, String username, String motDePasse,
+                        StatutCompte statutCompte, String adresse, String telephonePro,
+                        StatutOrganisateur statutOrganisateur,
+                        String nomOrganisation, Long numRegistre,
+                        LocalDateTime dateCreation, String logoUrl) {
+        super(username, email, motDePasse, statutCompte, telephonePro, adresse);
+        this.numRegistre = numRegistre;
+        this.statutOrganisateur = statutOrganisateur;
+        this.nomOrganisation = nomOrganisation;
+        this.dateCreation = dateCreation;
+        this.logoUrl = logoUrl;
+    }
 }

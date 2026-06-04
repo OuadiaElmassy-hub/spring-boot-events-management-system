@@ -4,6 +4,7 @@ import com.ouadia.rovista1.entities.enums.StatutEvenement;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -17,16 +18,25 @@ public class EvenementResponseDto {
     private Long id;
     private String titre;
     private String description;
-    private LocalDate dateDebut;
-    private LocalDate dateFin;
-    private LocalTime heureDebut;
+
+    private LocalDateTime dateDebut;
+    private LocalDateTime dateFin;
+
+    // on peut avoir l'heure de debut apartir de dateDebut dans le front
+
     private String lieuSpecifique;
     private String ville; //enum
+
     private int capacite;
+    private int placesRestants;
+
     private double prix; // pour une place normale
     private StatutEvenement statutEvenement;
+
     private List<String> imagesUrls;
-    private String categorie;
-    private String organisateur;
+
+    private Long categorieId;
+    private Long organisateurId;
+
     private double rating;
 }

@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,22 +26,23 @@ public class Evenement {
     @Column(nullable = false,columnDefinition = "text")
     private String description;
     @Column(nullable = false)
-    private LocalDate dateDebut;
+    private LocalDateTime dateDebut;
     @Column(nullable = false)
-    private LocalDate dateFin;
-    @Column(nullable = false)
-    private LocalTime heureDebut;
+    private LocalDateTime dateFin;
     @Column(nullable = false)
     private String lieuSpecifique;
     @Column(nullable = false)
     private String ville; //enum Ou class
     @Column(nullable = false)
     private int capacite;
+
+    private int placesRestants;
     @Column(nullable = false)
     private double prix; // pour une place normale
     @CreationTimestamp
-    private LocalDate dateCreation;
-    private LocalDate dateValidation;
+    private LocalDateTime dateCreation;
+    private LocalDateTime dateValidation;
+    private LocalDateTime dateModification;
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private StatutEvenement statutEvenement;

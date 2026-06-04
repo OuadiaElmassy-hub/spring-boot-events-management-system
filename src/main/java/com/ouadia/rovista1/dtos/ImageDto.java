@@ -22,12 +22,12 @@ public class ImageDto {
     @NotNull
     private String url;
     @NotNull
-    private TypePhoto type;
+    private String type;
     @NotNull
     private Evenement evenement;
 
 
-    public ImageDto(Long id, String nom, String url, TypePhoto type) {
+    public ImageDto(Long id, String nom, String url, String type) {
         this.id = id;
         this.nom = nom;
         this.url = url;

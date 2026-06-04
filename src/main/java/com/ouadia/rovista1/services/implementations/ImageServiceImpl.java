@@ -1,20 +1,37 @@
 package com.ouadia.rovista1.services.implementations;
 
+import com.ouadia.rovista1.entities.Categorie;
+import com.ouadia.rovista1.entities.Evenement;
 import com.ouadia.rovista1.entities.Image;
+import com.ouadia.rovista1.exceptions.StorageProblemException;
 import com.ouadia.rovista1.repositories.ImageRepository;
 import com.ouadia.rovista1.services.interfaces.IImageService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Transactional
 public class ImageServiceImpl implements IImageService {
 
     private ImageRepository repository;
+
+    @Value("${app.upload-dir}")
+    private String uploadDir;
 
     @Override
     public Image creatImage(Image img) {
@@ -28,5 +45,133 @@ public class ImageServiceImpl implements IImageService {
             urls.add(img.getUrl());
         }
         return urls;
+    }
+
+    @Override
+    public Evenement stockageDesImagesEvenement(Evenement evenement, List<MultipartFile> images) throws StorageProblemException {
+
+        if (images == null || images.isEmpty()) {
+            return evenement;
+        }
+
+        try {
+            Path eventFolder = Paths.get(
+                    uploadDir,
+                    "events-images",
+                    "event_num_" + evenement.getId()
+            );
+
+            // Création du dossier s'il n'existe pas
+            Files.createDirectories(eventFolder);
+
+            // Initialisation de la liste si nécessaire
+            if (evenement.getImages() == null) {
+                evenement.setImages(new ArrayList<>());
+            }
+            for (MultipartFile file : images) {
+
+                if (file.isEmpty()) {
+                    continue;
+                }
+                // Génération d'un nom unique
+                String imageName =
+                        UUID.randomUUID() + "_" +
+                                file.getOriginalFilename();
+
+                Path imagePath = eventFolder.resolve(imageName);
+
+                // Sauvegarde physique du fichier
+                Files.copy(
+                        file.getInputStream(),
+                        imagePath,
+                        StandardCopyOption.REPLACE_EXISTING
+                );
+                // URL accessible depuis le frontend
+                String imageUrl =
+                        "/uploads/events-images/event_num_"
+                                + evenement.getId()
+                                + "/"
+                                + imageName;
+
+                Image image = repository.save(
+                        Image.builder()
+                                .nom(imageName)
+                                .url(imageUrl)
+                                .type(file.getContentType())
+                                .evenement(evenement)
+                                .build()
+                );
+                evenement.getImages().add(image);
+            }
+            return evenement;
+
+        } catch (IOException e) {
+
+            throw new StorageProblemException(
+                    "Erreur lors du stockage des images : "
+                            + e.getMessage()
+            );
+        }
+    }
+
+
+    @Override
+    public Categorie stockageDesImagesCategorie(Categorie categorie, MultipartFile image) throws StorageProblemException {
+        if (image == null || image.isEmpty()) {
+            return categorie;
+        }
+
+        try {
+            Path categorieFolder = Paths.get(
+                    uploadDir,
+                    "categories-images",
+                    "cat_num_" + categorie.getId()
+            );
+
+            // Création du dossier s'il n'existe pas
+            Files.createDirectories(categorieFolder);
+
+            // Génération d'un nom unique
+            String imageName =
+                    UUID.randomUUID() + "_" +
+                            image.getOriginalFilename();
+
+            Path imagePath = categorieFolder.resolve(imageName);
+
+            // Sauvegarde physique du fichier
+            Files.copy(
+                    image.getInputStream(),
+                    imagePath,
+                    StandardCopyOption.REPLACE_EXISTING
+            );
+            // URL accessible depuis le frontend
+            String imageUrl =
+                    "/uploads/categories-images/cat_num_"
+                            + categorie.getId()
+                            + "/"
+                            + imageName;
+
+            Image img = repository.save(
+                    Image.builder()
+                            .nom(imageName)
+                            .url(imageUrl)
+                            .type(image.getContentType())
+                            .categorie(categorie)
+                            .build()
+            );
+            categorie.setImage(img);
+
+        return categorie;
+        } catch (IOException e) {
+            throw new StorageProblemException(
+                    "Erreur lors du stockage des images : "
+                            + e.getMessage()
+            );
+        }
+    }
+
+    @Override
+    public void deleteImage(Long id) {
+        repository.deleteById(id);
     }
 }
