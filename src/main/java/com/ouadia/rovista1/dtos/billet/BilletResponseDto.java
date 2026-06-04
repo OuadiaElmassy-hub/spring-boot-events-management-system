@@ -1,5 +1,6 @@
 package com.ouadia.rovista1.dtos.billet;
 
+import com.ouadia.rovista1.entities.Reservation;
 import com.ouadia.rovista1.entities.enums.TypeBillet;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,4 +20,5 @@ public class BilletResponseDto {
     private LocalDateTime dateBillet;
     @Enumerated(EnumType.STRING)
     private TypeBillet type;
+
 }

@@ -27,9 +27,6 @@ public class AdminServiceImpl implements IAdminService {
     @Override
     public AdminDto addAdmin(AdminDto adminDto) {
         Admin admin= AdminMapper.mapToAdmin(adminDto);
-        if (repository.findById(admin.getId()).isPresent()){
-            throw new RuntimeException(" admin exsist ");
-        }else
         return AdminMapper.mapToAdminDto(repository.save(admin));
     }
 

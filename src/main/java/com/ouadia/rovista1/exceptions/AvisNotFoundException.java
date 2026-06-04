@@ -1,7 +1,7 @@
 package com.ouadia.rovista1.exceptions;
 
-public class AvisNotFoundException extends Exception{
-    public AvisNotFoundException(String message){
+public class AvisNotFoundException extends RuntimeException {
+    public AvisNotFoundException(String message) {
         super(message);
     }
 }

@@ -1,6 +1,5 @@
 package com.ouadia.rovista1.services.interfaces;
 
-
 import com.ouadia.rovista1.dtos.organisateur.OrganisateurRequestDto;
 import com.ouadia.rovista1.dtos.organisateur.OrganisateurResponseDto;
 import com.ouadia.rovista1.exceptions.BusinessException;

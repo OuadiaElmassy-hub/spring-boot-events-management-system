@@ -1,10 +1,8 @@
 package com.ouadia.rovista1.services.implementations;
 
 
-import com.ouadia.rovista1.Mapper.ReservationMapper;
-
-
-import com.ouadia.rovista1.dtos.ReservationDto;
+import com.ouadia.rovista1.dtos.reservation.ReservationRequestDto;
+import com.ouadia.rovista1.dtos.reservation.ReservationResponseDto;
 import com.ouadia.rovista1.entities.*;
 import com.ouadia.rovista1.entities.Reservation;
 
@@ -29,20 +27,22 @@ import java.util.Map;
 public class ReservationServiceImpl implements IReservationService {
 
     private ReservationRepository repository;
+    private com.ouadia.rovista1.mappers.ReservationMapper mapper;
 
 
     @Override
-    public ReservationDto addReservation(ReservationDto reservationDto) {
-        Reservation reservation= ReservationMapper.mapToReservation(reservationDto);
-        if (repository.existsById(reservation.getId())){
-            throw new RuntimeException(" reservation not exsist ");
-        }else
-            return ReservationMapper.mapToReservationDto(repository.save(reservation));
+    public ReservationResponseDto addReservation(ReservationRequestDto reservationDto) {
+        Reservation reservation = mapper.mappingReservationDtoRequestToReservation(reservationDto);
+            if (repository.existsByClient(reservation.getClient()) || repository.existsByVisiteurInvite(reservation.getVisiteurInvite())){
+            return mapper.mappingReservationToReservationDtoResponse(repository.save(reservation));
+            }
+        throw new RuntimeException("Client or VisiteurInvite not found");
     }
 
+
     @Override
-    public ReservationDto editReservation(ReservationDto reservationDto, Long id) {
-        Reservation reservation= ReservationMapper.mapToReservation(reservationDto);
+    public ReservationResponseDto editReservation(ReservationRequestDto reservationDto, Long id) {
+        Reservation reservation= mapper.mappingReservationDtoRequestToReservation(reservationDto);
         if (reservation==null)return null;
         else {
             Reservation reservation1 =repository.findById(id).get();
@@ -56,12 +56,12 @@ public class ReservationServiceImpl implements IReservationService {
             reservation1.setEvenement(reservation.getEvenement());
             reservation1.setVisiteurInvite(reservation.getVisiteurInvite());
             reservation1.setClient(reservation.getClient());
-            return ReservationMapper.mapToReservationDto(repository.save(reservation1));
+            return mapper.mappingReservationToReservationDtoResponse(repository.save(reservation1));
         }
     }
 
     @Override
-    public ReservationDto editReservationMap(Long id, Map<String, Object> map) {
+    public ReservationResponseDto editReservationMap(Long id, Map<String, Object> map) {
         if (map == null ) return null;
         else {
             Reservation reservation1 = repository.findById(id).get();
@@ -96,24 +96,38 @@ public class ReservationServiceImpl implements IReservationService {
                 reservation1.setClient((Client) map.get("client"));
             }
 
-            return ReservationMapper.mapToReservationDto(repository.save(reservation1));
+            return mapper.mappingReservationToReservationDtoResponse(repository.save(reservation1));
         }
     }
 
     @Override
-    public ReservationDto getReservationById(Long id) throws ReservationNotFoundException {
+    public ReservationResponseDto getReservationById(Long id) throws ReservationNotFoundException {
         Reservation reservation = repository.findById(id).orElseThrow(() -> new ReservationNotFoundException("Reservation not found"));
-        return ReservationMapper.mapToReservationDto(reservation);
+        return mapper.mappingReservationToReservationDtoResponse(reservation);
     }
 
     @Override
-    public List<ReservationDto> getReservationByClient(Client client) throws ReservationNotFoundException {
-        return (repository.findByClient(client).stream().map(reservation-> ReservationMapper.mapToReservationDto(reservation)).toList());
+    public Reservation getReservationEntityById(Long id)
+            throws ReservationNotFoundException {
+
+        return repository.findById(id)
+                .orElseThrow(() ->
+                        new ReservationNotFoundException("Reservation not found"));
     }
 
     @Override
-    public List<ReservationDto> getAllReservations() {
-        return (repository.findAll().stream().map(reservation-> ReservationMapper.mapToReservationDto(reservation)).toList());
+    public List<ReservationResponseDto> getReservationByClient(Client client) throws ReservationNotFoundException {
+        return (repository.findByClient(client).stream().map(reservation-> mapper.mappingReservationToReservationDtoResponse(reservation)).toList());
+    }
+
+    @Override
+    public List<ReservationResponseDto> getReservationByVisiteur(VisiteurInvite visiteurInvite) throws ReservationNotFoundException {
+        return (repository.findByVisiteurInvite(visiteurInvite).stream().map(reservation-> mapper.mappingReservationToReservationDtoResponse(reservation)).toList());
+    }
+
+    @Override
+    public List<ReservationResponseDto> getAllReservations() {
+        return (repository.findAll().stream().map(reservation->mapper.mappingReservationToReservationDtoResponse(reservation)).toList());
     }
 
     @Override

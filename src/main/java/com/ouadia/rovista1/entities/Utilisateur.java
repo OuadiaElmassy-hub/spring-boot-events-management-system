@@ -3,7 +3,10 @@ package com.ouadia.rovista1.entities;
 import com.ouadia.rovista1.entities.enums.StatutCompte;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +16,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Utilisateur {
     @Id

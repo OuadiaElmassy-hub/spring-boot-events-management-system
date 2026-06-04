@@ -4,7 +4,10 @@ import com.ouadia.rovista1.entities.enums.StatutCompte;
 import com.ouadia.rovista1.entities.enums.StatutOrganisateur;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,7 +16,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
 public class Organisateur extends Utilisateur{
 
     @Column(nullable = false)

@@ -1,9 +1,10 @@
 package com.ouadia.rovista1.services.implementations;
 
-import com.ouadia.rovista1.Mapper.AvisMapper;
-import com.ouadia.rovista1.dtos.AvisDto;
+import com.ouadia.rovista1.dtos.avis.AvisRequestDto;
+import com.ouadia.rovista1.dtos.avis.AvisResponseDto;
 import com.ouadia.rovista1.entities.*;
 import com.ouadia.rovista1.exceptions.AvisNotFoundException;
+import com.ouadia.rovista1.mappers.AvisMapper;
 import com.ouadia.rovista1.repositories.AvisRepository;
 import com.ouadia.rovista1.services.interfaces.IAvisService;
 import jakarta.transaction.Transactional;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -23,18 +23,16 @@ public class AvisServiceImpl implements IAvisService {
     private AvisRepository repository;
 
 
+
     @Override
-    public AvisDto addAvisDto(AvisDto avisDto) {
-        Avis avis = AvisMapper.mapToAvis(avisDto);
-        if (repository.findById(avis.getId()).isPresent()){
-            throw new RuntimeException(" avis exsist ");
-        }else
-            return  AvisMapper.mapToAvisDto(repository.save(avis));
+    public AvisResponseDto addAvisDto(AvisRequestDto avisDto) {
+        Avis avis = AvisMapper.mappingAvisDtoRequestToAvis(avisDto);
+            return  AvisMapper.mappingAvisToAvisDtoResponse(repository.save(avis));
     }
 
     @Override
-    public AvisDto editAvis(AvisDto avisDto, Long idRrch) {
-        Avis avis = AvisMapper.mapToAvis(avisDto);
+    public AvisResponseDto editAvis(AvisRequestDto avisDto, Long idRrch) {
+        Avis avis = AvisMapper.mappingAvisDtoRequestToAvis(avisDto);
         if (avis == null) return null;
         else {
             Avis avis1 = repository.findById(idRrch).get();
@@ -45,12 +43,12 @@ public class AvisServiceImpl implements IAvisService {
             avis1.setEvenement( avis.getEvenement());
             avis1.setClient( avis.getClient());
             avis1.setVisiteur(avis.getVisiteur());
-            return AvisMapper.mapToAvisDto(repository.save(avis1));
+            return AvisMapper.mappingAvisToAvisDtoResponse(repository.save(avis1));
         }
     }
 
     @Override
-    public AvisDto editAvisMap(Long idRrch, Map<String, Object> map) {
+    public AvisResponseDto editAvisMap(Long idRrch, Map<String, Object> map) {
         if (map == null ) return null;
         else {
             Avis avis1 = repository.findById(idRrch).get();
@@ -74,21 +72,21 @@ public class AvisServiceImpl implements IAvisService {
             if (map.containsKey("visiteur")) {
                 avis1.setVisiteur((VisiteurInvite) map.get("visiteur"));
             }
-            return AvisMapper.mapToAvisDto(repository.save(avis1));
+            return AvisMapper.mappingAvisToAvisDtoResponse(repository.save(avis1));
         }
     }
 
     @Override
-    public AvisDto getAvisById(Long id)throws AvisNotFoundException{
+    public AvisResponseDto getAvisById(Long id)throws AvisNotFoundException {
         Avis avis=repository.findById(id).orElseThrow(()->new AvisNotFoundException("Avis not found"));
-        return AvisMapper.mapToAvisDto(avis);
+        return AvisMapper.mappingAvisToAvisDtoResponse(avis);
 
     }
 
 
     @Override
-    public List<AvisDto> getAllAvis() {
-        return (repository.findAll().stream().map(avis-> AvisMapper.mapToAvisDto(avis)).toList());
+    public List<AvisResponseDto> getAllAvis() {
+        return (repository.findAll().stream().map(avis-> AvisMapper.mappingAvisToAvisDtoResponse(avis)).toList());
 
     }
 

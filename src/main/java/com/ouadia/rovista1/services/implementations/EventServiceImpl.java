@@ -147,6 +147,12 @@ public class EventServiceImpl implements IEventService {
                 (() -> new EventNotFoundException("Event Not Found with id : " + id)));
     }
 
+    @Override
+    public Evenement getEvenementEntityById(Long id) throws EventNotFoundException {
+        return repository.findById(id).orElseThrow
+                (()-> new EventNotFoundException("Event Not Found with id : "+ id));
+    }
+
     // get all events
     // get seulement les events valide
     // get seulement les events d'un organisateurs
