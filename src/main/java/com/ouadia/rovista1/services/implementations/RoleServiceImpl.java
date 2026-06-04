@@ -1,10 +1,6 @@
 package com.ouadia.rovista1.services.implementations;
 
 
-import com.ouadia.rovista1.Mapper.RoleMapper;
-
-import com.ouadia.rovista1.dtos.RoleDto;
-import com.ouadia.rovista1.entities.*;
 import com.ouadia.rovista1.entities.Role;
 
 import com.ouadia.rovista1.exceptions.RoleNotFoundException;
@@ -27,28 +23,24 @@ public class RoleServiceImpl implements IRoleService {
 
 
     @Override
-    public RoleDto addRole(RoleDto roleDto) {
-        Role role= RoleMapper.mapToRole(roleDto);
-        if (repository.existsById(role.getId())){
-            throw new RuntimeException(" role not exsist ");
-        }else
-            return RoleMapper.mapToRoleDto(repository.save(role));
+    public Role addRole(Role role) {
+
+        return (repository.save(role));
     }
 
     @Override
-    public RoleDto editRole(RoleDto roleDto, Integer id) {
-        Role role= RoleMapper.mapToRole(roleDto);
+    public Role editRole(Role role, Integer id) {
         if (role==null)return null;
         else {
             Role role1 =repository.findById(id).get();
             if (role1==null)return null;
             role1.setRoleName(role.getRoleName());
-            return RoleMapper.mapToRoleDto(repository.save(role1));
+            return (repository.save(role1));
         }
     }
 
     @Override
-    public RoleDto editRoleMap(Integer id, Map<String, Object> map) {
+    public Role editRoleMap(Integer id, Map<String, Object> map) {
         if (map == null ) return null;
         else {
             Role role1 = repository.findById(id).get();
@@ -58,19 +50,19 @@ public class RoleServiceImpl implements IRoleService {
             if (map.containsKey("roleName")) {
                 role1.setRoleName((String) map.get("roleName"));
             }
-            return RoleMapper.mapToRoleDto(repository.save(role1));
+            return (repository.save(role1));
         }
     }
 
     @Override
-    public RoleDto getRoleById(Integer id) throws RoleNotFoundException {
+    public Role getRoleById(Integer id) throws RoleNotFoundException {
         Role role = repository.findById(id).orElseThrow(() -> new RoleNotFoundException("role not found"));
-        return RoleMapper.mapToRoleDto(role);
+        return (role);
     }
 
     @Override
-    public List<RoleDto> getAllRoles() {
-        return (repository.findAll().stream().map(role-> RoleMapper.mapToRoleDto(role)).toList());
+    public List<Role> getAllRoles() {
+        return (repository.findAll().stream().toList());
 
     }
 

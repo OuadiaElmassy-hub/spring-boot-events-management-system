@@ -1,14 +1,14 @@
 package com.ouadia.rovista1.services.implementations;
 
 
-import com.ouadia.rovista1.Mapper.PromotionMapper;
-
-import com.ouadia.rovista1.dtos.PromotionDto;
+import com.ouadia.rovista1.dtos.promotion.PromotionRequestDto;
+import com.ouadia.rovista1.dtos.promotion.PromotionResponseDto;
 import com.ouadia.rovista1.entities.*;
 import com.ouadia.rovista1.entities.Promotion;
 
 import com.ouadia.rovista1.entities.enums.TypePromotion;
 import com.ouadia.rovista1.exceptions.PromotionNotFoundException;
+import com.ouadia.rovista1.mappers.PromotionMapper;
 import com.ouadia.rovista1.repositories.PromotionRepository;
 import com.ouadia.rovista1.services.interfaces.IPromotionService;
 import jakarta.transaction.Transactional;
@@ -26,20 +26,18 @@ import java.util.Map;
 public class PromotionServiceImpl implements IPromotionService {
 
     private PromotionRepository repository;
+    private PromotionMapper promotionMapper;
 
 
     @Override
-    public PromotionDto addPromotion(PromotionDto promotionDto) {
-        Promotion promotion= PromotionMapper.mapToPromotion(promotionDto);
-        if (repository.existsById(promotion.getId())){
-            throw new RuntimeException(" promotion not exsist ");
-        }else
-            return PromotionMapper.mapToPromotionDto(repository.save(promotion));
+    public PromotionResponseDto addPromotion(PromotionRequestDto promotionDto) {
+        Promotion promotion= promotionMapper.mappingPromotionDtoRequestToPromotion(promotionDto);
+            return PromotionMapper.mappingPromotionToPromotionDtoResponse(repository.save(promotion));
     }
 
     @Override
-    public PromotionDto editPromotion(PromotionDto promotionDto, Long id) {
-        Promotion promotion= PromotionMapper.mapToPromotion(promotionDto);
+    public PromotionResponseDto editPromotion(PromotionRequestDto promotionDto, Long id) {
+        Promotion promotion= promotionMapper.mappingPromotionDtoRequestToPromotion(promotionDto);
         if (promotion==null)return null;
         else {
             Promotion promotion1 =repository.findById(id).get();
@@ -52,12 +50,12 @@ public class PromotionServiceImpl implements IPromotionService {
             promotion1.setOrganisateur(promotion.getOrganisateur());
             promotion1.setClients(promotion.getClients());
             promotion1.setEvenements(promotion.getEvenements());
-            return PromotionMapper.mapToPromotionDto(repository.save(promotion1));
+            return PromotionMapper.mappingPromotionToPromotionDtoResponse(repository.save(promotion1));
         }
     }
 
     @Override
-    public PromotionDto editPromotionMap(Long id, Map<String, Object> map) {
+    public PromotionResponseDto editPromotionMap(Long id, Map<String, Object> map) {
         if (map == null ) return null;
         else {
             Promotion promotion1 = repository.findById(id).get();
@@ -88,19 +86,19 @@ public class PromotionServiceImpl implements IPromotionService {
             if (map.containsKey("evenements")) {
                 promotion1.setEvenements((List<Evenement>) map.get("evenements"));
             }
-            return PromotionMapper.mapToPromotionDto(repository.save(promotion1));
+            return PromotionMapper.mappingPromotionToPromotionDtoResponse(repository.save(promotion1));
         }
     }
 
     @Override
-    public PromotionDto getPromotionById(Long id) throws PromotionNotFoundException {
+    public PromotionResponseDto getPromotionById(Long id) throws PromotionNotFoundException {
         Promotion promotion = repository.findById(id).orElseThrow(() -> new PromotionNotFoundException("Promotion not found"));
-        return PromotionMapper.mapToPromotionDto(promotion);
+        return PromotionMapper.mappingPromotionToPromotionDtoResponse(promotion);
     }
 
     @Override
-    public List<PromotionDto> getAllPromotions() {
-        return (repository.findAll().stream().map(promotion-> PromotionMapper.mapToPromotionDto(promotion)).toList());
+    public List<PromotionResponseDto> getAllPromotions() {
+        return (repository.findAll().stream().map(promotion-> PromotionMapper.mappingPromotionToPromotionDtoResponse(promotion)).toList());
 
     }
 

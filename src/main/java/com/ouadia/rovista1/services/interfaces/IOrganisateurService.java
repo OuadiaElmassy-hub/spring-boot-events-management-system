@@ -1,9 +1,6 @@
 package com.ouadia.rovista1.services.interfaces;
 
 
-import com.ouadia.rovista1.dtos.OrganisateurDto;
-import com.ouadia.rovista1.entities.Organisateur;
-
 import java.util.List;
 import java.util.Map;
 

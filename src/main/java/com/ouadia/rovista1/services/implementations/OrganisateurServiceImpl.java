@@ -1,7 +1,5 @@
 package com.ouadia.rovista1.services.implementations;
 
-import com.ouadia.rovista1.Mapper.OrganisateurMapper;
-import com.ouadia.rovista1.dtos.OrganisateurDto;
 import com.ouadia.rovista1.entities.Organisateur;
 import com.ouadia.rovista1.entities.Notification;
 import com.ouadia.rovista1.entities.Role;
@@ -12,8 +10,6 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -27,9 +23,6 @@ public class OrganisateurServiceImpl implements IOrganisateurService {
     @Override
     public OrganisateurDto addOrganisateur(OrganisateurDto organisateurDto) {
         Organisateur organisateur= OrganisateurMapper.mapToOrganisateur(organisateurDto);
-        if (repository.findById(organisateur.getId()).isPresent()){
-            throw new RuntimeException(" organisateur exsist ");
-        }else
             return OrganisateurMapper.mapToOrganisateurDto(repository.save(organisateur));
     }
 

@@ -33,6 +33,8 @@ public interface IEventService {
 
     EvenementResponseDto getEvenementById(Long id) throws EventNotFoundException;
 
+    Evenement getEvenementEntityById(Long id) throws EventNotFoundException;
+
     //Page<EvenementResponseDto> getAllEvents(int numPage, int size);
 
     List<Evenement> getEventsByStatut(StatutEvenement statut);

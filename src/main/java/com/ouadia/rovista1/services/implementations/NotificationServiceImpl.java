@@ -1,18 +1,13 @@
 package com.ouadia.rovista1.services.implementations;
 
-import com.ouadia.rovista1.Mapper.*;
-import com.ouadia.rovista1.Mapper.NotificationMapper;
-import com.ouadia.rovista1.Mapper.NotificationMapper;
-import com.ouadia.rovista1.Mapper.NotificationMapper;
-import com.ouadia.rovista1.dtos.NotificationDto;
-import com.ouadia.rovista1.dtos.UtilisateurDto;
+import com.ouadia.rovista1.dtos.notification.NotificationRequestDto;
+import com.ouadia.rovista1.dtos.notification.NotificationResponseDto;
 import com.ouadia.rovista1.entities.*;
 import com.ouadia.rovista1.entities.Notification;
-import com.ouadia.rovista1.entities.Notification;
 import com.ouadia.rovista1.entities.enums.TypeMessage;
-import com.ouadia.rovista1.entities.enums.TypePhoto;
 import com.ouadia.rovista1.exceptions.NotificationNotFoundException;
 import com.ouadia.rovista1.exceptions.UserNotFoundException;
+import com.ouadia.rovista1.mappers.NotificationMapper;
 import com.ouadia.rovista1.repositories.NotificationRepository;
 import com.ouadia.rovista1.services.interfaces.INotificationService;
 import jakarta.transaction.Transactional;
@@ -29,17 +24,18 @@ import java.util.Map;
 public class NotificationServiceImpl implements INotificationService {
 
     private NotificationRepository repository;
+    private NotificationMapper notificationMapper;
 
 
     @Override
-    public NotificationDto addNotification(NotificationDto notificationDto) {
-        Notification notification= NotificationMapper.mapToNotification(notificationDto);
-        return NotificationMapper.mapToNotificationDto(repository.save(notification));
+    public NotificationResponseDto addNotification(NotificationRequestDto notificationDto) throws UserNotFoundException {
+        Notification notification= notificationMapper.mappingNotificationDtoRequestToNotification(notificationDto);
+        return NotificationMapper.mappingNotificationToNotificationDtoResponse(repository.save(notification));
     }
 
     @Override
-    public NotificationDto editNotification(NotificationDto notificationDto, Long idRech) {
-        Notification notification= NotificationMapper.mapToNotification(notificationDto);
+    public NotificationResponseDto editNotification(NotificationRequestDto notificationDto, Long idRech) throws UserNotFoundException {
+        Notification notification= notificationMapper.mappingNotificationDtoRequestToNotification(notificationDto);
         if (notification== null) return null;
         else {
             Notification notification1 = repository.findById(idRech).get();
@@ -50,12 +46,12 @@ public class NotificationServiceImpl implements INotificationService {
             notification1.setDateEnvoi(notification.getDateEnvoi());
             notification1.setTypeMessage(notification.getTypeMessage());
             notification1.setDestinataire(notification.getDestinataire());
-            return NotificationMapper.mapToNotificationDto (repository.save(notification1));
+            return NotificationMapper.mappingNotificationToNotificationDtoResponse (repository.save(notification1));
         }
     }
 
     @Override
-    public NotificationDto editNotificationMap(Long idReche, Map<String, Object> map) {
+    public NotificationResponseDto editNotificationMap(Long idReche, Map<String, Object> map) {
         if (map==null){return null;}
         Notification notification =repository.findById(idReche).get();
         if (notification == null) {
@@ -73,23 +69,23 @@ public class NotificationServiceImpl implements INotificationService {
         if (map.containsKey("destinataire")) {
             notification.setDestinataire((Utilisateur) map.get("destinataire"));
         }
-        return NotificationMapper.mapToNotificationDto(repository.save(notification));
+        return NotificationMapper.mappingNotificationToNotificationDtoResponse(repository.save(notification));
     }
 
     @Override
-    public NotificationDto getNotificationById(Long id)throws NotificationNotFoundException {
+    public NotificationResponseDto getNotificationById(Long id)throws NotificationNotFoundException {
         Notification notification = repository.findById(id).orElseThrow(() -> new NotificationNotFoundException("notification not found"));
-        return NotificationMapper.mapToNotificationDto(notification);
+        return NotificationMapper.mappingNotificationToNotificationDtoResponse(notification);
     }
 
     @Override
-    public List<NotificationDto> getNotificationsByUtilisateur(Utilisateur utilisateur) throws NotificationNotFoundException, UserNotFoundException {
-     return repository.findByUtilisateur(utilisateur).stream().map(notification -> NotificationMapper.mapToNotificationDto(notification)).toList();
+    public List<NotificationResponseDto> getNotificationsByUtilisateur(Utilisateur utilisateur) throws NotificationNotFoundException, UserNotFoundException {
+     return repository.findByDestinataire(utilisateur).stream().map(notification -> NotificationMapper.mappingNotificationToNotificationDtoResponse(notification)).toList();
     }
 
     @Override
-    public List<NotificationDto> getAllNotifications() {
-        return repository.findAll().stream().map(notification -> NotificationMapper.mapToNotificationDto(notification)).toList();
+    public List<NotificationResponseDto> getAllNotifications() {
+        return repository.findAll().stream().map(notification -> NotificationMapper.mappingNotificationToNotificationDtoResponse(notification)).toList();
 
     }
 

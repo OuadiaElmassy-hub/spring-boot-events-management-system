@@ -1,11 +1,12 @@
 package com.ouadia.rovista1.services.implementations;
 
-import com.ouadia.rovista1.Mapper.ClientMapper;
-import com.ouadia.rovista1.dtos.ClientDto;
+import com.ouadia.rovista1.dtos.client.ClientRequestDto;
+import com.ouadia.rovista1.dtos.client.ClientResponseDto;
 import com.ouadia.rovista1.entities.Client;
 import com.ouadia.rovista1.entities.Notification;
 import com.ouadia.rovista1.entities.Role;
 import com.ouadia.rovista1.entities.enums.StatutCompte;
+import com.ouadia.rovista1.mappers.ClientMapper;
 import com.ouadia.rovista1.repositories.ClientRepository;
 import com.ouadia.rovista1.services.interfaces.IClientService;
 import jakarta.transaction.Transactional;
@@ -13,7 +14,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -25,17 +25,14 @@ public class ClientServiceImpl implements IClientService {
     private ClientRepository repository;
 
     @Override
-    public ClientDto addClient(ClientDto clientDto) {
-        Client client= ClientMapper.mapToClient(clientDto);
-        if (repository.findById(client.getId()).isPresent()){
-            throw new RuntimeException(" client exsist ");
-        }else
-            return ClientMapper.mapToClientDto(repository.save(client));
+    public ClientResponseDto addClient(ClientRequestDto clientDto) {
+        Client client= ClientMapper.mappingClientDtoRequestToClient(clientDto);
+            return ClientMapper.mappingClientToClientDtoResponse(repository.save(client));
     }
 
     @Override
-    public ClientDto editClient(ClientDto clientDto ,Long idReche) {
-        Client client= ClientMapper.mapToClient(clientDto);
+    public ClientResponseDto editClient(ClientRequestDto clientDto ,Long idReche) {
+        Client client= ClientMapper.mappingClientDtoRequestToClient(clientDto);
         if (client == null) return null;
         else {
             Client client1 = repository.findById(idReche).get();
@@ -51,12 +48,12 @@ public class ClientServiceImpl implements IClientService {
             client1.setNom(client.getNom());
             client1.setPrenom(client.getPrenom());
             client1.setDateNaissance(client.getDateNaissance());
-            return ClientMapper.mapToClientDto(repository.save(client1));
+            return ClientMapper.mappingClientToClientDtoResponse(repository.save(client1));
         }
     }
 
     @Override
-    public ClientDto editClientMap(Long idReche, Map<String, Object> map) {
+    public ClientResponseDto editClientMap(Long idReche, Map<String, Object> map) {
         if (map == null ) return null;
         else {
             Client client1 = repository.findById(idReche).get();
@@ -94,20 +91,26 @@ public class ClientServiceImpl implements IClientService {
             if (map.containsKey("dateNaissance")) {
                 client1.setDateNaissance((LocalDate) map.get("dateNaissance"));
             }
-            return ClientMapper.mapToClientDto(repository.save(client1));
+            return ClientMapper.mappingClientToClientDtoResponse(repository.save(client1));
         }
     }
 
 
     @Override
-    public ClientDto getClientById(Long id) {
-        return ClientMapper.mapToClientDto(repository.findById(id)
+    public ClientResponseDto getClientById(Long id) {
+        return ClientMapper.mappingClientToClientDtoResponse(repository.findById(id)
                 .orElseThrow(()->new RuntimeException("client not found")));
     }
 
     @Override
-    public List<ClientDto> getAllClients() {
-        return (repository.findAll().stream().map(client->ClientMapper.mapToClientDto(client)).toList());
+    public Client getClientEntityById(Long id) {
+        return (repository.findById(id)
+                .orElseThrow(()->new RuntimeException("client not found")));
+    }
+
+    @Override
+    public List<ClientResponseDto> getAllClients() {
+        return (repository.findAll().stream().map(client->ClientMapper.mappingClientToClientDtoResponse(client)).toList());
     }
 
     @Override
