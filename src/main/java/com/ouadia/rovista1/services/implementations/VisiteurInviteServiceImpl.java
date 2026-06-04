@@ -1,13 +1,15 @@
 package com.ouadia.rovista1.services.implementations;
 
 
-import com.ouadia.rovista1.Mapper.VisiteurMapper;
-import com.ouadia.rovista1.dtos.VisiteurInviteDto;
+import com.ouadia.rovista1.dtos.visiteur.VisiteurInviteRequestDto;
+import com.ouadia.rovista1.dtos.visiteur.VisiteurInviteResponseDto;
 import com.ouadia.rovista1.entities.*;
 
 import com.ouadia.rovista1.entities.VisiteurInvite;
 
 import com.ouadia.rovista1.exceptions.UserNotFoundException;
+
+import com.ouadia.rovista1.mappers.VisiteurMapper;
 import com.ouadia.rovista1.repositories.VisiteurRepository;
 import com.ouadia.rovista1.services.interfaces.IVisiteurService;
 import jakarta.transaction.Transactional;
@@ -23,20 +25,16 @@ import java.util.Map;
 public class VisiteurInviteServiceImpl implements IVisiteurService {
 
     private VisiteurRepository repository;
-
-
+    private final VisiteurMapper visiteurMapper;
     @Override
-    public VisiteurInviteDto addVisiteur(VisiteurInviteDto visiteurInviteDto) {
-        VisiteurInvite visiteur = VisiteurMapper.mapToVisiteurInvite(visiteurInviteDto);
-        if (repository.findById(visiteur.getId()).isPresent()) {
-            throw new RuntimeException(" visiteur exsist ");
-        } else
-            return VisiteurMapper.mapToVisiteurInviteDto(repository.save(visiteur));
+    public VisiteurInviteResponseDto addVisiteur(VisiteurInviteRequestDto visiteurInviteDto) {
+        VisiteurInvite visiteur = VisiteurMapper.mappingVisiteurInviteDtoRequestToVisiteurInvite(visiteurInviteDto);
+            return VisiteurMapper.mappingVisiteurInviteToVisiteurInviteDtoResponse(repository.save(visiteur));
     }
 
     @Override
-    public VisiteurInviteDto editVisiteur(VisiteurInviteDto visiteurInviteDto, Long id) {
-        VisiteurInvite visiteur = VisiteurMapper.mapToVisiteurInvite(visiteurInviteDto);
+    public VisiteurInviteResponseDto editVisiteur(VisiteurInviteRequestDto visiteurInviteDto, Long id) {
+        VisiteurInvite visiteur = VisiteurMapper.mappingVisiteurInviteDtoRequestToVisiteurInvite(visiteurInviteDto);
         if (visiteur == null) return null;
         else {
             VisiteurInvite visiteur1 = repository.findById(id).get();
@@ -50,12 +48,12 @@ public class VisiteurInviteServiceImpl implements IVisiteurService {
             visiteur1.setAdresse(visiteur.getAdresse());
             visiteur1.setReservations(visiteur.getReservations());
             visiteur1.setAvis(visiteur.getAvis());
-            return VisiteurMapper.mapToVisiteurInviteDto(repository.save(visiteur1));
+            return VisiteurMapper.mappingVisiteurInviteToVisiteurInviteDtoResponse(repository.save(visiteur1));
         }
     }
 
     @Override
-    public VisiteurInviteDto editVisiteurMap(Long id, Map<String, Object> map) {
+    public VisiteurInviteResponseDto editVisiteurMap(Long id, Map<String, Object> map) {
         if (map == null) return null;
         else {
             VisiteurInvite visiteur1 = repository.findById(id).get();
@@ -83,20 +81,20 @@ public class VisiteurInviteServiceImpl implements IVisiteurService {
             if (map.containsKey("avis")) {
                 visiteur1.setAvis((List<Avis>) map.get("avis"));
             }
-            return VisiteurMapper.mapToVisiteurInviteDto(repository.save(visiteur1));
+            return VisiteurMapper.mappingVisiteurInviteToVisiteurInviteDtoResponse(repository.save(visiteur1));
         }
     }
 
     @Override
-    public VisiteurInviteDto getVisiteurById(Long id) throws UserNotFoundException {
-        return VisiteurMapper.mapToVisiteurInviteDto(repository.findById(id)
+    public VisiteurInviteResponseDto getVisiteurById(Long id) throws UserNotFoundException {
+        return VisiteurMapper.mappingVisiteurInviteToVisiteurInviteDtoResponse(repository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("Visiteur not found")));
     }
 
     @Override
-    public List<VisiteurInviteDto> getAllVisiteurs() {
+    public List<VisiteurInviteResponseDto> getAllVisiteurs() {
         return (repository.findAll().stream().
-                map(visiteur -> VisiteurMapper.mapToVisiteurInviteDto(visiteur))
+                map(visiteur -> VisiteurMapper.mappingVisiteurInviteToVisiteurInviteDtoResponse(visiteur))
                 .toList());
 
     }

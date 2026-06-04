@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.List;
 @Entity
 @Data // pour les methode getter, setter, toString() , hachcode() ,equals()
 @NoArgsConstructor @AllArgsConstructor
-@Builder
+@SuperBuilder
 public class Admin extends Utilisateur{
 @Column(nullable = false)
 private String nom;
