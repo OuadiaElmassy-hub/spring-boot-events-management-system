@@ -16,7 +16,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Builder
 public class ClientRequestDto {
-
     @NotNull
     private String username;
     @NotNull
