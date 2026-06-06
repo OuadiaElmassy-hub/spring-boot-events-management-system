@@ -1,6 +1,5 @@
 package com.ouadia.rovista1.services.interfaces;
 
-import com.ouadia.rovista1.entities.AppUser;
 import com.ouadia.rovista1.entities.Utilisateur;
 import com.ouadia.rovista1.exceptions.RoleNotFoundException;
 import com.ouadia.rovista1.exceptions.UserNotFoundException;

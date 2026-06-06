@@ -1,6 +1,5 @@
 package com.ouadia.rovista1.services.implementations;
 
-import com.ouadia.rovista1.entities.AppUser;
 import com.ouadia.rovista1.entities.Role;
 import com.ouadia.rovista1.entities.Utilisateur;
 import com.ouadia.rovista1.services.interfaces.accountService;
