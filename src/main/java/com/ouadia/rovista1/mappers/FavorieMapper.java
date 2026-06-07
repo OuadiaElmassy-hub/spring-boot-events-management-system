@@ -9,8 +9,11 @@ import com.ouadia.rovista1.entities.Favorie;
 import com.ouadia.rovista1.entities.Promotion;
 import com.ouadia.rovista1.services.implementations.ClientServiceImpl;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
+@Component
 @AllArgsConstructor
+
 public class FavorieMapper {
   ClientServiceImpl service;
 
