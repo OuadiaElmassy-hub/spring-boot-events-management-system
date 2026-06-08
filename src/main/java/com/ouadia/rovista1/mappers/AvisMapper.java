@@ -5,8 +5,11 @@ import com.ouadia.rovista1.dtos.avis.AvisRequestDto;
 
 import com.ouadia.rovista1.dtos.avis.AvisResponseDto;
 import com.ouadia.rovista1.entities.Avis;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 
-
+@Component
+@AllArgsConstructor
 public class AvisMapper {
 
     public  static Avis mappingAvisDtoRequestToAvis(AvisRequestDto dto){
