@@ -5,25 +5,28 @@ import com.ouadia.rovista1.dtos.avis.AvisRequestDto;
 
 import com.ouadia.rovista1.dtos.avis.AvisResponseDto;
 import com.ouadia.rovista1.entities.Avis;
+import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 
+@Component
 public class AvisMapper {
 
-    public  static Avis mappingAvisDtoRequestToAvis(AvisRequestDto dto){
+    public  Avis mappingAvisDtoRequestToAvis(AvisRequestDto dto){
         return Avis.builder()
                 .comment(dto.getComment())
                 .note(dto.getNote())
-                .dateAvis(dto.getDateAvis())
+                .dateAvis(LocalDateTime.now())
                 .build();
     }
-    public static AvisResponseDto mappingAvisToAvisDtoResponse(Avis e){
+    public AvisResponseDto mappingAvisToAvisDtoResponse(Avis e){
         return AvisResponseDto.builder()
                 .comment(e.getComment())
                 .note(e.getNote())
                 .dateAvis(e.getDateAvis())
+                .clientNom(e.getClient().getNom())
                 .evenementId(e.getEvenement().getId())
-                .clientId(e.getClient().getId())
-                .visiteurId(e.getVisiteur().getId())
+                .visiteurNom(e.getVisiteur().getNom())
                 .build();
     }
 }

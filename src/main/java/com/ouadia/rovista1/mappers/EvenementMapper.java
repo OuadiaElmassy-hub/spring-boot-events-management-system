@@ -16,7 +16,6 @@ public class EvenementMapper {
     private ImageServiceImpl imageService;
 
     public Evenement mappingEvenementDtoRequestToEvenement(EvenementRequestDto dto){
-        new Evenement();
         return Evenement.builder()
                 .titre(dto.getTitre())
                 .description(dto.getDescription())

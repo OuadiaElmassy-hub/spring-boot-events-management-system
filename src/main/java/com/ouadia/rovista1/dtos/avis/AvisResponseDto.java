@@ -1,26 +1,26 @@
 package com.ouadia.rovista1.dtos.avis;
 
-import com.ouadia.rovista1.entities.Client;
-import com.ouadia.rovista1.entities.Evenement;
-import com.ouadia.rovista1.entities.VisiteurInvite;
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-@Data // pour les methode getter, setter, toString() , hachcode() ,equals()
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class AvisResponseDto {
+
     private Long id;
+    private Double note;
     private String comment;
-    private double note;
-    private LocalDate dateAvis;
+    private LocalDateTime dateAvis;
+
+    // Données anonymisées/publiques du client
+    private String clientNom;
+    private String avatarUrl;
+    private String visiteurNom;
     private Long evenementId;
-    private Long clientId;
-    private Long visiteurId;
+
 }

@@ -25,13 +25,15 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@CrossOrigin
+@CrossOrigin("*")
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class EventController {
 
     private final IEventService service;
     private ObjectMapper mapper;
+
+    // on doit separer les end points de chque type de user !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
     @PostMapping(path = "/organisateur/events", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<EvenementResponseDto> addEvent(@RequestPart
@@ -45,6 +47,7 @@ public class EventController {
     }
 
     // version 2 pour swagger
+
 //    @PostMapping(path = "/organisateur/events", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 //    public ResponseEntity<EvenementResponseDto> addEventJson(@RequestPart("dto") String dtoJson,
 //                                                         @RequestPart("imageFile")
@@ -57,26 +60,16 @@ public class EventController {
 //                .body(service.createEvenement(dto, imagesFiles, organisateurId)); // 201 Created + body
 //    }
 
-
-    @GetMapping("/public/events/{id}")
+// pour l'admin
+    @GetMapping("/admin/events/{id}")
     public ResponseEntity<EvenementResponseDto> getEventById(@PathVariable Long id) throws EventNotFoundException {
         return ResponseEntity.ok(service.getEvenementById(id));
     }
 
-
-//
-//    @GetMapping("/public/events")
-//    public PageResponse<EventDto> searchEvents(
-//            @RequestParam(required = false) Long categorieId,
-//            @RequestParam(required = false) String lieu,
-//            @RequestParam(required = false) Double prixMax,
-//            @RequestParam int page,
-//            @RequestParam int size
-//    )
-//
-//    et React envoie directement les filtres à l'API.
-
-
+    @GetMapping("/public/events/search/{id}")
+    public ResponseEntity<EvenementResponseDto> getPublishedEventById(@PathVariable Long id) throws EventNotFoundException {
+        return ResponseEntity.ok(service.getPublishedEvenementById(id));
+    }
 
     @GetMapping("/public/events/search")
     public ResponseEntity<PageResponse<EvenementResponseDto>> searchEvents(
@@ -88,13 +81,7 @@ public class EventController {
             @RequestParam(required = false) Long categorieId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "8") int size) {
-        /*page,
-        size,
-        categorieId,
-        keyword,
-        date,
-        ville,
-        prixMax*/
+
         return ResponseEntity.ok(service.searchEvents(page, size,
                 categorieId,
                 keyword,
@@ -120,7 +107,7 @@ public class EventController {
     }
 
 
-    @PutMapping("/organisateur/events/{id}")
+    //@PutMapping("/organisateur/events/{id}")
     public ResponseEntity<EvenementResponseDto> updateEvenement(@PathVariable Long id,
                                                 @RequestPart UpdateEvenementRequestDto dto)
             throws BusinessException, EventNotFoundException, PromotionNotFoundException, CategorieNotFoundException {
@@ -140,7 +127,7 @@ public class EventController {
         return ResponseEntity.ok(service.demandeValidation(id));
     }
 
-    @DeleteMapping("/organisateur/events/{id}")
+    //@DeleteMapping("/organisateur/events/{id}")
     public ResponseEntity<String> deleteEventById(@PathVariable Long id) throws EventNotFoundException {
         service.deleteEvenement(id);
         return ResponseEntity.noContent().build();

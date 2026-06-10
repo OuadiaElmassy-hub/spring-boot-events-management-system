@@ -17,18 +17,22 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
+@DiscriminatorValue("ORGANISATEUR")
+@PrimaryKeyJoinColumn(name = "utilisateur_id")
 public class Organisateur extends Utilisateur{
 
-    @Column(nullable = false)
-    private String nomOrganisation;
-    @Column(nullable = false)
+    //@Column(nullable = false)
     private Long numRegistre;
 
-    private LocalDateTime dateCreation;
+    private LocalDateTime dateValidation;
     private String logoUrl;
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private StatutOrganisateur statutOrganisateur;
+
+    @Column(nullable = false)
+    private String  siret;
+    private boolean verified = false;
 
     @OneToMany(mappedBy = "organisateur")
     private List<Evenement> evenements;
@@ -40,23 +44,29 @@ public class Organisateur extends Utilisateur{
     public Organisateur(Long id, String email, String username, String motDePasse,
                         StatutCompte statutCompte, String adresse, String telephonePro,
                         String nomOrganisation, Long numRegistre, StatutOrganisateur statutOrganisateur,
-                        List<Evenement> evenements, List<Promotion> promotions) {
-        super(id, username, email, motDePasse, statutCompte, telephonePro, adresse);
+                        List<Evenement> evenements, List<Promotion> promotions, boolean varified, String siret) {
+
+        super(id, username, nomOrganisation, email, motDePasse, statutCompte, telephonePro, adresse);
         this.numRegistre = numRegistre;
         this.statutOrganisateur = statutOrganisateur;
-        this.nomOrganisation = nomOrganisation;
         this.promotions = promotions;
+        this.evenements = evenements;
+        this.verified = varified;
+        this.siret = siret;
     }
 
     public Organisateur(String email, String username, String motDePasse,
                         StatutCompte statutCompte, String adresse, String telephonePro,
                         String nomOrganisation, Long numRegistre, StatutOrganisateur statutOrganisateur,
-                        List<Evenement> evenements, List<Promotion> promotions) {
-        super(username, email, motDePasse, statutCompte, telephonePro, adresse);
+                        List<Evenement> evenements, List<Promotion> promotions, boolean varified, String siret) {
+        super(username, email, nomOrganisation, motDePasse, statutCompte, telephonePro, adresse);
         this.numRegistre = numRegistre;
         this.statutOrganisateur = statutOrganisateur;
-        this.nomOrganisation = nomOrganisation;
         this.promotions = promotions;
+        this.evenements = evenements;
+        this.verified = varified;
+        this.siret = siret;
+
     }
 
     public Organisateur(String email, String username, String motDePasse,
@@ -64,11 +74,10 @@ public class Organisateur extends Utilisateur{
                         StatutOrganisateur statutOrganisateur,
                         String nomOrganisation, Long numRegistre,
                         LocalDateTime dateCreation, String logoUrl) {
-        super(username, email, motDePasse, statutCompte, telephonePro, adresse);
+        super(username, email, nomOrganisation, motDePasse, statutCompte, telephonePro, adresse);
         this.numRegistre = numRegistre;
         this.statutOrganisateur = statutOrganisateur;
-        this.nomOrganisation = nomOrganisation;
-        this.dateCreation = dateCreation;
+        this.dateValidation = dateCreation;
         this.logoUrl = logoUrl;
     }
 }

@@ -2,24 +2,22 @@ package com.ouadia.rovista1.entities;
 
 import com.ouadia.rovista1.entities.enums.StatutCompte;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Data // pour les methode getter, setter, toString() , hachcode() ,equals()
+@Setter
+@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-
+@DiscriminatorValue("CLIENT")
+@PrimaryKeyJoinColumn(name = "utilisateur_id")
 public class Client extends Utilisateur{
-    @Column(nullable = false)
-    private String nom;
+
     @Column(nullable = false)
     private String prenom;
     @Column(nullable = false)
@@ -36,9 +34,8 @@ public class Client extends Utilisateur{
 
 
 
-    public Client(Long id, String username, String email, String motDePasse, StatutCompte statutCompte, String phone, String adresse, List<Notification> notifications, List<Role> roles, String nom, String prenom, LocalDate dateNaissance, List<Promotion> promotions, List<Reservation> reservations, List<Avis> avis, List<Favorie> favories) {
-        super(id, username, email, motDePasse, statutCompte, phone, adresse, notifications, roles);
-        this.nom = nom;
+    public Client(Long id, String username, String nom, String email, String motDePasse, StatutCompte statutCompte, String phone, String adresse, List<Notification> notifications, List<Role> roles, String prenom, LocalDate dateNaissance, List<Promotion> promotions, List<Reservation> reservations, List<Avis> avis, List<Favorie> favories) {
+        super(id, username, nom, email, motDePasse, statutCompte, phone, adresse);
         this.prenom = prenom;
         this.dateNaissance = dateNaissance;
         this.promotions = promotions;
@@ -48,8 +45,7 @@ public class Client extends Utilisateur{
     }
 
     public Client(Long id, String username, String email, String motDePasse, StatutCompte statutCompte, String phone, String adresse, String nom, String prenom, LocalDate dateNaissance, List<Promotion> promotions, List<Reservation> reservations, List<Avis> avis, List<Favorie> favories) {
-        super(id, username, email, motDePasse, statutCompte, phone, adresse);
-        this.nom = nom;
+        super(id, username, nom, email, motDePasse, statutCompte, phone, adresse);
         this.prenom = prenom;
         this.dateNaissance = dateNaissance;
         this.promotions = promotions;
@@ -59,7 +55,7 @@ public class Client extends Utilisateur{
     }
 
 
-    public Client(Long id, String username, String email, String motDePasse, StatutCompte statutCompte, String phone, String adresse) {
-        super(id, username, email, motDePasse, statutCompte, phone, adresse);
+    public Client(Long id, String username, String email, String motDePasse, StatutCompte statutCompte, String phone, String adresse, String nom) {
+        super(id, username, nom, email, motDePasse, statutCompte, phone, adresse);
     }
 }

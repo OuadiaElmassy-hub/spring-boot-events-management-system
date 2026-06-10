@@ -1,11 +1,13 @@
-package com.ouadia.rovista1.services.implementations;
+package com.ouadia.rovista1.services.client;
 
+import com.ouadia.rovista1.dtos.client.ClientPublicInfoResponseDto;
 import com.ouadia.rovista1.dtos.client.ClientRequestDto;
 import com.ouadia.rovista1.dtos.client.ClientResponseDto;
 import com.ouadia.rovista1.entities.Client;
 import com.ouadia.rovista1.entities.Notification;
 import com.ouadia.rovista1.entities.Role;
 import com.ouadia.rovista1.entities.enums.StatutCompte;
+import com.ouadia.rovista1.exceptions.ClientNotFoundException;
 import com.ouadia.rovista1.mappers.ClientMapper;
 import com.ouadia.rovista1.repositories.ClientRepository;
 import com.ouadia.rovista1.services.interfaces.IClientService;
@@ -23,16 +25,17 @@ import java.util.Map;
 public class ClientServiceImpl implements IClientService {
 
     private ClientRepository repository;
+    private ClientMapper clientMapper;
 
     @Override
     public ClientResponseDto addClient(ClientRequestDto clientDto) {
-        Client client= ClientMapper.mappingClientDtoRequestToClient(clientDto);
-            return ClientMapper.mappingClientToClientDtoResponse(repository.save(client));
+        Client client = clientMapper.mappingClientDtoRequestToClient(clientDto);
+            return clientMapper.mappingClientToClientDtoResponse(repository.save(client));
     }
 
     @Override
     public ClientResponseDto editClient(ClientRequestDto clientDto ,Long idReche) {
-        Client client= ClientMapper.mappingClientDtoRequestToClient(clientDto);
+        Client client = clientMapper.mappingClientDtoRequestToClient(clientDto);
         if (client == null) return null;
         else {
             Client client1 = repository.findById(idReche).get();
@@ -48,7 +51,7 @@ public class ClientServiceImpl implements IClientService {
             client1.setNom(client.getNom());
             client1.setPrenom(client.getPrenom());
             client1.setDateNaissance(client.getDateNaissance());
-            return ClientMapper.mappingClientToClientDtoResponse(repository.save(client1));
+            return clientMapper.mappingClientToClientDtoResponse(repository.save(client1));
         }
     }
 
@@ -91,14 +94,14 @@ public class ClientServiceImpl implements IClientService {
             if (map.containsKey("dateNaissance")) {
                 client1.setDateNaissance((LocalDate) map.get("dateNaissance"));
             }
-            return ClientMapper.mappingClientToClientDtoResponse(repository.save(client1));
+            return clientMapper.mappingClientToClientDtoResponse(repository.save(client1));
         }
     }
 
 
     @Override
     public ClientResponseDto getClientById(Long id) {
-        return ClientMapper.mappingClientToClientDtoResponse(repository.findById(id)
+        return clientMapper.mappingClientToClientDtoResponse(repository.findById(id)
                 .orElseThrow(()->new RuntimeException("client not found")));
     }
 
@@ -110,7 +113,7 @@ public class ClientServiceImpl implements IClientService {
 
     @Override
     public List<ClientResponseDto> getAllClients() {
-        return (repository.findAll().stream().map(client->ClientMapper.mappingClientToClientDtoResponse(client)).toList());
+        return (repository.findAll().stream().map(client->clientMapper.mappingClientToClientDtoResponse(client)).toList());
     }
 
     @Override
@@ -124,4 +127,16 @@ public class ClientServiceImpl implements IClientService {
             deleteClientById(id);
         }
     }
+
+    @Override
+    public ClientPublicInfoResponseDto getInfoClientForPublic(Long id) throws ClientNotFoundException {
+        return clientMapper.mappingClientToClientPublicInfoResponseDto(repository.findById(id).orElseThrow
+                (() -> new ClientNotFoundException("Client not found with id : "+ id)));
+    }
+
+    @Override
+    public Long getIdClientByUsername(String username) {
+        return repository.findByUsername(username).getId();
+    }
+
 }

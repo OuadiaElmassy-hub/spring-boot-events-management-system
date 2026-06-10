@@ -1,27 +1,28 @@
 package com.ouadia.rovista1.mappers;
 
-
-
 import com.ouadia.rovista1.dtos.categorie.CategorieRequestDto;
 import com.ouadia.rovista1.dtos.categorie.CategorieResponseDto;
 import com.ouadia.rovista1.entities.Categorie;
-import com.ouadia.rovista1.entities.Evenement;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class CategorieMapper {
 
+    public CategorieResponseDto mapToDto(Categorie categorie){
 
-    public  static Categorie mappingCategorieDtoRequestToCategorie(CategorieRequestDto dto){
-        return Categorie.builder()
-                .nom(dto.getNom())
-                .description(dto.getDescription())
+        return CategorieResponseDto.builder()
+                .id(categorie.getId())
+                .nom(categorie.getNom())
+                .description(categorie.getDescription())
+                .imageUrl(categorie.getImage() != null ? categorie.getImage().getUrl() : null)
                 .build();
     }
-    public static CategorieResponseDto mappingCategorieToCategorieDtoResponse(Categorie e){
-        return CategorieResponseDto.builder()
-                .nom(e.getNom())
-                .description(e.getDescription())
-                .evenementsId(e.getEvenements().stream().map(Evenement::getId).toList())
+
+    public Categorie mapToCategorie(CategorieRequestDto categorieDto){
+
+        return Categorie.builder()
+                .nom(categorieDto.getNom())
+                .description(categorieDto.getDescription())
                 .build();
     }
 }

@@ -46,6 +46,7 @@ public class Evenement {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private StatutEvenement statutEvenement;
+    private String motif;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Organisateur organisateur;
@@ -57,8 +58,10 @@ public class Evenement {
     private Categorie categorie;
     @ManyToOne(fetch = FetchType.LAZY)
     private Promotion promotion;
-    @ManyToMany(mappedBy = "evenements", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "evenement", fetch = FetchType.LAZY)
     private List<Favorie> favories;
     @OneToMany(mappedBy = "evenement", fetch = FetchType.EAGER)
     private List<Image> images = new ArrayList<>();
+
+    @PrePersist void onCreate() { this.dateCreation = LocalDateTime.now(); }
 }

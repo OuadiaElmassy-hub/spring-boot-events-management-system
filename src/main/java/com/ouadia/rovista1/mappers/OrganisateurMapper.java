@@ -1,13 +1,14 @@
-package com.ouadia.rovista1.Mapper;
+package com.ouadia.rovista1.mappers;
 
 import com.ouadia.rovista1.dtos.organisateur.OrganisateurRequestDto;
 import com.ouadia.rovista1.dtos.organisateur.OrganisateurResponseDto;
 import com.ouadia.rovista1.entities.Organisateur;
+import org.springframework.stereotype.Component;
 
+@Component
 public class OrganisateurMapper {
-    public static OrganisateurResponseDto mapToOrganisateurDto(Organisateur organisateur){
+    public OrganisateurResponseDto mapToOrganisateurDto(Organisateur organisateur){
 
-        new OrganisateurResponseDto();
         return OrganisateurResponseDto.builder()
                 .id(organisateur.getId())
                 .username(organisateur.getUsername())
@@ -18,24 +19,22 @@ public class OrganisateurMapper {
                 .statutCompte(organisateur.getStatutCompte())
                 .statutOrganisateur(organisateur.getStatutOrganisateur())
                 .numRegistre(organisateur.getNumRegistre())
-                .nomOrganisation(organisateur.getNomOrganisation())
+                .nomOrganisation(organisateur.getNom())
                 .build();
     }
 
-    public static Organisateur mapToOrganisateur(OrganisateurRequestDto dto){
+    public Organisateur mapToOrganisateur(OrganisateurRequestDto dto){
 
-        return new Organisateur(
-                dto.getUsername(),
-                dto.getEmail(),
-                dto.getMotDePasse(),
-                dto.getStatutCompte(),
-                dto.getPhone(),
-                dto.getAdresse(),
-                dto.getNomOrganisation(),
-                dto.getNumRegistre(),
-                dto.getStatutOrganisateur(),
-                null,
-                null
-        );
+        return Organisateur.builder()
+                .username(dto.getUsername())
+                .email(dto.getEmail())
+                .motDePasse(dto.getMotDePasse())
+                .statutCompte(dto.getStatutCompte())
+                .phone(dto.getPhone())
+                .adresse(dto.getAdresse())
+                .nom(dto.getNomOrganisation())
+                .numRegistre(dto.getNumRegistre())
+                .statutOrganisateur(dto.getStatutOrganisateur())
+                .build();
     }
 }

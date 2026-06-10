@@ -2,13 +2,15 @@ package com.ouadia.rovista1.mappers;
 
 
 
+import com.ouadia.rovista1.dtos.client.ClientPublicInfoResponseDto;
 import com.ouadia.rovista1.dtos.client.ClientRequestDto;
 import com.ouadia.rovista1.dtos.client.ClientResponseDto;
 import com.ouadia.rovista1.entities.*;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class ClientMapper {
-    public static Client mappingClientDtoRequestToClient(ClientRequestDto dto){
+    public Client mappingClientDtoRequestToClient(ClientRequestDto dto){
         return  Client.builder()
                 .username(dto.getUsername())
                 .email(dto.getEmail())
@@ -22,7 +24,7 @@ public class ClientMapper {
                 .build();
 
     }
-    public static ClientResponseDto mappingClientToClientDtoResponse(Client e){
+    public ClientResponseDto mappingClientToClientDtoResponse(Client e){
         return ClientResponseDto.builder()
                 .username(e.getUsername())
                 .email(e.getEmail())
@@ -36,6 +38,17 @@ public class ClientMapper {
                 .reservationsId(e.getReservations().stream().map(Reservation::getId).toList())
                 .avisId(e.getAvis().stream().map(Avis::getId).toList())
                 .favoritesId(e.getFavories().stream().map(Favorie::getId).toList())
+                .build();
+    }
+
+    public ClientPublicInfoResponseDto mappingClientToClientPublicInfoResponseDto(Client e){
+        return ClientPublicInfoResponseDto.builder()
+                .email(e.getEmail())
+                .phone(e.getPhone())
+                .adresse(e.getAdresse())
+                .nom(e.getNom())
+                .prenom(e.getPrenom())
+                .dateNaissance(e.getDateNaissance())
                 .build();
     }
 }

@@ -19,5 +19,5 @@ public class FavorieResponseDto {
     private String description;
     private LocalDateTime dateCreation;
     private Long clientId;
-    private List<Long> evenementsId;
+    private Long evenementId;
 }

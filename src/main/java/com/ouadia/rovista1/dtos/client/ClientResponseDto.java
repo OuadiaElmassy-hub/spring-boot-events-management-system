@@ -18,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class ClientResponseDto {
+
     private Long id;
     private String username;
     private String email;

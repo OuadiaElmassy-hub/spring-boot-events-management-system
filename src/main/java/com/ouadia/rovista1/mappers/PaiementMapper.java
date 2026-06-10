@@ -6,7 +6,9 @@ import com.ouadia.rovista1.entities.Paiement;
 import com.ouadia.rovista1.entities.Paiement;
 import com.ouadia.rovista1.exceptions.ReservationNotFoundException;
 import com.ouadia.rovista1.services.implementations.ReservationServiceImpl;
+import org.springframework.stereotype.Component;
 
+@Component
 public class PaiementMapper {
 
     ReservationServiceImpl reservationService;
@@ -20,7 +22,7 @@ public class PaiementMapper {
                 .reservation(reservationService.getReservationEntityById(dto.getReservationId()))
                 .build();
     }
-    public static PaiementResponseDto mappingPaiementToPaiementDtoResponse(Paiement e){
+    public PaiementResponseDto mappingPaiementToPaiementDtoResponse(Paiement e){
         return PaiementResponseDto.builder()
                 .montant(e.getMontant())
                 .datePaiement(e.getDatePaiement())

@@ -15,7 +15,7 @@ public class OrganisateurController {
     IOrganisateurService service;
 
     @PostMapping
-    public OrganisateurResponseDto creatOrganisateur(OrganisateurRequestDto organisateurRequestDto) throws BusinessException {
+    public OrganisateurResponseDto createOrganisateur(OrganisateurRequestDto organisateurRequestDto) throws BusinessException {
         return service.addOrganisateur(organisateurRequestDto);
     }
 }

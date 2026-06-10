@@ -62,7 +62,7 @@ public class EventServiceImpl implements IEventService {
         if(images != null)
             evenement = imageService.stockageDesImagesEvenement(evenement, images);
 
-        evenement.setStatutEvenement(StatutEvenement.CREE);
+        evenement.setStatutEvenement(StatutEvenement.BROUILLON);
 
         evenement.setPlacesRestants(evenement.getCapacite());
 
@@ -188,7 +188,7 @@ public class EventServiceImpl implements IEventService {
     @Transactional(readOnly = true)
     public PageResponse<EvenementResponseDto> getAllPublishedEvenements(int numPage, int size) {
 
-        Page<Evenement> evenementPage = repository.findByStatutEvenement(StatutEvenement.PUBLIE, PageRequest.of(numPage, size,
+        Page<Evenement> evenementPage = repository.findByStatutEvenement(StatutEvenement.APPROUVE, PageRequest.of(numPage, size,
                 Sort.by("dateDebut").descending()));
         List<EvenementResponseDto> content = evenementPage.getContent().stream()
                 .map(evenementMapper::mappingEvenementToEvenementDtoResponse).toList();
@@ -208,7 +208,7 @@ public class EventServiceImpl implements IEventService {
     @Transactional(readOnly = true)
     public PageResponse<EvenementResponseDto> getAllPublishedEvenementsForCategorie(Long categorieId, int numPage, int size) {
 
-        Page<Evenement> evenementPage = repository.findByCategorieIdAndStatutEvenement(categorieId, StatutEvenement.PUBLIE,
+        Page<Evenement> evenementPage = repository.findByCategorieIdAndStatutEvenement(categorieId, StatutEvenement.APPROUVE,
                 PageRequest.of(numPage, size, Sort.by("dateDebut").descending()));
 
         List<EvenementResponseDto> content = evenementPage.getContent().stream()
@@ -291,6 +291,13 @@ public class EventServiceImpl implements IEventService {
 
     @Override
     @Transactional(readOnly = true)
+    public EvenementResponseDto getPublishedEvenementById(Long id) {
+        return evenementMapper.mappingEvenementToEvenementDtoResponse
+                (repository.findByIdAndStatutEvenement(id, StatutEvenement.APPROUVE));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<Evenement> getEventsByStatut(StatutEvenement statut) {
         return repository.findByStatutEvenement(statut);
     }
@@ -311,7 +318,7 @@ public class EventServiceImpl implements IEventService {
         Evenement evenement = repository.findById(id).orElseThrow
                 (()-> new EventNotFoundException("evenement introuvable avec id : "+id));
 
-        evenement.setStatutEvenement(StatutEvenement.PUBLIE);
+        evenement.setStatutEvenement(StatutEvenement.APPROUVE);
         repository.save(evenement);
     }
 
@@ -323,7 +330,6 @@ public class EventServiceImpl implements IEventService {
         evenement.setStatutEvenement(StatutEvenement.REJETE);
         repository.save(evenement);
     }
-
 
 
     // methode d'annulation

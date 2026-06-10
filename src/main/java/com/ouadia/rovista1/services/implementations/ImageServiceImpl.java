@@ -47,6 +47,30 @@ public class ImageServiceImpl implements IImageService {
         return urls;
     }
 
+    /*
+  * 13. Upload d'images
+
+    Je vois :
+
+    /api/uploads/**
+
+    public.
+
+    Il faut vérifier que lors de l'upload :
+
+    extension autorisée
+    taille maximale
+    nom random généré
+    pas de .jsp
+    pas de .exe
+    pas de path traversal
+
+    Exemple :
+
+    ../../../windows/system32
+
+    doit être refusé.*/
+
     @Override
     public Evenement stockageDesImagesEvenement(Evenement evenement, List<MultipartFile> images) throws StorageProblemException {
 

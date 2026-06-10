@@ -28,13 +28,13 @@ public class VisiteurInviteServiceImpl implements IVisiteurService {
     private final VisiteurMapper visiteurMapper;
     @Override
     public VisiteurInviteResponseDto addVisiteur(VisiteurInviteRequestDto visiteurInviteDto) {
-        VisiteurInvite visiteur = VisiteurMapper.mappingVisiteurInviteDtoRequestToVisiteurInvite(visiteurInviteDto);
-            return VisiteurMapper.mappingVisiteurInviteToVisiteurInviteDtoResponse(repository.save(visiteur));
+        VisiteurInvite visiteur = visiteurMapper.mappingVisiteurInviteDtoRequestToVisiteurInvite(visiteurInviteDto);
+            return visiteurMapper.mappingVisiteurInviteToVisiteurInviteDtoResponse(repository.save(visiteur));
     }
 
     @Override
     public VisiteurInviteResponseDto editVisiteur(VisiteurInviteRequestDto visiteurInviteDto, Long id) {
-        VisiteurInvite visiteur = VisiteurMapper.mappingVisiteurInviteDtoRequestToVisiteurInvite(visiteurInviteDto);
+        VisiteurInvite visiteur = visiteurMapper.mappingVisiteurInviteDtoRequestToVisiteurInvite(visiteurInviteDto);
         if (visiteur == null) return null;
         else {
             VisiteurInvite visiteur1 = repository.findById(id).get();
@@ -48,7 +48,7 @@ public class VisiteurInviteServiceImpl implements IVisiteurService {
             visiteur1.setAdresse(visiteur.getAdresse());
             visiteur1.setReservations(visiteur.getReservations());
             visiteur1.setAvis(visiteur.getAvis());
-            return VisiteurMapper.mappingVisiteurInviteToVisiteurInviteDtoResponse(repository.save(visiteur1));
+            return visiteurMapper.mappingVisiteurInviteToVisiteurInviteDtoResponse(repository.save(visiteur1));
         }
     }
 
@@ -81,20 +81,20 @@ public class VisiteurInviteServiceImpl implements IVisiteurService {
             if (map.containsKey("avis")) {
                 visiteur1.setAvis((List<Avis>) map.get("avis"));
             }
-            return VisiteurMapper.mappingVisiteurInviteToVisiteurInviteDtoResponse(repository.save(visiteur1));
+            return visiteurMapper.mappingVisiteurInviteToVisiteurInviteDtoResponse(repository.save(visiteur1));
         }
     }
 
     @Override
     public VisiteurInviteResponseDto getVisiteurById(Long id) throws UserNotFoundException {
-        return VisiteurMapper.mappingVisiteurInviteToVisiteurInviteDtoResponse(repository.findById(id)
+        return visiteurMapper.mappingVisiteurInviteToVisiteurInviteDtoResponse(repository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("Visiteur not found")));
     }
 
     @Override
     public List<VisiteurInviteResponseDto> getAllVisiteurs() {
         return (repository.findAll().stream().
-                map(visiteur -> VisiteurMapper.mappingVisiteurInviteToVisiteurInviteDtoResponse(visiteur))
+                map(visiteurMapper::mappingVisiteurInviteToVisiteurInviteDtoResponse)
                 .toList());
 
     }

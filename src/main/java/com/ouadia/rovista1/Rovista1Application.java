@@ -5,16 +5,22 @@ import com.ouadia.rovista1.entities.enums.StatutCompte;
 import com.ouadia.rovista1.entities.enums.StatutEvenement;
 import com.ouadia.rovista1.entities.enums.StatutOrganisateur;
 import com.ouadia.rovista1.repositories.*;
+import com.ouadia.rovista1.services.AuthService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @SpringBootApplication
+@EnableScheduling  // nettoyage automatique Activer le scheduling dans la classe principale ───────────
 @EnableSpringDataWebSupport(pageSerializationMode = EnableSpringDataWebSupport.PageSerializationMode.VIA_DTO)
 public class Rovista1Application {
 
@@ -27,50 +33,78 @@ public class Rovista1Application {
                                    EventRepository eventRepository,
                                    CategorieRepository categorieRepository,
                                    ClientRepository clientRepository,
-                                   AvisRepository avisRepository){
+                                   AvisRepository avisRepository,
+                                   RoleRepository roleRepository,
+                                   PasswordEncoder passwordEncoder){
         return args -> {
+
+            Role r1 = new Role();
+            r1.setRoleName("ORGANISATEUR");
+            roleRepository.save(r1);
+
+            Role r2 = new Role();
+            r2.setRoleName("CLIENT");
+            roleRepository.save(r2);
+            Role r3 = new Role();
+
+            r3.setRoleName("ADMIN");
+            roleRepository.save(r3);
+
             Organisateur o1 = new Organisateur();
-                    o1.setUsername("organisateur");
+                    o1.setUsername("organisateur1");
                     o1.setEmail("organisateur1@gmail.com");
                     o1.setPhone("0666754921");
-                    o1.setMotDePasse("12345");
+                    o1.setMotDePasse(passwordEncoder.encode("12345"));
                     o1.setAdresse("Beni Mellal");
-                    o1.setStatutCompte(StatutCompte.ACTIVE);
+                    o1.setStatutCompte(StatutCompte.ACTIF);
                     o1.setStatutOrganisateur(StatutOrganisateur.ACTIF);
+                    o1.setEnabled(true);
+                    o1.setVerified(true);
+                    o1.setRoles(List.of(r1, r2));
                     o1.setNumRegistre(667899799L);
-                    o1.setNomOrganisation("orgnaisateur1");
-                    o1.setDateCreation(LocalDateTime.now());
+                    o1.setSiret("667899799L");
+                    o1.setNom("orgnaisateur1");
+                    o1.setDateValidation(LocalDateTime.now());
                     o1.setLogoUrl("../assets/image1");
 
             organisateurRepository.save(o1);
 
             Organisateur o2 = new Organisateur();
-            o2.setUsername("organisateur");
+            o2.setUsername("organisateur2");
             o2.setEmail("organisateur3@gmail.com");
             o2.setPhone("0788394921");
-            o2.setMotDePasse("12345");
+            o2.setMotDePasse(passwordEncoder.encode("12345"));
             o2.setAdresse("Casa");
-            o2.setStatutCompte(StatutCompte.ACTIVE);
+            o2.setSiret("667899799L");
+            o2.setRoles(List.of(r1, r2));
+            o2.setEnabled(true);
+            o2.setStatutCompte(StatutCompte.ACTIF);
             o2.setStatutOrganisateur(StatutOrganisateur.ACTIF);
+            o2.setVerified(true);
             o2.setNumRegistre(622399799L);
-            o2.setNomOrganisation("orgnaisateur2");
-            o2.setDateCreation(LocalDateTime.now());
+            o2.setNom("orgnaisateur2");
+            o2.setDateValidation(LocalDateTime.now());
             o2.setLogoUrl("../assets/image2");
 
             organisateurRepository.save(o2);
 
             Organisateur o3 = new Organisateur();
-            o3.setUsername("organisateur");
+            o3.setUsername("organisateur3");
             o3.setEmail("organisateur3@gmail.com");
             o3.setPhone("0666755361");
-            o3.setMotDePasse("12345");
+            o3.setSiret("667899799L");
+            o3.setRoles(List.of(r1, r2));
+            o3.setMotDePasse(passwordEncoder.encode("12345"));
             o3.setAdresse("Rabat");
-            o3.setStatutCompte(StatutCompte.ACTIVE);
+            o3.setEnabled(true);
+            o3.setStatutCompte(StatutCompte.ACTIF);
+            o3.setVerified(true);
             o3.setStatutOrganisateur(StatutOrganisateur.ACTIF);
             o3.setNumRegistre(667835499L);
-            o3.setNomOrganisation("orgnaisateur3");
-            o3.setDateCreation(LocalDateTime.now());
+            o3.setNom("orgnaisateur3");
+            o3.setDateValidation(LocalDateTime.now());
             o3.setLogoUrl("../assets/image3");
+
 
             organisateurRepository.save(o3);
 
@@ -134,7 +168,7 @@ public class Rovista1Application {
             e1.setTitre("Festival Casa 3rd Edition");
             e1.setDescription("festival a casa");
             e1.setCategorie(c2);
-            e1.setStatutEvenement(StatutEvenement.PUBLIE);
+            e1.setStatutEvenement(StatutEvenement.APPROUVE);
             e1.setCapacite(500);
             e1.setVille("CasaBlanca");
             e1.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
@@ -150,7 +184,7 @@ public class Rovista1Application {
             e2.setTitre("Marathon Marrakech");
             e2.setDescription("Big marathon de marrakech");
             e2.setCategorie(c1);
-            e2.setStatutEvenement(StatutEvenement.PUBLIE);
+            e2.setStatutEvenement(StatutEvenement.APPROUVE);
             e2.setCapacite(500);
             e2.setVille("Marrakech");
             e2.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
@@ -166,7 +200,7 @@ public class Rovista1Application {
             e3.setTitre("Conference sur l' AI");
             e3.setDescription("Big Conference sur l'AI et Tech");
             e3.setCategorie(c4);
-            e3.setStatutEvenement(StatutEvenement.PUBLIE);
+            e3.setStatutEvenement(StatutEvenement.APPROUVE);
             e3.setCapacite(100);
             e3.setVille("Rabat");
             e3.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
@@ -182,7 +216,7 @@ public class Rovista1Application {
             e4.setTitre("Exposition international du Maroc ");
             e4.setDescription("Salon des produits marocaines traditionnel");
             e4.setCategorie(c3);
-            e4.setStatutEvenement(StatutEvenement.PUBLIE);
+            e4.setStatutEvenement(StatutEvenement.APPROUVE);
             e4.setCapacite(150);
             e4.setVille("Esawira");
             e4.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
@@ -198,7 +232,7 @@ public class Rovista1Application {
             e5.setTitre("Concert Rock Legends");
             e5.setDescription("Concert Rock Legends");
             e5.setCategorie(c5);
-            e5.setStatutEvenement(StatutEvenement.PUBLIE);
+            e5.setStatutEvenement(StatutEvenement.APPROUVE);
             e5.setCapacite(150);
             e5.setVille("Casa");
             e5.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
@@ -214,7 +248,7 @@ public class Rovista1Application {
             e6.setTitre("Festival Jazz & Blues");
             e6.setDescription("Festival Jazz & Blues");
             e6.setCategorie(c2);
-            e6.setStatutEvenement(StatutEvenement.PUBLIE);
+            e6.setStatutEvenement(StatutEvenement.APPROUVE);
             e6.setCapacite(150);
             e6.setVille("Casa");
             e6.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
@@ -230,7 +264,7 @@ public class Rovista1Application {
             e7.setTitre("Conférence Tech 2026");
             e7.setDescription("Conférence Tech 2026");
             e7.setCategorie(c4);
-            e7.setStatutEvenement(StatutEvenement.PUBLIE);
+            e7.setStatutEvenement(StatutEvenement.APPROUVE);
             e7.setCapacite(150);
             e7.setVille("Rabat");
             e7.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
@@ -246,7 +280,7 @@ public class Rovista1Application {
             e8.setTitre("Exposition Art Moderne");
             e8.setDescription("Exposition Art Moderne");
             e8.setCategorie(c3);
-            e8.setStatutEvenement(StatutEvenement.PUBLIE);
+            e8.setStatutEvenement(StatutEvenement.APPROUVE);
             e8.setCapacite(150);
             e8.setVille("Marrakech");
             e8.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
@@ -262,7 +296,7 @@ public class Rovista1Application {
             e9.setTitre("Théâtre: Le Malade Imaginaire");
             e9.setDescription("Exposition Art Moderne");
             e9.setCategorie(c6);
-            e9.setStatutEvenement(StatutEvenement.PUBLIE);
+            e9.setStatutEvenement(StatutEvenement.APPROUVE);
             e9.setCapacite(150);
             e9.setVille("Marrakech");
             e9.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
@@ -278,9 +312,11 @@ public class Rovista1Application {
             cl1.setUsername("client1");
             cl1.setEmail("client1@gmail.com");
             cl1.setPhone("0666755361");
-            cl1.setMotDePasse("12345");
+            cl1.setMotDePasse(passwordEncoder.encode("12345"));
             cl1.setAdresse("Rabat");
-            cl1.setStatutCompte(StatutCompte.ACTIVE);
+            cl1.setStatutCompte(StatutCompte.ACTIF);
+            cl1.setEnabled(true);
+            cl1.setRoles(List.of(r2));
             cl1.setNom("Ahmed");
             cl1.setPrenom("Ahmed");
             cl1.setDateNaissance(LocalDate.of(2026, 6, 4));
@@ -289,7 +325,7 @@ public class Rovista1Application {
             Avis a1 = new Avis();
             a1.setNote(4.5);
             a1.setComment("bon");
-            a1.setDateAvis(LocalDate.of(2026, 6, 4));
+            a1.setDateAvis(LocalDateTime.of(2026, 6, 4,22,33,0));
             a1.setEvenement(e1);
             a1.setClient(cl1);
             avisRepository.save(a1);
@@ -297,7 +333,7 @@ public class Rovista1Application {
             Avis a2 = new Avis();
             a2.setNote(4.5);
             a2.setComment("bon");
-            a2.setDateAvis(LocalDate.of(2026, 6, 4));
+            a2.setDateAvis(LocalDateTime.of(2026, 6, 4,22,33,0));
             a2.setEvenement(e2);
             a2.setClient(cl1);
             avisRepository.save(a2);
@@ -305,7 +341,7 @@ public class Rovista1Application {
             Avis a3 = new Avis();
             a3.setNote(4.5);
             a3.setComment("bon");
-            a3.setDateAvis(LocalDate.of(2026, 6, 4));
+            a3.setDateAvis(LocalDateTime.of(2026, 6, 4,22,33,0));
             a3.setEvenement(e3);
             a3.setClient(cl1);
             avisRepository.save(a3);
@@ -313,7 +349,7 @@ public class Rovista1Application {
             Avis a4 = new Avis();
             a4.setNote(4.5);
             a4.setComment("bon");
-            a4.setDateAvis(LocalDate.of(2026, 6, 4));
+            a4.setDateAvis(LocalDateTime.of(2026, 6, 4,22,33,0));
             a4.setEvenement(e4);
             a4.setClient(cl1);
             avisRepository.save(a4);
@@ -321,7 +357,7 @@ public class Rovista1Application {
             Avis a5 = new Avis();
             a5.setNote(4.5);
             a5.setComment("bon");
-            a5.setDateAvis(LocalDate.of(2026, 6, 4));
+            a5.setDateAvis(LocalDateTime.of(2026, 6, 4,22,33,0));
             a5.setEvenement(e5);
             a5.setClient(cl1);
             avisRepository.save(a5);
@@ -329,7 +365,7 @@ public class Rovista1Application {
             Avis a6 = new Avis();
             a6.setNote(4.5);
             a6.setComment("bon");
-            a6.setDateAvis(LocalDate.of(2026, 6, 4));
+            a6.setDateAvis(LocalDateTime.of(2026, 6, 4,22,33,0));
             a6.setEvenement(e6);
             a6.setClient(cl1);
             avisRepository.save(a6);
@@ -337,7 +373,7 @@ public class Rovista1Application {
             Avis a7 = new Avis();
             a7.setNote(4.5);
             a7.setComment("bon");
-            a7.setDateAvis(LocalDate.of(2026, 6, 4));
+            a7.setDateAvis(LocalDateTime.of(2026, 6, 4,22,33,0));
             a7.setEvenement(e7);
             a7.setClient(cl1);
             avisRepository.save(a7);
@@ -345,7 +381,7 @@ public class Rovista1Application {
             Avis a8 = new Avis();
             a8.setNote(4.5);
             a8.setComment("bon");
-            a8.setDateAvis(LocalDate.of(2026, 6, 4));
+            a8.setDateAvis(LocalDateTime.of(2026, 6, 4,22,33,0));
             a8.setEvenement(e8);
             a8.setClient(cl1);
             avisRepository.save(a8);
@@ -353,7 +389,7 @@ public class Rovista1Application {
             Avis a9 = new Avis();
             a9.setNote(4.5);
             a9.setComment("bon");
-            a9.setDateAvis(LocalDate.of(2026, 6, 4));
+            a9.setDateAvis(LocalDateTime.of(2026, 6, 4,22,33,0));
             a9.setEvenement(e9);
             a9.setClient(cl1);
             avisRepository.save(a9);

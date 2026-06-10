@@ -9,11 +9,12 @@ import java.util.List;
 import java.util.Map;
 
 public interface IUtilisateurService {
-    public Utilisateur addUtilisateur(Utilisateur utilisateur);
-    public Utilisateur editUtilisateur(Utilisateur utilisateur ,  Long id);
-    public Utilisateur editUtilisateurMap(  Long id , Map<String,Object> map);
-    public Utilisateur getUtilisateurById(  Long id )throws UserNotFoundException;
-    public List<Utilisateur> getAllUtilisateurs();
-    public void deleteUtilisateurById( Long id);
-    public void deleteAllByIds(Long ... ids);
+
+    Utilisateur editUtilisateur(Utilisateur utilisateur ,  Long id);
+    Utilisateur editUtilisateurMap(  Long id , Map<String,Object> map);
+    Utilisateur getUtilisateurById(  Long id )throws UserNotFoundException;
+    List<Utilisateur> getAllUtilisateurs();
+    void deleteUtilisateurById( Long id);
+    void deleteAllByIds(Long ... ids);
+
 }

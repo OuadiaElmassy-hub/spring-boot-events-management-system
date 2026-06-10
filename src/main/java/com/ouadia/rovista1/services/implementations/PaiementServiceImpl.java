@@ -32,7 +32,7 @@ public class PaiementServiceImpl implements IPaiementService {
     @Override
     public PaiementResponseDto addPaiement(PaiementRequestDto paiementDto) throws ReservationNotFoundException {
         Paiement paiement= paiementMapper.mappingPaiementDtoRequestToPaiement(paiementDto);
-            return PaiementMapper.mappingPaiementToPaiementDtoResponse(repository.save(paiement));
+            return paiementMapper.mappingPaiementToPaiementDtoResponse(repository.save(paiement));
     }
 
     @Override
@@ -48,7 +48,7 @@ public class PaiementServiceImpl implements IPaiementService {
            paiement1.setStatut(paiement.getStatut());
            paiement1.setMethodePaiement(paiement.getMethodePaiement());
            paiement1.setReservation(paiement.getReservation());
-           return PaiementMapper.mappingPaiementToPaiementDtoResponse(repository.save(paiement1));
+           return paiementMapper.mappingPaiementToPaiementDtoResponse(repository.save(paiement1));
        }
     }
 
@@ -75,19 +75,19 @@ public class PaiementServiceImpl implements IPaiementService {
             if (map.containsKey("reservation")) {
                 paiement1.setReservation((Reservation) map.get("reservation"));
             }
-            return PaiementMapper.mappingPaiementToPaiementDtoResponse(repository.save(paiement1));
+            return paiementMapper.mappingPaiementToPaiementDtoResponse(repository.save(paiement1));
         }
     }
 
     @Override
     public PaiementResponseDto getPaiementById(Integer id) throws PaiementNotFoundException {
         Paiement paiement = repository.findById(id).orElseThrow(() -> new PaiementNotFoundException("paiement not found"));
-        return PaiementMapper.mappingPaiementToPaiementDtoResponse(paiement);
+        return paiementMapper.mappingPaiementToPaiementDtoResponse(paiement);
     }
 
     @Override
     public List<PaiementResponseDto> getAllPaiements() {
-        return (repository.findAll().stream().map(paiement-> PaiementMapper.mappingPaiementToPaiementDtoResponse(paiement)).toList());
+        return (repository.findAll().stream().map(paiement-> paiementMapper.mappingPaiementToPaiementDtoResponse(paiement)).toList());
     }
 
     @Override

@@ -30,7 +30,7 @@ public class NotificationServiceImpl implements INotificationService {
     @Override
     public NotificationResponseDto addNotification(NotificationRequestDto notificationDto) throws UserNotFoundException {
         Notification notification= notificationMapper.mappingNotificationDtoRequestToNotification(notificationDto);
-        return NotificationMapper.mappingNotificationToNotificationDtoResponse(repository.save(notification));
+        return notificationMapper.mappingNotificationToNotificationDtoResponse(repository.save(notification));
     }
 
     @Override
@@ -42,11 +42,11 @@ public class NotificationServiceImpl implements INotificationService {
             if (notification == null) {
                 return null;
             }
-            notification1.setContent(notification.getContent());
-            notification1.setDateEnvoi(notification.getDateEnvoi());
+            notification1.setMessage(notification.getMessage());
+            notification1.setCreatedAt(notification.getCreatedAt());
             notification1.setTypeMessage(notification.getTypeMessage());
             notification1.setDestinataire(notification.getDestinataire());
-            return NotificationMapper.mappingNotificationToNotificationDtoResponse (repository.save(notification1));
+            return notificationMapper.mappingNotificationToNotificationDtoResponse (repository.save(notification1));
         }
     }
 
@@ -58,10 +58,10 @@ public class NotificationServiceImpl implements INotificationService {
             return null;
         }
         if (map.containsKey("content")) {
-            notification.setContent((String) map.get("content"));
+            notification.setMessage((String) map.get("content"));
         }
         if (map.containsKey("dateEnvoi")) {
-            notification.setDateEnvoi((LocalDateTime) map.get("dateEnvoi"));
+            notification.setCreatedAt((LocalDateTime) map.get("dateEnvoi"));
         }
         if (map.containsKey("typeMessage")) {
             notification.setTypeMessage(TypeMessage.valueOf (map.get("typeMessage").toString()));
@@ -69,23 +69,23 @@ public class NotificationServiceImpl implements INotificationService {
         if (map.containsKey("destinataire")) {
             notification.setDestinataire((Utilisateur) map.get("destinataire"));
         }
-        return NotificationMapper.mappingNotificationToNotificationDtoResponse(repository.save(notification));
+        return notificationMapper.mappingNotificationToNotificationDtoResponse(repository.save(notification));
     }
 
     @Override
     public NotificationResponseDto getNotificationById(Long id)throws NotificationNotFoundException {
         Notification notification = repository.findById(id).orElseThrow(() -> new NotificationNotFoundException("notification not found"));
-        return NotificationMapper.mappingNotificationToNotificationDtoResponse(notification);
+        return notificationMapper.mappingNotificationToNotificationDtoResponse(notification);
     }
 
     @Override
     public List<NotificationResponseDto> getNotificationsByUtilisateur(Utilisateur utilisateur) throws NotificationNotFoundException, UserNotFoundException {
-     return repository.findByDestinataire(utilisateur).stream().map(notification -> NotificationMapper.mappingNotificationToNotificationDtoResponse(notification)).toList();
+     return repository.findByDestinataire(utilisateur).stream().map(notification -> notificationMapper.mappingNotificationToNotificationDtoResponse(notification)).toList();
     }
 
     @Override
     public List<NotificationResponseDto> getAllNotifications() {
-        return repository.findAll().stream().map(notification -> NotificationMapper.mappingNotificationToNotificationDtoResponse(notification)).toList();
+        return repository.findAll().stream().map(notification -> notificationMapper.mappingNotificationToNotificationDtoResponse(notification)).toList();
 
     }
 

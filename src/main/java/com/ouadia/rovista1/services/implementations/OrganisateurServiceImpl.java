@@ -1,6 +1,7 @@
 package com.ouadia.rovista1.services.implementations;
 
-import com.ouadia.rovista1.Mapper.OrganisateurMapper;
+import com.ouadia.rovista1.exceptions.OrganisateurNotFoundException;
+import com.ouadia.rovista1.mappers.OrganisateurMapper;
 import com.ouadia.rovista1.dtos.organisateur.OrganisateurRequestDto;
 import com.ouadia.rovista1.dtos.organisateur.OrganisateurResponseDto;
 import com.ouadia.rovista1.entities.Organisateur;
@@ -23,15 +24,16 @@ import java.util.Map;
 public class OrganisateurServiceImpl implements IOrganisateurService {
 
     private OrganisateurRepository repository;
+    private OrganisateurMapper organisateurMapper;
 
     @Override
     public OrganisateurResponseDto addOrganisateur(OrganisateurRequestDto organisateurRequestDto) throws BusinessException {
 
-        Organisateur org = OrganisateurMapper.mapToOrganisateur(organisateurRequestDto);
+        Organisateur org = organisateurMapper.mapToOrganisateur(organisateurRequestDto);
         if (repository.findByNumRegistre(organisateurRequestDto.getNumRegistre()).isPresent()){
             throw new BusinessException(" organisateur exsist ");
         }
-        return OrganisateurMapper.mapToOrganisateurDto(repository.save(org));
+        return organisateurMapper.mapToOrganisateurDto(repository.save(org));
     }
 
     @Override
@@ -50,7 +52,7 @@ public class OrganisateurServiceImpl implements IOrganisateurService {
         organisateur.setNotifications(organisateur.getNotifications());
         organisateur.setRoles(organisateur.getRoles());
 
-        return OrganisateurMapper.mapToOrganisateurDto(repository.save(organisateur));
+        return organisateurMapper.mapToOrganisateurDto(repository.save(organisateur));
     }
 
     @Override
@@ -84,20 +86,26 @@ public class OrganisateurServiceImpl implements IOrganisateurService {
             if (map.containsKey("roles")) {
                 organisateur1.setRoles((List<Role>)map.get("roles"));
             }
-            return OrganisateurMapper.mapToOrganisateurDto(repository.save(organisateur1));
+            return organisateurMapper.mapToOrganisateurDto(repository.save(organisateur1));
         }
     }
 
 
     @Override
-    public OrganisateurResponseDto getOrganisateurById(Long id) {
-        return OrganisateurMapper.mapToOrganisateurDto(repository.findById(id)
-                .orElseThrow(()->new RuntimeException("organisateur not found")));
+    public OrganisateurResponseDto getOrganisateurById(Long id) throws OrganisateurNotFoundException {
+        return organisateurMapper.mapToOrganisateurDto(repository.findById(id)
+                .orElseThrow(()->new OrganisateurNotFoundException("organisateur not found with id : " + id)));
+    }
+
+    @Override
+    public Organisateur getOrganisateurEntityById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(()->new RuntimeException("organisateur not found"));
     }
 
     @Override
     public List<OrganisateurResponseDto> getAllOrganisateurs() {
-        return (repository.findAll().stream().map(organisateur->OrganisateurMapper.mapToOrganisateurDto(organisateur)).toList());
+        return (repository.findAll().stream().map(organisateur-> organisateurMapper.mapToOrganisateurDto(organisateur)).toList());
     }
 
     @Override

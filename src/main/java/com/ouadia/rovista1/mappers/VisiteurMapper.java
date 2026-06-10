@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class VisiteurMapper {
 
-    public static VisiteurInvite mappingVisiteurInviteDtoRequestToVisiteurInvite(VisiteurInviteRequestDto dto){
+    public VisiteurInvite mappingVisiteurInviteDtoRequestToVisiteurInvite(VisiteurInviteRequestDto dto){
 
         return VisiteurInvite.builder()
                 .nom(dto.getNom())
@@ -22,7 +22,7 @@ public class VisiteurMapper {
                 .adresse(dto.getAdresse())
                 .build();
     }
-    public static VisiteurInviteResponseDto mappingVisiteurInviteToVisiteurInviteDtoResponse(VisiteurInvite e){
+    public VisiteurInviteResponseDto mappingVisiteurInviteToVisiteurInviteDtoResponse(VisiteurInvite e){
         return VisiteurInviteResponseDto.builder()
                 .nom(e.getNom())
                 .prenom(e.getPrenom())

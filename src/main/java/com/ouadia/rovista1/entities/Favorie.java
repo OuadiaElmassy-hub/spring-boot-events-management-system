@@ -1,19 +1,20 @@
 package com.ouadia.rovista1.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Data // pour les methode getter, setter, toString() , hachcode() ,equals()
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Table(name = "favorie",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"client_id", "evenement_id"}))
+
 public class Favorie {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,12 +24,12 @@ public class Favorie {
     @Column(nullable = false)
     private LocalDateTime dateCreation;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id", nullable = false)
     private Client client;
-    @ManyToMany
-    private List<Evenement> evenements;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "evenement_id", nullable = false)
+    private Evenement evenement;
 
-
-
-
+    @PrePersist void onCreate() { this.dateCreation = LocalDateTime.now(); }
 }

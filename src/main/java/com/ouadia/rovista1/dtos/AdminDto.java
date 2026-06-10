@@ -30,7 +30,7 @@ public class AdminDto extends Utilisateur {
     public AdminDto(Long id, String username, String email, String motDePasse, StatutCompte statutCompte, String phone,
                     String adresse, List<Notification> notifications, List<Role> roles, String nom, String prenom,
                     LocalDate dateNaissance) {
-        super(id, username, email, motDePasse, statutCompte, phone, adresse, notifications, roles);
+        super(id, username, nom, email, motDePasse, statutCompte, phone, adresse, notifications, roles);
         this.nom = nom;
         this.prenom = prenom;
         this.dateNaissance = dateNaissance;

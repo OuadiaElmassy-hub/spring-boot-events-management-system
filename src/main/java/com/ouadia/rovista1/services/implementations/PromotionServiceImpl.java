@@ -7,6 +7,7 @@ import com.ouadia.rovista1.entities.*;
 import com.ouadia.rovista1.entities.Promotion;
 
 import com.ouadia.rovista1.entities.enums.TypePromotion;
+import com.ouadia.rovista1.exceptions.OrganisateurNotFoundException;
 import com.ouadia.rovista1.exceptions.PromotionNotFoundException;
 import com.ouadia.rovista1.mappers.PromotionMapper;
 import com.ouadia.rovista1.repositories.PromotionRepository;
@@ -30,13 +31,13 @@ public class PromotionServiceImpl implements IPromotionService {
 
 
     @Override
-    public PromotionResponseDto addPromotion(PromotionRequestDto promotionDto) {
+    public PromotionResponseDto addPromotion(PromotionRequestDto promotionDto) throws OrganisateurNotFoundException {
         Promotion promotion= promotionMapper.mappingPromotionDtoRequestToPromotion(promotionDto);
-            return PromotionMapper.mappingPromotionToPromotionDtoResponse(repository.save(promotion));
+            return promotionMapper.mappingPromotionToPromotionDtoResponse(repository.save(promotion));
     }
 
     @Override
-    public PromotionResponseDto editPromotion(PromotionRequestDto promotionDto, Long id) {
+    public PromotionResponseDto editPromotion(PromotionRequestDto promotionDto, Long id) throws OrganisateurNotFoundException {
         Promotion promotion= promotionMapper.mappingPromotionDtoRequestToPromotion(promotionDto);
         if (promotion==null)return null;
         else {
@@ -50,7 +51,7 @@ public class PromotionServiceImpl implements IPromotionService {
             promotion1.setOrganisateur(promotion.getOrganisateur());
             promotion1.setClients(promotion.getClients());
             promotion1.setEvenements(promotion.getEvenements());
-            return PromotionMapper.mappingPromotionToPromotionDtoResponse(repository.save(promotion1));
+            return promotionMapper.mappingPromotionToPromotionDtoResponse(repository.save(promotion1));
         }
     }
 
@@ -86,19 +87,19 @@ public class PromotionServiceImpl implements IPromotionService {
             if (map.containsKey("evenements")) {
                 promotion1.setEvenements((List<Evenement>) map.get("evenements"));
             }
-            return PromotionMapper.mappingPromotionToPromotionDtoResponse(repository.save(promotion1));
+            return promotionMapper.mappingPromotionToPromotionDtoResponse(repository.save(promotion1));
         }
     }
 
     @Override
     public PromotionResponseDto getPromotionById(Long id) throws PromotionNotFoundException {
         Promotion promotion = repository.findById(id).orElseThrow(() -> new PromotionNotFoundException("Promotion not found"));
-        return PromotionMapper.mappingPromotionToPromotionDtoResponse(promotion);
+        return promotionMapper.mappingPromotionToPromotionDtoResponse(promotion);
     }
 
     @Override
     public List<PromotionResponseDto> getAllPromotions() {
-        return (repository.findAll().stream().map(promotion-> PromotionMapper.mappingPromotionToPromotionDtoResponse(promotion)).toList());
+        return (repository.findAll().stream().map(promotion-> promotionMapper.mappingPromotionToPromotionDtoResponse(promotion)).toList());
 
     }
 

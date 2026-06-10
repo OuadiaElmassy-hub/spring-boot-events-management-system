@@ -2,9 +2,11 @@ package com.ouadia.rovista1.services.implementations;
 
 import com.ouadia.rovista1.dtos.favorie.FavorieRequestDto;
 import com.ouadia.rovista1.dtos.favorie.FavorieResponseDto;
+import com.ouadia.rovista1.dtos.favorie.HistoriqueFavorieDto;
 import com.ouadia.rovista1.entities.Client;
 import com.ouadia.rovista1.entities.Evenement;
 import com.ouadia.rovista1.entities.Favorie;
+import com.ouadia.rovista1.exceptions.BusinessException;
 import com.ouadia.rovista1.exceptions.ClientNotFoundException;
 import com.ouadia.rovista1.exceptions.EventNotFoundException;
 import com.ouadia.rovista1.exceptions.FavorieNotFoundException;
@@ -15,7 +17,12 @@ import com.ouadia.rovista1.repositories.FavorieRepository;
 import com.ouadia.rovista1.services.interfaces.IFavorieService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -27,56 +34,51 @@ import java.util.Map;
 public class FavorieServiceImpl implements IFavorieService {
 
     private FavorieRepository favorieRepository;
+    private FavorieMapper favorieMapper;
     private ClientRepository clientRepository;
     private EventRepository eventRepository;
     private FavorieMapper mapper;
 
 
     @Override
-    public FavorieResponseDto addFavorie(FavorieRequestDto favorieDto, Long IdClient, Long IdEvent) throws FavorieNotFoundException, EventNotFoundException, ClientNotFoundException {
-        Favorie favorie = mapper.mappingFavorieDtoRequestToFavorie(favorieDto);
-        Client client = clientRepository.findById(IdClient)
+    public FavorieResponseDto addFavorie(Long idClient, Long idEvenement) throws FavorieNotFoundException, ClientNotFoundException, EventNotFoundException, BusinessException {
+
+        Client client = clientRepository.findById(idClient)
                 .orElseThrow(() -> new ClientNotFoundException("Client introuvable"));
 
-        Evenement ev = eventRepository.findById(IdEvent).
+        Evenement ev = eventRepository.findById(idEvenement).
                 orElseThrow(() -> new EventNotFoundException("Aucun événement introuvable pour les IDs fournis"));
 
-        if (favorieRepository.existsByClientIdAndEvenementsId(IdClient, IdEvent)) {
-            throw new FavorieNotFoundException("Cet événement est déjà dans vos favoris");
+        if (favorieRepository.existsByClientIdAndEvenementId(idClient, idEvenement)) {
+            throw new BusinessException("Cet favorie est déjà existe");
         }
 
-        Favorie favorie1 = Favorie.builder()
-                .id(favorie.getId())
-                .description(favorie.getDescription())
-                .dateCreation(LocalDateTime.now())
+        return favorieMapper.mappingFavorieToFavorieDtoResponse(favorieRepository.save(Favorie.builder()
                 .client(client)
-                .evenements(List.of(ev))
-                .build();
-
-        return FavorieMapper.mappingFavorieToFavorieDtoResponse(favorieRepository.save(favorie1));
+                .evenement(ev)
+                .build())
+        );
     }
 
     @Override
-    public FavorieResponseDto addEvenementAuFavorie(Long idFavorie, Long idEvent, String newDescription)
+    public FavorieResponseDto addEvenementAuFavorie(Long idFavorie, Long idEvenement, String newDescription)
             throws FavorieNotFoundException, EventNotFoundException {
 
         Favorie favorie = favorieRepository.findById(idFavorie)
                 .orElseThrow(() -> new FavorieNotFoundException("Favori introuvable"));
 
-        Evenement event = eventRepository.findById(idEvent)
+        Evenement event = eventRepository.findById(idEvenement)
                 .orElseThrow(() -> new EventNotFoundException("Événement introuvable"));
 
-        if (favorie.getEvenements().contains(event)) {
+        if (favorie.getEvenement().getId().equals(event.getId())) {
             throw new RuntimeException("Cet événement est déjà présent dans cette liste de favoris");
         }
-
-        favorie.getEvenements().add(event);
 
         if (newDescription != null && !newDescription.isBlank()) {
             favorie.setDescription(newDescription);
         }
 
-        return FavorieMapper.mappingFavorieToFavorieDtoResponse(
+        return favorieMapper.mappingFavorieToFavorieDtoResponse(
                 favorieRepository.save(favorie)
         );
     }
@@ -94,8 +96,8 @@ public class FavorieServiceImpl implements IFavorieService {
             favorie1.setDescription(favorie.getDescription());
             favorie1.setDateCreation(favorie.getDateCreation());
             favorie1.setClient(favorie.getClient());
-            favorie1.setEvenements(favorie.getEvenements());
-            return FavorieMapper.mappingFavorieToFavorieDtoResponse(favorieRepository.save(favorie1));
+            favorie1.setEvenement(favorie.getEvenement());
+            return favorieMapper.mappingFavorieToFavorieDtoResponse(favorieRepository.save(favorie1));
 
         }
 
@@ -119,21 +121,21 @@ public class FavorieServiceImpl implements IFavorieService {
             favorie1.setClient((Client) map.get("client"));
         }
         if (map.containsKey("evenements")) {
-            favorie1.setEvenements((List<Evenement>)map.get("evenements"));
+            favorie1.setEvenement((Evenement)map.get("evenements"));
         }
-         return FavorieMapper.mappingFavorieToFavorieDtoResponse(favorieRepository.save(favorie1));
+         return favorieMapper.mappingFavorieToFavorieDtoResponse(favorieRepository.save(favorie1));
     }
 
     @Override
     public FavorieResponseDto getFavorieByIdClient(Long idClient) throws ClientNotFoundException {
 
         Client client = clientRepository.findById(idClient).orElseThrow(() -> new ClientNotFoundException("client not found"));
-        return FavorieMapper.mappingFavorieToFavorieDtoResponse(favorieRepository.findByClient(client));
+        return favorieMapper.mappingFavorieToFavorieDtoResponse(favorieRepository.findByClient(client));
     }
 
     @Override
     public List<FavorieResponseDto> getAllFavories() {
-        return favorieRepository.findAll().stream().map(favorie -> FavorieMapper.mappingFavorieToFavorieDtoResponse(favorie)).toList();
+        return favorieRepository.findAll().stream().map(favorie -> favorieMapper.mappingFavorieToFavorieDtoResponse(favorie)).toList();
     }
 
     @Override
@@ -146,5 +148,31 @@ public class FavorieServiceImpl implements IFavorieService {
         for (Long id :ids){
             deleteFavorieById(id);
         }
+    }
+
+    //_____________________________________________________
+
+    @Override
+    public Page<HistoriqueFavorieDto> getFavories(Long clientId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return favorieRepository
+                .findByClientIdOrderByDateCreationDesc(clientId, pageable)
+                .map(f -> HistoriqueFavorieDto.builder()
+                                .id(f.getEvenement().getId())
+                                .titre(f.getEvenement().getTitre())
+                                .date(f.getEvenement().getDateDebut().toString())
+                                .lieu(f.getEvenement().getVille())
+                                .prix(f.getEvenement().getPrix())
+                        .categorie(f.getEvenement().getCategorie().getNom())
+                        .build());
+    }
+
+
+    @Override
+    public void removeFavorie(Long userId, Long eventId) {
+        Favorie fav = favorieRepository.findByClientIdAndEvenementId(userId, eventId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Favori introuvable"));
+        favorieRepository.delete(fav);
     }
 }

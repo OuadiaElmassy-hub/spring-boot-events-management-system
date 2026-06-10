@@ -17,12 +17,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 @AllArgsConstructor
-@CrossOrigin
+@CrossOrigin("*")
 public class CategorieController {
 
     ICategorieService service;
 
-    @PostMapping(path = "admmin/categories", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(path = "admin/categories", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<CategorieResponseDto> creatCategorie(
             @RequestPart CategorieRequestDto categorieDto,
             @RequestPart MultipartFile image) throws BusinessException, StorageProblemException {

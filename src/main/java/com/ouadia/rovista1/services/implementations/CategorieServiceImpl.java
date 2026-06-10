@@ -1,6 +1,6 @@
 package com.ouadia.rovista1.services.implementations;
 
-import com.ouadia.rovista1.Mapper.CategorieMapper;
+import com.ouadia.rovista1.mappers.CategorieMapper;
 import com.ouadia.rovista1.dtos.categorie.CategorieRequestDto;
 import com.ouadia.rovista1.dtos.categorie.CategorieResponseDto;
 import com.ouadia.rovista1.entities.*;

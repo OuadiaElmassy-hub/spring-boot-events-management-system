@@ -1,11 +1,13 @@
 package com.ouadia.rovista1.services.implementations;
 
 
+import com.ouadia.rovista1.dtos.reservation.HistoriqueReservationDto;
 import com.ouadia.rovista1.dtos.reservation.ReservationRequestDto;
 import com.ouadia.rovista1.dtos.reservation.ReservationResponseDto;
 import com.ouadia.rovista1.entities.*;
 import com.ouadia.rovista1.entities.Reservation;
 
+import com.ouadia.rovista1.entities.enums.StatutPaiement;
 import com.ouadia.rovista1.entities.enums.StatutReservation;
 
 
@@ -14,7 +16,12 @@ import com.ouadia.rovista1.repositories.ReservationRepository;
 import com.ouadia.rovista1.services.interfaces.IReservationService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -26,7 +33,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class ReservationServiceImpl implements IReservationService {
 
-    private ReservationRepository repository;
+    private final ReservationRepository repository;
     private com.ouadia.rovista1.mappers.ReservationMapper mapper;
 
 
@@ -106,6 +113,30 @@ public class ReservationServiceImpl implements IReservationService {
         return mapper.mappingReservationToReservationDtoResponse(reservation);
     }
 
+//    @Override
+//    public Page<ReservationResponseDto> getReservationsByClientId(Long clientId, int page, int size) throws ClientNotFoundException {
+//        Pageable pageable = PageRequest.of(page, size);
+//
+//        Page<Reservation> reserationPage = repository.findByClientId(clientId, pageable);
+//
+//        List<ReservationResponseDto> dtoList = new ArrayList<>();
+//        for (Reservation reservation: reserationPage.getContent()){
+//            ReservationResponseDto dto = reservationMapper.mapping(reservation);
+//            dtoList.add(dto);
+//        }
+//
+//        PageResponse<EvenementResponseDto> response = new PageResponse<>();
+//
+//        response.setContent(dtoList);
+//        response.setPage(evenementPage.getNumber());
+//        response.setSize(evenementPage.getSize());
+//        response.setTotalElements(evenementPage.getTotalElements());
+//        response.setTotalPages(evenementPage.getTotalPages());
+//
+//        return response;
+//        return repository.findByClientId(clientId);
+//    }
+
     @Override
     public Reservation getReservationEntityById(Long id)
             throws ReservationNotFoundException {
@@ -140,5 +171,90 @@ public class ReservationServiceImpl implements IReservationService {
         for (Long id :ids){
             deleteReservationById(id);
         }
+    }
+
+    //_____________________________________________
+
+    @Override
+    public Page<HistoriqueReservationDto> getBookings(
+            Long clientId, String statut, int page, int size) {
+
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Reservation> pageR;
+        if (statut != null && !statut.isBlank()) {
+            StatutReservation status = mapStatut(statut);
+            pageR = repository
+                    .findByClientIdAndStatutOrderByDateReservationDesc(clientId, status, pageable);
+        } else {
+            pageR = repository
+                    .findByClientIdOrderByDateReservationDesc(clientId, pageable);
+        }
+        return pageR.map(this::toDTO);
+    }
+
+    // Génère un PDF via iText / JasperReports
+
+    @Override
+    public byte[] generateTicketPdf(Long reservationId, Long clientId) {
+        Reservation r = repository.findByIdAndClientId(reservationId, clientId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Réservation introuvable"));
+
+        if (r.getStatut() != StatutReservation.CONFIRME) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Billet non disponible pour ce statut");
+        }
+
+        // Exemple minimaliste — adaptez avec iText/Jasper/Flying Saucer
+        return buildPdf(r);
+    }
+
+    @Override
+    public HistoriqueReservationDto toDTO(Reservation r) {
+        return HistoriqueReservationDto.builder()
+                .id(r.getId())
+                .titre(r.getEvenement().getTitre())
+                .date(r.getEvenement().getDateDebut().toString())
+                .lieu(r.getEvenement().getVille())
+                .prix(r.getEvenement().getPrix())
+                .statut(formatStatut(r.getStatut()))
+                .paiement(formatPaiement(r.getPaiement().getStatut()))
+                .build();
+    }
+
+    private String formatStatut(StatutReservation s) {
+        return switch (s) {
+            case CONFIRME   -> "Confirmé";
+            case EN_ATTENTE -> "En attente";
+            case ANNULEE     -> "Annulé";
+        };
+    }
+
+    private String formatPaiement(StatutPaiement p) {
+        return switch (p) {
+            case VALIDE        -> "Payé";
+            case EN_ATTENTE  -> "En attente";
+            case ANNULE   -> "Annulé";
+            case ECHOUE   -> "Échoue";
+        };
+    }
+
+    @Override
+    public StatutReservation mapStatut(String s) {
+        return switch (s) {
+            case "CONFIRME"   -> StatutReservation.CONFIRME;
+            case "EN_ATTENTE" -> StatutReservation.EN_ATTENTE;
+            case "ANNULEE"     -> StatutReservation.ANNULEE;
+            default -> throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Statut inconnu : " + s);
+        };
+    }
+
+
+    @Override
+    public byte[] buildPdf(Reservation r) {
+        // TODO : intégrer iText 7 ou JasperReports
+        // Retourne un byte[] du PDF généré
+        throw new UnsupportedOperationException("Implémenter la génération PDF");
     }
 }
