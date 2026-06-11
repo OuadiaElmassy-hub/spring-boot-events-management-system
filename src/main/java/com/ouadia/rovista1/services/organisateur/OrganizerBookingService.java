@@ -46,7 +46,7 @@ public class OrganizerBookingService {
             orgId, eventId, statusEnum, pageable
         );
 
-        Double totalRevenu = reservationRepo.totalRevenuByFilters(orgId, eventId, StatutPaiement.VALIDE);
+        Double totalRevenu = reservationRepo.totalRevenuByFilters(orgId, eventId, StatutReservation.CONFIRME);
 
         List<OrgBookingDTO> content = pageR.getContent()
             .stream().map(this::toDTO).toList();

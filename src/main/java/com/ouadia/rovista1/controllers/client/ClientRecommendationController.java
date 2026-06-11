@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/api/client/recommendations")
 @RequiredArgsConstructor
 public class ClientRecommendationController {
@@ -21,8 +20,8 @@ public class ClientRecommendationController {
     // GET /api/client/recommendations?page=0&size=9
     @GetMapping
     public ResponseEntity<Page<RecommendationResponseDto>> getRecommendations(
-            @RequestParam int page,
-            @RequestParam int size,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
             @AuthenticationPrincipal UserDetails userDetails) {
 
         Long userId = securityUtils.getCurrentUserId();;

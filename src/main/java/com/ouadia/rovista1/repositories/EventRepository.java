@@ -1,4 +1,5 @@
 package com.ouadia.rovista1.repositories;
+import com.ouadia.rovista1.dtos.VilleResponseDto;
 import com.ouadia.rovista1.dtos.evenement.EvenementResponseDto;
 import com.ouadia.rovista1.entities.Evenement;
 import com.ouadia.rovista1.entities.enums.StatutEvenement;
@@ -104,7 +105,7 @@ public interface EventRepository extends JpaRepository<Evenement,Long>,
         WHERE e.statutEvenement = :statut
         GROUP BY e.categorie.nom
     """)
-    List<Object[]> countByCategorie(@Param("statut") StatutPaiement statut);
+    List<Object[]> countByCategorie(@Param("statut") StatutEvenement statut);
 
     @Query("""
         SELECT e.ville, COUNT(e)
@@ -113,7 +114,7 @@ public interface EventRepository extends JpaRepository<Evenement,Long>,
         GROUP BY e.ville
         ORDER BY COUNT(e) DESC
     """)
-    List<Object[]> topVilles(Pageable pageable, @Param("statut") StatutPaiement statut);
+    List<Object[]> topVilles(Pageable pageable, @Param("statut") StatutEvenement statut);
 
     // Revenus globaux
     @Query("""
@@ -230,4 +231,7 @@ public interface EventRepository extends JpaRepository<Evenement,Long>,
         );
 
     Optional<Evenement> findByIdAndOrganisateurId(Long eventId, Long orgId);
+
+    @Query("SELECT Distinct e.ville FROM Evenement e ")
+    List<String> findVilles();
 }

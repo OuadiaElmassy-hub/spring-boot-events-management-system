@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/admin/users")
 @RequiredArgsConstructor
-@CrossOrigin("*")
 @EnableMethodSecurity
 @PreAuthorize("hasRole('ADMIN')")
 public class AdminUserController {
@@ -28,8 +27,8 @@ public class AdminUserController {
     public ResponseEntity<Page<AdminUserDTO>> getUsers(
             @RequestParam(required = false) String search,
             @RequestParam(required = false) String role,
-            @RequestParam int page,
-            @RequestParam int size) {
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
 
         return ResponseEntity.ok(userService.searchUsers(search, role, page, size));
     }
@@ -47,6 +46,7 @@ public class AdminUserController {
 
     // Ou avec @PreAuthorize pour plus de granularité
     @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.delete(id);
         return ResponseEntity.noContent().build();

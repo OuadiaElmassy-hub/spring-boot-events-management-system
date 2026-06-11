@@ -76,12 +76,12 @@ public interface ReservationRepository extends JpaRepository<Reservation,Long> {
         JOIN r.evenement e
         WHERE e.organisateur.id = :orgId
         AND (:eventId IS NULL OR e.id = :eventId)
-        AND r.paiement = :statut
+        AND r.statut = :statut
     """)
     Double totalRevenuByFilters(
             @Param("orgId")   Long orgId,
             @Param("eventId") Long eventId,
-            @Param("statut") StatutPaiement statut
+            @Param("statut") StatutReservation statut
     );
 
     // Réservations par mois sur les 6 derniers mois
@@ -95,14 +95,27 @@ public interface ReservationRepository extends JpaRepository<Reservation,Long> {
 //        GROUP BY DATE_FORMAT(r.dateReservation, '%Y-%m')
 //        ORDER BY MIN(r.dateReservation)
 //    """)
+    // pour MySQL
+//    @Query(value = """
+//        SELECT DATE_FORMAT(r.date_reservation, '%b %Y') AS month,
+//               COUNT(*) AS count
+//        FROM reservation r
+//        JOIN evenement e ON r.evenement_id = e.id
+//        WHERE e.ORGANISATEUR_UTILISATEUR_ID = :orgId
+//        AND   r.date_reservation  >= DATE_SUB(NOW(), INTERVAL 6 MONTH)
+//        GROUP BY DATE_FORMAT(r.date_reservation, '%Y-%m')
+//        ORDER BY MIN(r.date_reservation)
+//    """, nativeQuery = true)
+
+    // pour H2
     @Query(value = """
-        SELECT DATE_FORMAT(r.date_reservation, '%b %Y') AS month,
-               COUNT(*) AS count
+        SELECT FORMATDATETIME(r.date_reservation, 'MMM yyyy') AS "month",
+               COUNT(*) AS "count"
         FROM reservation r
         JOIN evenement e ON r.evenement_id = e.id
-        WHERE e.organisateur_id = :orgId
-        AND   r.date_reservation  >= DATE_SUB(NOW(), INTERVAL 6 MONTH)
-        GROUP BY DATE_FORMAT(r.date_reservation, '%Y-%m')
+        WHERE e.ORGANISATEUR_UTILISATEUR_ID = :orgId
+        AND   r.date_reservation >= DATEADD('MONTH', -6, CURRENT_DATE)
+        GROUP BY FORMATDATETIME(r.date_reservation, 'yyyy-MM')
         ORDER BY MIN(r.date_reservation)
     """, nativeQuery = true)
     List<Object[]> bookingsByMonth(@Param("orgId") Long orgId);

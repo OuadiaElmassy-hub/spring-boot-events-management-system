@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/billets")
 public class BilletController {
-    BilletServiceImpl billetService;
+    final BilletServiceImpl billetService;
 
 
     // create billet

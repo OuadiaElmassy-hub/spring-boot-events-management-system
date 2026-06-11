@@ -67,7 +67,7 @@ public class SecurityConfig {
                         // Routes par rôle
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/organisateur/**").hasRole("ORGANISATEUR")
-                        .requestMatchers("/api/client/**").hasAnyRole("CLIENT", "ADMIN")
+                        .requestMatchers("/api/client/**").hasRole("CLIENT")
 
                         // Tout le reste → authentifié
                         .anyRequest().authenticated()

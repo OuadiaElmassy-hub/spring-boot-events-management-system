@@ -62,13 +62,13 @@ public class AdminDashboardService {
 
         // Événements par catégorie
         Map<String, Long> eventsByCategory = new LinkedHashMap<>();
-        for (Object[] row : eventRepo.countByCategorie(StatutPaiement.VALIDE)) {
+        for (Object[] row : eventRepo.countByCategorie(StatutEvenement.APPROUVE)) {
             eventsByCategory.put((String) row[0], ((Number) row[1]).longValue());
         }
 
         // Top villes (top 4)
         List<AdminDetailedStatsDTO.VilleStatDTO> topCities = new ArrayList<>();
-        for (Object[] row : eventRepo.topVilles(PageRequest.of(0, 4), StatutPaiement.VALIDE)) {
+        for (Object[] row : eventRepo.topVilles(PageRequest.of(0, 4), StatutEvenement.APPROUVE)) {
             topCities.add( new AdminDetailedStatsDTO.VilleStatDTO(
                 (String) row[0],
                 ((Number) row[1]).longValue()

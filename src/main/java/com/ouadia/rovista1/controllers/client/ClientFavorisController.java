@@ -18,26 +18,25 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin("*")
-@RequestMapping("/api/client/favories")
+@RequestMapping("/api/client/favoris")
 @RequiredArgsConstructor
-public class ClientFavoriesController {
+public class ClientFavorisController {
 
     private final SecurityUtils securityUtils;
     private final IFavorieService favoriteService;
 
-    // GET /api/client/favories?page=0&size=10
+    // GET /api/client/favoris?page=0&size=10
     @GetMapping
     public ResponseEntity<Page<HistoriqueFavorieDto>> getFavorites(
             @AuthenticationPrincipal UserDetails userDetails,
-            @RequestParam int page,
-            @RequestParam int size) {
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
 
         Long userId = securityUtils.getCurrentUserId();
         return ResponseEntity.ok(favoriteService.getFavories(userId, page, size));
     }
 
-    // POST /api/client/favories/{eventId}
+    // POST /api/client/favoris/{eventId}
     @PostMapping("/{eventId}")
     public ResponseEntity<FavorieResponseDto> addFavorie(
             @PathVariable Long eventId,

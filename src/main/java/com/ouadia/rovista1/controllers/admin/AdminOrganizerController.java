@@ -11,7 +11,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/api/admin/organisateurs")
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ADMIN')")
@@ -24,8 +23,8 @@ public class AdminOrganizerController {
     public ResponseEntity<Page<AdminOrganizerDTO>> getOrganizers(
             @RequestParam(required = false) String  search,
             @RequestParam(required = false) Boolean verified,
-            @RequestParam int page,
-            @RequestParam int size) {
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
 
         return ResponseEntity.ok(
             organizerService.searchOrganizers(search, verified, page, size));

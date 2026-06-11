@@ -34,6 +34,7 @@ public class AdminOrganizerService {
             String search, Boolean verified, int page, int size) {
 
         Pageable pageable = PageRequest.of(page, size);
+
         return organisateurRepository.search(
             nullIfBlank(search), verified, pageable
         ).map(this::toDTO);

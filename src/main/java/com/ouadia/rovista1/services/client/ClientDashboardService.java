@@ -34,6 +34,8 @@ public class ClientDashboardService implements IClientDashboardService {
         long totalFavorites  = favorieRepo.countByClientId(ClientId);
 
         return StatistiquesResponseDto.builder()
+                .nom(client.getNom())
+                .email(client.getEmail())
                 .prenom(client.getPrenom())
                 .totalBookings(totalBookings)
                 .eventsAttended(eventsAttended)

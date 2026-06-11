@@ -11,6 +11,7 @@ import com.ouadia.rovista1.exceptions.UserNotFoundException;
 import com.ouadia.rovista1.services.implementations.ImageServiceImpl;
 import com.ouadia.rovista1.services.interfaces.IImageService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +19,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/api/image")
 public class ImageController {
-    ImageServiceImpl imageService;
+    final ImageServiceImpl imageService;
 
     @PostMapping
     public ResponseEntity<Image> createImage(@RequestBody Image image) throws ImageNotFoundException, ReservationNotFoundException, UserNotFoundException {

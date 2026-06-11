@@ -5,14 +5,15 @@ import com.ouadia.rovista1.dtos.organisateur.OrganisateurResponseDto;
 import com.ouadia.rovista1.exceptions.BusinessException;
 import com.ouadia.rovista1.services.interfaces.IOrganisateurService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/organisateur")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class OrganisateurController {
 
-    IOrganisateurService service;
+    final IOrganisateurService service;
 
     @PostMapping
     public OrganisateurResponseDto createOrganisateur(OrganisateurRequestDto organisateurRequestDto) throws BusinessException {

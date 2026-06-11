@@ -71,6 +71,13 @@ public class OrganizerStatisticsService {
                     (String) row[0],
                     ((Number) row[1]).longValue()
                 )).toList();
+        // Dans votre service
+//        List<Map<String, Object>> bookingsByMonth = rawResults.stream()
+//                .map(row -> Map.of(
+//                        "month", row[0],
+//                        "count", row[1]
+//                ))
+//                .collect(Collectors.toList());
 
         return new OrgStatisticsDTO(
             totalRevenue,

@@ -10,7 +10,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/api/organisateur/statistiques")
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ORGANISATEUR')")

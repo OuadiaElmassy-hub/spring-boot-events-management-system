@@ -10,6 +10,7 @@ import com.ouadia.rovista1.exceptions.ReservationNotFoundException;
 import com.ouadia.rovista1.exceptions.UserNotFoundException;
 import com.ouadia.rovista1.services.implementations.NotificationServiceImpl;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +18,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/api/notification")
 public class NotificationController {
-    NotificationServiceImpl notificationService;
+    final NotificationServiceImpl notificationService;
 
     @PostMapping
     public ResponseEntity<NotificationResponseDto> createNotification(@RequestBody NotificationRequestDto notification) throws NotificationNotFoundException, ReservationNotFoundException, UserNotFoundException {

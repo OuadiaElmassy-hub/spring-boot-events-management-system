@@ -2,6 +2,8 @@ package com.ouadia.rovista1.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ouadia.rovista1.dtos.PageResponse;
+import com.ouadia.rovista1.dtos.VilleResponseDto;
+import com.ouadia.rovista1.dtos.categorie.CategorieResponseDto;
 import com.ouadia.rovista1.dtos.evenement.EvenementRequestDto;
 import com.ouadia.rovista1.dtos.evenement.EvenementResponseDto;
 import com.ouadia.rovista1.dtos.evenement.UpdateEvenementRequestDto;
@@ -25,13 +27,12 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class EventController {
 
     private final IEventService service;
-    private ObjectMapper mapper;
+    private final ObjectMapper mapper;
 
     // on doit separer les end points de chque type de user !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
@@ -69,6 +70,11 @@ public class EventController {
     @GetMapping("/public/events/search/{id}")
     public ResponseEntity<EvenementResponseDto> getPublishedEventById(@PathVariable Long id) throws EventNotFoundException {
         return ResponseEntity.ok(service.getPublishedEvenementById(id));
+    }
+
+    @GetMapping("/public/villes")
+    public ResponseEntity<List<VilleResponseDto>> getVilles(){
+        return ResponseEntity.ok(service.getVilles());
     }
 
     @GetMapping("/public/events/search")

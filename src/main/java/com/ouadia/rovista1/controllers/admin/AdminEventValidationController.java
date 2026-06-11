@@ -14,7 +14,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/api/admin/events")
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ADMIN')")
@@ -29,8 +28,8 @@ public class AdminEventValidationController {
             @RequestParam(required = false) String status,
             @RequestParam(required = false) String categorie,
             @RequestParam(required = false) String ville,
-            @RequestParam int page,
-            @RequestParam int size) {
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
 
         return ResponseEntity.ok(
             eventService.searchEvents(search, status, categorie, ville, page, size));

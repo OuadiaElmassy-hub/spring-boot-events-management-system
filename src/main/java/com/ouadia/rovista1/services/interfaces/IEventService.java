@@ -1,6 +1,7 @@
 package com.ouadia.rovista1.services.interfaces;
 
 import com.ouadia.rovista1.dtos.PageResponse;
+import com.ouadia.rovista1.dtos.VilleResponseDto;
 import com.ouadia.rovista1.dtos.evenement.EvenementRequestDto;
 import com.ouadia.rovista1.dtos.evenement.EvenementResponseDto;
 import com.ouadia.rovista1.dtos.evenement.UpdateEvenementRequestDto;
@@ -52,6 +53,8 @@ public interface IEventService {
     void rejeterEvent(Long id) throws EventNotFoundException;
 
     EvenementResponseDto getPublishedEvenementById(Long id);
+
+    List<VilleResponseDto> getVilles();
 
 
     //____________________________________________

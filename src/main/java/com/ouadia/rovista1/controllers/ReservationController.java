@@ -12,6 +12,7 @@ import com.ouadia.rovista1.services.implementations.ReservationServiceImpl;
 import com.ouadia.rovista1.services.interfaces.IClientService;
 import com.ouadia.rovista1.services.interfaces.IReservationService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
@@ -23,11 +24,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api")
 public class ReservationController {
-    private IReservationService reservationService;
+    private final IReservationService reservationService;
 
     @PostMapping
     public ResponseEntity<ReservationResponseDto> createReservation(@RequestBody ReservationRequestDto billet) {

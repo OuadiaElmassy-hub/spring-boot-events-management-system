@@ -19,6 +19,9 @@ public class AdminDetailedStatsDTO{
     Map<String, Long>    eventsByCategory;
     List<VilleStatDTO> topCities;
 
+    @Getter
+    @Setter
+    @Builder
     @AllArgsConstructor
     public static class VilleStatDTO{
         String name;

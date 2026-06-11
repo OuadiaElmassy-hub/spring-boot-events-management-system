@@ -13,13 +13,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/api/client/profile")
 @RequiredArgsConstructor
 public class ClientProfileController {
 
     private final ClientProfileService profileService;
-    private SecurityUtils securityUtils;
+    private final SecurityUtils securityUtils;
 
     // GET /api/client/profile
     @GetMapping

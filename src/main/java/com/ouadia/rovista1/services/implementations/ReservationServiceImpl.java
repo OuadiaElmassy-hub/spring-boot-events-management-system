@@ -242,9 +242,9 @@ public class ReservationServiceImpl implements IReservationService {
     @Override
     public StatutReservation mapStatut(String s) {
         return switch (s) {
-            case "CONFIRME"   -> StatutReservation.CONFIRME;
-            case "EN_ATTENTE" -> StatutReservation.EN_ATTENTE;
-            case "ANNULEE"     -> StatutReservation.ANNULEE;
+            case "Confirmé"   -> StatutReservation.CONFIRME;
+            case "En attente" -> StatutReservation.EN_ATTENTE;
+            case "Annulé"     -> StatutReservation.ANNULEE;
             default -> throw new ResponseStatusException(
                     HttpStatus.BAD_REQUEST, "Statut inconnu : " + s);
         };

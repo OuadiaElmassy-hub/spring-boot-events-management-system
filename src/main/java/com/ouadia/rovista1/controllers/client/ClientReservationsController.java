@@ -9,6 +9,7 @@ import com.ouadia.rovista1.security.SecurityUtils;
 import com.ouadia.rovista1.services.interfaces.IClientService;
 import com.ouadia.rovista1.services.interfaces.IReservationService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -19,22 +20,21 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/api")
 public class ClientReservationsController {
 
     private final IReservationService bookingService;
-    private SecurityUtils securityUtils;
+    private final SecurityUtils securityUtils;
 
     // GET /api/client/reservations?statut=Confirmé&page=0&size=10&sort=date,desc
     @GetMapping("client/reservations")
     public ResponseEntity<Page<HistoriqueReservationDto>> getBookings(
             @AuthenticationPrincipal UserDetails userDetails,
-            @RequestParam(required = false) String statut,
-            @RequestParam int page,
-            @RequestParam int size) {
+            @RequestParam(required = false, defaultValue = "Confirmé") String statut,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
 
         Long userId = securityUtils.getCurrentUserId();
 

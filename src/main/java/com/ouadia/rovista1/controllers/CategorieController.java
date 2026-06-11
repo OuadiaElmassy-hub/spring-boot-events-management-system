@@ -7,6 +7,7 @@ import com.ouadia.rovista1.exceptions.CategorieNotFoundException;
 import com.ouadia.rovista1.exceptions.StorageProblemException;
 import com.ouadia.rovista1.services.interfaces.ICategorieService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +17,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@AllArgsConstructor
-@CrossOrigin("*")
+@RequiredArgsConstructor
 public class CategorieController {
 
-    ICategorieService service;
+    final ICategorieService service;
 
     @PostMapping(path = "admin/categories", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<CategorieResponseDto> creatCategorie(

@@ -9,6 +9,7 @@ import com.ouadia.rovista1.exceptions.ReservationNotFoundException;
 import com.ouadia.rovista1.services.implementations.PaiementServiceImpl;
 import com.ouadia.rovista1.services.interfaces.IPaiementService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +17,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RequestMapping("/api/paiements")
 public class PaiementController {
-    private PaiementServiceImpl reservationService;
+    private final PaiementServiceImpl reservationService;
 
     @PostMapping
     public ResponseEntity<PaiementResponseDto> createPaiement(@RequestBody PaiementRequestDto paiement) throws PaiementNotFoundException, ReservationNotFoundException {

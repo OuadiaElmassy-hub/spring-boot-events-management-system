@@ -1,6 +1,7 @@
 package com.ouadia.rovista1.services.implementations;
 
 import com.ouadia.rovista1.dtos.PageResponse;
+import com.ouadia.rovista1.dtos.VilleResponseDto;
 import com.ouadia.rovista1.dtos.evenement.EvenementRequestDto;
 import com.ouadia.rovista1.dtos.evenement.EvenementResponseDto;
 import com.ouadia.rovista1.dtos.evenement.UpdateEvenementRequestDto;
@@ -23,6 +24,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -295,6 +297,20 @@ public class EventServiceImpl implements IEventService {
         return evenementMapper.mappingEvenementToEvenementDtoResponse
                 (repository.findByIdAndStatutEvenement(id, StatutEvenement.APPROUVE));
     }
+
+    @Override
+    public List<VilleResponseDto> getVilles() {
+        return mapToDtoVille(repository.findVilles());
+    }
+
+    private List<VilleResponseDto> mapToDtoVille(List<String> villes) {
+        return villes.stream()
+                .map(nom -> VilleResponseDto.builder()
+                        .nom(nom)
+                        .build())
+                .collect(Collectors.toList());
+    }
+
 
     @Override
     @Transactional(readOnly = true)

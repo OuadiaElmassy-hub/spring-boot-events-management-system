@@ -17,7 +17,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin("*")
 @RequestMapping("/api/organisateur/events")
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ORGANISATEUR')")
@@ -32,8 +31,8 @@ public class OrganizerEventController {
     public ResponseEntity<Page<OrgEventDTO>> getEvents(
             @RequestParam(required = false) String search,
             @RequestParam(required = false) String status,
-            @RequestParam int page,
-            @RequestParam int size) {
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
 
         Long orgId = securityUtils.getCurrentUserId();
         return ResponseEntity.ok(eventService.getEvents(orgId, search, status, page, size));

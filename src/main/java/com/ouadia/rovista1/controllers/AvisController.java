@@ -19,10 +19,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 @AllArgsConstructor
-@CrossOrigin("*")
 public class AvisController {
 
-    IAvisService service;
+    final IAvisService service;
 
     @PostMapping("public/avis")
     public ResponseEntity<AvisResponseDto> createAvis(@RequestPart AvisRequestDto avisDto) {

@@ -23,7 +23,6 @@ public class Admin extends Utilisateur{
 
     @Column(nullable = false)
     private String prenom;
-    @Column(nullable = false)
     private LocalDate dateNaissance;
 
     public Admin(Long id, String username, String email, String motDePasse, StatutCompte statutCompte, String phone,

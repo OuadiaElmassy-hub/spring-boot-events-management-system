@@ -30,6 +30,7 @@ public class Rovista1Application {
 
     @Bean
     public CommandLineRunner start(OrganisateurRepository organisateurRepository,
+                                   AdminRepository adminRepository,
                                    EventRepository eventRepository,
                                    CategorieRepository categorieRepository,
                                    ClientRepository clientRepository,
@@ -38,6 +39,10 @@ public class Rovista1Application {
                                    PasswordEncoder passwordEncoder){
         return args -> {
 
+            Role r3 = new Role();
+            r3.setRoleName("ADMIN");
+            roleRepository.save(r3);
+
             Role r1 = new Role();
             r1.setRoleName("ORGANISATEUR");
             roleRepository.save(r1);
@@ -45,10 +50,23 @@ public class Rovista1Application {
             Role r2 = new Role();
             r2.setRoleName("CLIENT");
             roleRepository.save(r2);
-            Role r3 = new Role();
 
-            r3.setRoleName("ADMIN");
-            roleRepository.save(r3);
+            Admin a = new Admin();
+            a.setUsername("admin1");
+            a.setEmail("admin1@gmail.com");
+            a.setPhone("0788394921");
+            a.setMotDePasse(passwordEncoder.encode("12345"));
+            a.setAdresse("Casa");
+            a.setRoles(List.of(r3, r1, r2));
+            a.setCreatedAt(LocalDateTime.now());
+            a.setEnabled(true);
+            a.setAvatar("");
+            a.setStatutCompte(StatutCompte.ACTIF);
+            a.setNom("SLAMI");
+            a.setPrenom("Amin");
+
+            adminRepository.save(a);
+
 
             Organisateur o1 = new Organisateur();
                     o1.setUsername("organisateur1");
@@ -66,6 +84,8 @@ public class Rovista1Application {
                     o1.setNom("orgnaisateur1");
                     o1.setDateValidation(LocalDateTime.now());
                     o1.setLogoUrl("../assets/image1");
+            o1.setCreatedAt(LocalDateTime.now());
+
 
             organisateurRepository.save(o1);
 
@@ -77,6 +97,8 @@ public class Rovista1Application {
             o2.setAdresse("Casa");
             o2.setSiret("667899799L");
             o2.setRoles(List.of(r1, r2));
+            o2.setCreatedAt(LocalDateTime.now());
+
             o2.setEnabled(true);
             o2.setStatutCompte(StatutCompte.ACTIF);
             o2.setStatutOrganisateur(StatutOrganisateur.ACTIF);
@@ -97,6 +119,8 @@ public class Rovista1Application {
             o3.setMotDePasse(passwordEncoder.encode("12345"));
             o3.setAdresse("Rabat");
             o3.setEnabled(true);
+            o3.setCreatedAt(LocalDateTime.now());
+
             o3.setStatutCompte(StatutCompte.ACTIF);
             o3.setVerified(true);
             o3.setStatutOrganisateur(StatutOrganisateur.ACTIF);
@@ -319,6 +343,7 @@ public class Rovista1Application {
             cl1.setRoles(List.of(r2));
             cl1.setNom("Ahmed");
             cl1.setPrenom("Ahmed");
+            cl1.setCreatedAt(LocalDateTime.now());
             cl1.setDateNaissance(LocalDate.of(2026, 6, 4));
             clientRepository.save(cl1);
 

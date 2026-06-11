@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 
 @RestController
-@CrossOrigin("*")
-@RequestMapping("/api/organisateur/bookings")
+@RequestMapping("/api/organisateur/reservations")
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ORGANISATEUR')")
 public class OrganizerBookingController {
@@ -27,8 +26,8 @@ public class OrganizerBookingController {
     public ResponseEntity<OrgBookingsPageDTO> getBookings(
             @RequestParam(required = false) Long   eventId,
             @RequestParam(required = false) String statut,
-            @RequestParam int page,
-            @RequestParam int size) {
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
 
         Long orgId = securityUtils.getCurrentUserId();
         return ResponseEntity.ok(
