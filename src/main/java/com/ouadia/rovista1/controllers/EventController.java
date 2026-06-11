@@ -2,18 +2,19 @@ package com.ouadia.rovista1.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ouadia.rovista1.dtos.PageResponse;
+import com.ouadia.rovista1.dtos.avis.AvisResponseDto;
 import com.ouadia.rovista1.dtos.evenement.EvenementRequestDto;
 import com.ouadia.rovista1.dtos.evenement.EvenementResponseDto;
 import com.ouadia.rovista1.dtos.evenement.UpdateEvenementRequestDto;
-import com.ouadia.rovista1.entities.Evenement;
-import com.ouadia.rovista1.entities.enums.StatutEvenement;
+
 import com.ouadia.rovista1.exceptions.*;
+import com.ouadia.rovista1.services.interfaces.IAvisService;
 import com.ouadia.rovista1.services.interfaces.IEventService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -31,6 +32,7 @@ import java.util.List;
 public class EventController {
 
     private final IEventService service;
+    private final IAvisService avisservice;
     private ObjectMapper mapper;
 
     @PostMapping(path = "/organisateur/events", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -119,6 +121,11 @@ public class EventController {
         return ResponseEntity.ok(service.getAllPublishedEvenementsForCategorie(categorieId, numPage, size));
     }
 
+    @GetMapping("/public/events/{id}/avis")
+    public ResponseEntity<List<AvisResponseDto>> getAvisByEvent(
+            @PathVariable Long id) {
+        return ResponseEntity.ok(avisservice.getAvisByEvenementId(id));
+    }
 
     @PutMapping("/organisateur/events/{id}")
     public ResponseEntity<EvenementResponseDto> updateEvenement(@PathVariable Long id,
