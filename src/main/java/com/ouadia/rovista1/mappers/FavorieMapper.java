@@ -8,8 +8,8 @@ import com.ouadia.rovista1.services.client.ClientServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
-@AllArgsConstructor
 @Component
+@AllArgsConstructor
 public class FavorieMapper {
   ClientServiceImpl service;
 

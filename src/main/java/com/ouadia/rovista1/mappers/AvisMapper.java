@@ -5,11 +5,12 @@ import com.ouadia.rovista1.dtos.avis.AvisRequestDto;
 
 import com.ouadia.rovista1.dtos.avis.AvisResponseDto;
 import com.ouadia.rovista1.entities.Avis;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
-
 import java.time.LocalDateTime;
 
 @Component
+@AllArgsConstructor
 public class AvisMapper {
 
     public  Avis mappingAvisDtoRequestToAvis(AvisRequestDto dto){

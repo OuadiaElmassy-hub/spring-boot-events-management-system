@@ -9,9 +9,11 @@ import com.ouadia.rovista1.entities.Promotion;
 import com.ouadia.rovista1.exceptions.OrganisateurNotFoundException;
 import com.ouadia.rovista1.repositories.OrganisateurRepository;
 import com.ouadia.rovista1.services.implementations.OrganisateurServiceImpl;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@AllArgsConstructor
 public class PromotionMapper {
    OrganisateurRepository organisateurRepository;
    OrganisateurServiceImpl organisateurService;

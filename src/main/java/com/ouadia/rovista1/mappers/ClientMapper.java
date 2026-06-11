@@ -7,8 +7,10 @@ import com.ouadia.rovista1.dtos.client.ClientRequestDto;
 import com.ouadia.rovista1.dtos.client.ClientResponseDto;
 import com.ouadia.rovista1.entities.*;
 import org.springframework.stereotype.Component;
+import lombok.AllArgsConstructor;
 
 @Component
+@AllArgsConstructor
 public class ClientMapper {
     public Client mappingClientDtoRequestToClient(ClientRequestDto dto){
         return  Client.builder()

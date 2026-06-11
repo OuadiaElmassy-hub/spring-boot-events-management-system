@@ -6,9 +6,11 @@ import com.ouadia.rovista1.entities.Paiement;
 import com.ouadia.rovista1.entities.Paiement;
 import com.ouadia.rovista1.exceptions.ReservationNotFoundException;
 import com.ouadia.rovista1.services.implementations.ReservationServiceImpl;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@AllArgsConstructor
 public class PaiementMapper {
 
     ReservationServiceImpl reservationService;

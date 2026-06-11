@@ -135,8 +135,10 @@ public class ClientServiceImpl implements IClientService {
     }
 
     @Override
-    public Long getIdClientByUsername(String username) {
-        return repository.findByUsername(username).getId();
+    public Long getIdClientByUsername(String username) throws ClientNotFoundException {
+        Client c = repository.findByUsername(username).orElseThrow
+                (() -> new ClientNotFoundException("Client not found with username : "+ username));
+        return c.getId();
     }
 
 }

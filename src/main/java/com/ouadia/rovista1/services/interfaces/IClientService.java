@@ -23,6 +23,6 @@ public interface IClientService {
 
     ClientPublicInfoResponseDto getInfoClientForPublic(Long id) throws ClientNotFoundException;
 
-    Long getIdClientByUsername(String username);
+    Long getIdClientByUsername(String username) throws ClientNotFoundException;
 
 }

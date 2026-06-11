@@ -5,9 +5,11 @@ import com.ouadia.rovista1.dtos.image.ImageResponseDto;
 import com.ouadia.rovista1.entities.Image;
 import com.ouadia.rovista1.exceptions.EventNotFoundException;
 import com.ouadia.rovista1.services.implementations.EventServiceImpl;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@AllArgsConstructor
 public class ImageMapper {
   EventServiceImpl eventService;
 
