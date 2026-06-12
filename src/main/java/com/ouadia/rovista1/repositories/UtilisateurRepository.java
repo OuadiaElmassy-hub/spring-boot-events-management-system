@@ -51,4 +51,5 @@ public interface UtilisateurRepository extends JpaRepository<Utilisateur,Long> {
     Optional<Utilisateur> findByUsernameWithRoles(@Param("username") String username);
 
     Optional<Utilisateur> findByUsername(String username);
+//    Utilisateur findByUsername(String username);
 }

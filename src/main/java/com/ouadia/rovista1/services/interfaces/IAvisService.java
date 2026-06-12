@@ -6,7 +6,7 @@ import com.ouadia.rovista1.dtos.avis.AvisRequestDto;
 import com.ouadia.rovista1.dtos.avis.AvisResponseDto;
 import com.ouadia.rovista1.exceptions.AvisNotFoundException;
 import com.ouadia.rovista1.exceptions.EventNotFoundException;
-import org.springframework.data.domain.Page;
+
 
 import java.util.List;
 import java.util.Map;
@@ -21,3 +21,4 @@ public interface IAvisService {
     void deleteAvisById(Long id);
     void deleteAllByIds(Long ... ids);
 }
+

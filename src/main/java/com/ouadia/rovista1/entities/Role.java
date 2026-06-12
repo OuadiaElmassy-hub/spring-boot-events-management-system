@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Data // pour les methode getter, setter, toString() , hachcode() ,equals()
 @NoArgsConstructor
@@ -19,6 +22,7 @@ public class Role {
     private int id;
     @Column(nullable = false)
     private String roleName;
-
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Utilisateur> users = new ArrayList<>();
 
 }

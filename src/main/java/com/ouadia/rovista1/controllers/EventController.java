@@ -3,19 +3,19 @@ package com.ouadia.rovista1.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ouadia.rovista1.dtos.PageResponse;
 import com.ouadia.rovista1.dtos.VilleResponseDto;
-import com.ouadia.rovista1.dtos.categorie.CategorieResponseDto;
+
 import com.ouadia.rovista1.dtos.evenement.EvenementRequestDto;
 import com.ouadia.rovista1.dtos.evenement.EvenementResponseDto;
 import com.ouadia.rovista1.dtos.evenement.UpdateEvenementRequestDto;
-import com.ouadia.rovista1.entities.Evenement;
-import com.ouadia.rovista1.entities.enums.StatutEvenement;
+
 import com.ouadia.rovista1.exceptions.*;
+import com.ouadia.rovista1.services.interfaces.IAvisService;
 import com.ouadia.rovista1.services.interfaces.IEventService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
+
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -35,6 +35,8 @@ public class EventController {
     private final ObjectMapper mapper;
 
     // on doit separer les end points de chque type de user !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+    private final IAvisService avisservice;
 
     @PostMapping(path = "/organisateur/events", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<EvenementResponseDto> addEvent(@RequestPart
@@ -112,6 +114,13 @@ public class EventController {
         return ResponseEntity.ok(service.getAllPublishedEvenementsForCategorie(categorieId, numPage, size));
     }
 
+//    @GetMapping("/public/events/{id}/avis")
+//    public ResponseEntity<PageResponse<AvisResponseDto>> getListAvisByEvenementId(
+//            @RequestParam(name = "page", defaultValue = "0") int page,
+//            @RequestParam(name = "size", defaultValue = "5") int size,
+//            @PathVariable Long id) throws EventNotFoundException {
+//        return ResponseEntity.ok(avisservice.getListAvisByEvenementId(page, size, id));
+//    }
 
     //@PutMapping("/organisateur/events/{id}")
     public ResponseEntity<EvenementResponseDto> updateEvenement(@PathVariable Long id,
