@@ -26,7 +26,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/reservations")
 public class ReservationController {
     private final IReservationService reservationService;
 
@@ -37,7 +37,7 @@ public class ReservationController {
 
 
     // racherche billet
-    @GetMapping("/reservations/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ReservationResponseDto>RechercheReservation(@PathVariable("id") Long id)throws ReservationNotFoundException {
         return  ResponseEntity.ok(reservationService.getReservationById(id));
     }
@@ -47,14 +47,14 @@ public class ReservationController {
         return  ResponseEntity.ok(reservationService.getAllReservations());
     }
     //update billet
-    @PutMapping("/reservations/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ReservationResponseDto>UpdateReservation (@PathVariable("id") Long id,
                                                           @RequestBody ReservationRequestDto billet
     ) throws ReservationNotFoundException, ReservationNotFoundException {
         return ResponseEntity.ok(reservationService.editReservation(billet,id));
     }
 
-    @DeleteMapping("/reservations/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> DeleteReservation (@PathVariable("id") Long id){
         reservationService.deleteReservationById(id);
         return ResponseEntity.ok("reservation  deleted successfully ! ✅");
