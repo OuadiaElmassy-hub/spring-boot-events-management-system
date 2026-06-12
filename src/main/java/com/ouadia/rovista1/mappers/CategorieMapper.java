@@ -21,7 +21,6 @@ public class CategorieMapper {
         return CategorieResponseDto.builder()
                 .nom(e.getNom())
                 .description(e.getDescription())
-                .evenementsId(e.getEvenements().stream().map(Evenement::getId).toList())
                 .build();
     }
 }
