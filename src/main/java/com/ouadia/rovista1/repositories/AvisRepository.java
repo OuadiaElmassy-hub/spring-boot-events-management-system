@@ -18,9 +18,19 @@ import java.util.List;
 public interface AvisRepository extends JpaRepository<Avis,Long> {
 
     //Optional<Page<Avis>> findAvisByEvenementId(Long id, Pageable pageable);
-    @Query("SELECT new com.ouadia.rovista1.dtos.avis.AvisResponseDto(a.id, a.note, a.comment, a.dateAvis, c.prenom, c.avatar, v.nom, a.evenement.id) " +
-            "FROM Avis a JOIN a.client c JOIN a.visiteur v " +
+//    @Query("SELECT new com.ouadia.rovista1.dtos.avis.AvisResponseDto(a.id, a.note, a.comment, a.dateAvis, v.nom, c.prenom, c.avatar, a.evenement.id) " +
+//            "FROM Avis a JOIN a.client c JOIN a.visiteur v " +
+//            "WHERE a.evenement.id = :eventId")
+    @Query("SELECT new com.ouadia.rovista1.dtos.avis.AvisResponseDto(" +
+            "a.id, a.note, a.comment, a.dateAvis, " +
+            "COALESCE(c.nom, v.nom), " +
+            "COALESCE(c.prenom, v.prenom), " +
+            " c.avatar, " +
+            "a.evenement.id) " +
+            "FROM Avis a " +
+            "LEFT JOIN a.client c " +
+            "LEFT JOIN a.visiteur v " +
             "WHERE a.evenement.id = :eventId")
-    Optional<Page<AvisResponseDto>> findAvisByEvenementId(@Param("eventId") Long eventId, Pageable pageable);
+    Page<AvisResponseDto> findAvisByEvenementId(@Param("eventId") Long eventId, Pageable pageable);
 
 }

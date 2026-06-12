@@ -26,13 +26,20 @@ public class AvisMapper {
                 .id(avis.getId())
                 .comment(avis.getComment())
                 .note(avis.getNote())
+                .nom(resolveNom(avis))
+                .prenom(resolveNom(avis))
                 .dateAvis(avis.getDateAvis())
                 .evenementId(avis.getEvenement() != null ? avis.getEvenement().getId() : null)
-                .clientId(avis.getClient() != null ? avis.getClient().getId() : null)
-                .clientNom(avis.getClient() != null ? avis.getClient().getNom() : null)
-                .clientPrenom(avis.getClient() != null ? avis.getClient().getPrenom() : null)
-                .visiteurId(avis.getVisiteur() != null ? avis.getVisiteur().getId() : null)
-                .visiteurNom(avis.getVisiteur() != null ? avis.getVisiteur().getNom() : null)
                 .build();
     }
+
+    private String resolveNom(Avis avis) {
+        if (avis.getClient() != null) {
+            return avis.getClient().getNom();
+        } else if (avis.getVisiteur() != null) {
+            return avis.getVisiteur().getNom();
+        }
+        return null;
+    }
+
 }
