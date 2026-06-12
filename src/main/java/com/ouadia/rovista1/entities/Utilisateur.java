@@ -18,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @SuperBuilder
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Utilisateur {
+public  class Utilisateur {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,8 +38,9 @@ public abstract class Utilisateur {
 
     @OneToMany(mappedBy = "destinataire")
     private List<Notification> notifications;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles = new ArrayList<>();
+
 
 
 
@@ -63,6 +64,9 @@ public abstract class Utilisateur {
         this.phone = phone;
         this.adresse = adresse;
     }
-
+    public Utilisateur (String username , String motDePasse){
+        this.username=username;
+        this.motDePasse=motDePasse;
+    }
 
 }

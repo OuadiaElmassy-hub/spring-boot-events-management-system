@@ -9,11 +9,14 @@ import com.ouadia.rovista1.repositories.AvisRepository;
 import com.ouadia.rovista1.services.interfaces.IAvisService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -83,6 +86,14 @@ public class AvisServiceImpl implements IAvisService {
 
     }
 
+
+    @Override
+    public List<AvisResponseDto> getAvisByEvenementId(Long evenementId) {
+        return repository.findByEvenementId(evenementId)
+                .stream()
+                .map(AvisMapper::mappingAvisToAvisDtoResponse)
+                .collect(Collectors.toList());
+    }
 
     @Override
     public List<AvisResponseDto> getAllAvis() {

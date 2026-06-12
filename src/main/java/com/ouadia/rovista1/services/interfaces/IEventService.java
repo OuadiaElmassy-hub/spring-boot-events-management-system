@@ -35,6 +35,8 @@ public interface IEventService {
 
     List<Evenement> getEventsByStatut(StatutEvenement statut);
 
+    Evenement getEvenementEntityById(Long id) throws EventNotFoundException;
+
     PageResponse<EvenementResponseDto> getAllPublishedEvenements(int numPage, int size);
 
     PageResponse<EvenementResponseDto> getAllPublishedEvenementsForCategorie( Long categorieId, int numPage, int size);

@@ -15,6 +15,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+
 public class AvisResponseDto {
     private Long id;
     private String comment;
@@ -22,5 +23,8 @@ public class AvisResponseDto {
     private LocalDate dateAvis;
     private Long evenementId;
     private Long clientId;
+    private String clientNom;      // ← ajoute
+    private String clientPrenom;   // ← ajoute
     private Long visiteurId;
+    private String visiteurNom;    // ← ajoute
 }

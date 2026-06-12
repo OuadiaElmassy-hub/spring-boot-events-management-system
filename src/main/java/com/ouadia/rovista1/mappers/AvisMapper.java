@@ -19,14 +19,18 @@ public class AvisMapper {
                 .dateAvis(dto.getDateAvis())
                 .build();
     }
-    public static AvisResponseDto mappingAvisToAvisDtoResponse(Avis e){
+    public static AvisResponseDto mappingAvisToAvisDtoResponse(Avis avis){
         return AvisResponseDto.builder()
-                .comment(e.getComment())
-                .note(e.getNote())
-                .dateAvis(e.getDateAvis())
-                .evenementId(e.getEvenement().getId())
-                .clientId(e.getClient().getId())
-                .visiteurId(e.getVisiteur().getId())
+                .id(avis.getId())
+                .comment(avis.getComment())
+                .note(avis.getNote())
+                .dateAvis(avis.getDateAvis())
+                .evenementId(avis.getEvenement() != null ? avis.getEvenement().getId() : null)
+                .clientId(avis.getClient() != null ? avis.getClient().getId() : null)
+                .clientNom(avis.getClient() != null ? avis.getClient().getNom() : null)
+                .clientPrenom(avis.getClient() != null ? avis.getClient().getPrenom() : null)
+                .visiteurId(avis.getVisiteur() != null ? avis.getVisiteur().getId() : null)
+                .visiteurNom(avis.getVisiteur() != null ? avis.getVisiteur().getNom() : null)
                 .build();
     }
 }
