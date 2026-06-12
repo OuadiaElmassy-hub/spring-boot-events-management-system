@@ -16,7 +16,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
+@Builder
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
 public class Utilisateur {
@@ -45,13 +45,13 @@ public class Utilisateur {
 
     @OneToMany(mappedBy = "destinataire")
     private List<Notification> notifications;
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Role> roles = new ArrayList<>();
 
 
 
     public Utilisateur(Long id, String username, String nom, String email, String motDePasse,
-                       StatutCompte statutCompte, String phone, String adresse) {
+            StatutCompte statutCompte, String phone, String adresse) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -84,4 +84,5 @@ public class Utilisateur {
         this.adresse = adresse;
         this.notifications = notifications;
         this.roles = roles;
-    }}
+    }
+}

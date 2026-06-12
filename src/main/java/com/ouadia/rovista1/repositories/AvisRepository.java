@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.List;
 
 
 @Repository
@@ -21,4 +22,5 @@ public interface AvisRepository extends JpaRepository<Avis,Long> {
             "FROM Avis a JOIN a.client c JOIN a.visiteur v " +
             "WHERE a.evenement.id = :eventId")
     Optional<Page<AvisResponseDto>> findAvisByEvenementId(@Param("eventId") Long eventId, Pageable pageable);
+
 }
