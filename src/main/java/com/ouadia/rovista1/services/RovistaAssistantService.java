@@ -180,37 +180,57 @@ public class RovistaAssistantService implements IRovisitaAssistantService {
 
     public String getClientFavoris(Client client) throws FavorieNotFoundException {
 
-        if (client.getFavories() == null
-                || client.getFavories().isEmpty()) {
-
+        if (client.getFavories() == null || client.getFavories().isEmpty()) {
             throw new FavorieNotFoundException("Vous n'avez aucun favori.");
         }
 
         StringBuilder sb = new StringBuilder();
-
-        sb.append("Vos favoris :\n\n");
+        sb.append("Vos événements favoris :\n\n");
 
         client.getFavories().forEach(f -> {
-
-            sb.append("Liste : ")
-                    .append(f.getDescription())
-                    .append("\n");
-
-            if (f.getEvenements() != null) {
-
-                f.getEvenements().forEach(event -> {
-
-                    sb.append(" - ")
-                            .append(event.getTitre())
-                            .append("\n");
-                });
-            }
-
-            sb.append("\n");
+            sb.append("- ").append(f.getEvenement().getTitre()).append("\n");
+            sb.append("  Ville : ").append(f.getEvenement().getVille()).append("\n");
+            sb.append("  Date : ").append(f.getEvenement().getDateDebut()).append("\n");
+            sb.append("  Prix : ").append(f.getEvenement().getPrix()).append("\n");
+            sb.append("  Ajouté le : ").append(f.getDateCreation()).append("\n\n");
         });
 
         return sb.toString();
     }
+
+//    public String getClientFavoris(Client client) throws FavorieNotFoundException {
+//
+//        if (client.getFavories() == null
+//                || client.getFavories().isEmpty()) {
+//
+//            throw new FavorieNotFoundException("Vous n'avez aucun favori.");
+//        }
+//
+//        StringBuilder sb = new StringBuilder();
+//
+//        sb.append("Vos favoris :\n\n");
+//
+//        client.getFavories().forEach(f -> {
+//
+//            sb.append("Liste : ")
+//                    .append(f.getDescription())
+//                    .append("\n");
+//
+//            if (f.getEvenements() != null) {
+//
+//                f.getEvenements().forEach(event -> {
+//
+//                    sb.append(" - ")
+//                            .append(event.getTitre())
+//                            .append("\n");
+//                });
+//            }
+//
+//            sb.append("\n");
+//        });
+//
+//        return sb.toString();
+//    }
 
     public String getClientPromotions(Client client) throws PromotionNotFoundException {
 
@@ -239,26 +259,47 @@ public class RovistaAssistantService implements IRovisitaAssistantService {
     }
 
     public String getClientContext(Client client) {
-
         return """
-                Client :
-                Nom : %s
-                Prénom : %s
-                Email : %s
+            Client :
+            Nom : %s
+            Prénom : %s
+            Email : %s
 
-                Nombre de réservations : %d
-                Nombre de favoris : %d
-                Nombre de promotions : %d
-                """
+            Nombre de réservations : %d
+            Nombre d'événements favoris : %d
+            Nombre de promotions : %d
+            """
                 .formatted(
                         client.getNom(),
                         client.getPrenom(),
                         client.getEmail(),
-                        client.getReservations().size(),
-                        client.getFavories().size(),
-                        client.getPromotions().size()
+                        client.getReservations() != null ? client.getReservations().size() : 0,
+                        client.getFavories() != null ? client.getFavories().size() : 0,
+                        client.getPromotions() != null ? client.getPromotions().size() : 0
                 );
     }
+
+//    public String getClientContext(Client client) {
+//
+//        return """
+//                Client :
+//                Nom : %s
+//                Prénom : %s
+//                Email : %s
+//
+//                Nombre de réservations : %d
+//                Nombre de favoris : %d
+//                Nombre de promotions : %d
+//                """
+//                .formatted(
+//                        client.getNom(),
+//                        client.getPrenom(),
+//                        client.getEmail(),
+//                        client.getReservations().size(),
+//                        client.getFavories().size(),
+//                        client.getPromotions().size()
+//                );
+//    }
 
 }
 

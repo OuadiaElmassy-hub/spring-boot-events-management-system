@@ -9,6 +9,7 @@ import com.ouadia.rovista1.exceptions.AvisNotFoundException;
 import com.ouadia.rovista1.exceptions.EventNotFoundException;
 import com.ouadia.rovista1.mappers.AvisMapper;
 import com.ouadia.rovista1.repositories.AvisRepository;
+import com.ouadia.rovista1.repositories.EventRepository;
 import com.ouadia.rovista1.services.EvenementSpecification;
 import com.ouadia.rovista1.services.interfaces.IAvisService;
 import jakarta.transaction.Transactional;
@@ -31,9 +32,11 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class AvisServiceImpl implements IAvisService {
 
-    private AvisRepository repository;
-    private AvisRepository avisRepository;
-    private AvisMapper avisMapper;
+    private final AvisRepository repository;
+    private final AvisRepository avisRepository;
+    private final AvisMapper avisMapper;
+    private final EventRepository eventRepository;
+
 
 
 
@@ -101,8 +104,10 @@ public class AvisServiceImpl implements IAvisService {
 
         Pageable pageable = PageRequest.of(page, size);
 
-        Page<AvisResponseDto> avisPage = avisRepository.findAvisByEvenementId(id, pageable).orElseThrow
-                (() -> new EventNotFoundException("Event not found with id : " + id));
+        if (!eventRepository.existsById(id)){
+            throw new EventNotFoundException("Event not found with id : " + id);
+        }
+        Page<AvisResponseDto> avisPage = avisRepository.findAvisByEvenementId(id, pageable);
 
 //        List<AvisResponseDto> dtoList = new ArrayList<>();
 //        for (Avis avis : avisPage.getContent()) {

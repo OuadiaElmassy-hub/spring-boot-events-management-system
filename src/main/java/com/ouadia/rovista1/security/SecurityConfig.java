@@ -14,12 +14,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
-import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -40,7 +36,8 @@ public class SecurityConfig {
                                            JwtFilter jwtFilter,
                                            LoginRateLimitFilter loginRateLimitFilter) throws Exception {
         http
-                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(
+                        sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults()) // active CORS
                 //.httpBasic(Customizer.withDefaults()) toujour envouyer header Authorisation contient username et password
@@ -49,14 +46,14 @@ public class SecurityConfig {
                 .headers(h -> h.frameOptions(f -> f.disable()))
                 .exceptionHandling(e -> e
                         .authenticationEntryPoint((request, response, authException) -> {
-                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-                    response.setContentType("application/json");
-                    response.setCharacterEncoding("UTF-8");
-                    String msg = authException.getMessage() != null ? authException.getMessage() : "Non authentifié";
-                    response.getWriter().write("{\"message\":\"" + msg + "\"}");
-                }))
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.setContentType("application/json");
+                            response.setCharacterEncoding("UTF-8");
+                            String msg = authException.getMessage() != null ? authException.getMessage() : "Non authentifié";
+                            response.getWriter().write("{\"message\":\"" + msg + "\"}");
+                        }))
                 .authorizeHttpRequests(auth -> auth
-                                //.anyRequest().permitAll()
+                        //.anyRequest().permitAll()
                         // Routes publiques
                         .requestMatchers("/api/auth/register/client", "/api/auth/register/organisateur", "/api/auth/login").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
@@ -129,4 +126,26 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http
+//                .formLogin(form -> form
+//                        .loginPage("/login")           // your custom login page
+//                        .defaultSuccessUrl("/home")
+//                        .failureUrl("/login?error")
+//                        .permitAll()
+//                )
+//                .logout(logout -> logout
+//                        .logoutUrl("/logout")
+//                        .logoutSuccessUrl("/login")
+//                        .permitAll()
+//                ).cors(Customizer.withDefaults())
+//                .authorizeHttpRequests(auth -> auth
+//                        .requestMatchers("/public/**", "/login", "/register").permitAll()
+//                        .requestMatchers("/admin/**").hasRole("ADMIN")
+//                        .anyRequest().authenticated()
+//                );
+//        return http.build();
+//    }
 }

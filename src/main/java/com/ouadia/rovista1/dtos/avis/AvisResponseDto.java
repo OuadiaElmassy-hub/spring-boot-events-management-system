@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 public class AvisResponseDto {
 
     private Long id;
@@ -19,17 +18,13 @@ public class AvisResponseDto {
     private LocalDateTime dateAvis;
 
     // Données anonymisées/publiques du client
-    private String clientNom;
+    private String nom;
+    private String prenom;
     private String avatarUrl;
-    private String visiteurNom;
     private Long evenementId;
-<<<<<<< HEAD
 
-=======
-    private Long clientId;
-    private String clientNom;      // ← ajoute
-    private String clientPrenom;   // ← ajoute
-    private Long visiteurId;
-    private String visiteurNom;    // ← ajoute
->>>>>>> 1e894bbb80d513546d55e1a91703946d40521ea3
+    // pas besoin de id car on a recuperer le nom et prenom et avatar.
+//    private Long clientId;
+//    private Long visiteurId;
+
 }
