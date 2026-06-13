@@ -58,7 +58,7 @@ public class OrganizerProfileService {
         org.setAdresse(req.getVille());
 
         // Profil organisateur
-        org.setLogoUrl(req.getLogoUrl());
+        org.setAvatar(req.getLogoUrl());
         org.setNumRegistre(req.getNumRegister());
         org.setSiret(req.getSiret());
         organisateurRepository.save(org);

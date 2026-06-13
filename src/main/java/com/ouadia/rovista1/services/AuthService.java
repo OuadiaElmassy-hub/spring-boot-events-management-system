@@ -14,10 +14,7 @@ import com.ouadia.rovista1.entities.enums.StatutOrganisateur;
 import com.ouadia.rovista1.exceptions.BusinessException;
 import com.ouadia.rovista1.exceptions.RoleNotFoundException;
 import com.ouadia.rovista1.exceptions.UserNotFoundException;
-import com.ouadia.rovista1.repositories.ClientRepository;
-import com.ouadia.rovista1.repositories.OrganisateurRepository;
-import com.ouadia.rovista1.repositories.RoleRepository;
-import com.ouadia.rovista1.repositories.UtilisateurRepository;
+import com.ouadia.rovista1.repositories.*;
 import com.ouadia.rovista1.security.JwtService;
 import com.ouadia.rovista1.security.MyUserDetails;
 import lombok.RequiredArgsConstructor;
@@ -56,6 +53,7 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
+    private final AdminRepository adminRepository;
 
     public AuthResponse login(LoginRequest request) {
 
@@ -133,8 +131,11 @@ public class AuthService {
         client.setEmail(req.getEmail());
         client.setMotDePasse(passwordEncoder.encode(req.getPassword()));
         client.setNom(req.getNom());
+        client.setPrenom(req.getPrenom());
+        client.setEnabled(true);
         client.setPhone(req.getPhone());
         client.setAdresse(req.getVille());
+        client.setCreatedAt(LocalDateTime.now());
         client.setStatutCompte(StatutCompte.ACTIF);
         Role role = roleRepository.findByRoleName("CLIENT")
                 .orElseThrow(() -> new RoleNotFoundException("Role not found with name : CLIENT "));
@@ -149,7 +150,9 @@ public class AuthService {
         Map<String, Object> extraClaims = Map.of(
                 "id", userDetails.getId(),
                 "nom", userDetails.getNom(),
-                "email", userDetails.getUsername(),
+                "username", userDetails.getUsername(),
+                "email", userDetails.getEmail(),
+                "prenom", userDetails.getUsername(),
                 "roles", List.of(role.getRoleName()) // ["CLIENT"]
         );
 
@@ -172,12 +175,14 @@ public class AuthService {
         org.setUsername(req.getUsername());
         org.setEmail(req.getEmail());
         org.setMotDePasse(passwordEncoder.encode(req.getPassword()));
-        org.setNom(req.getOrganisationNom());
+        org.setNomOrganisation(req.getOrganisationNom());
+        org.setNom(req.getNom());
+        org.setPrenom(req.getPrenom());
         org.setPhone(req.getPhone());
         org.setAdresse(req.getAdresse());
         org.setSiret(req.getSiret());
         org.setNumRegistre(req.getNumRegister());
-        org.setDateValidation(LocalDateTime.now());
+        org.setCreatedAt(LocalDateTime.now());
         org.setStatutCompte(StatutCompte.INACTIF);
         org.setStatutOrganisateur(StatutOrganisateur.INACTIF);
         org.setStatutOrganisateur(StatutOrganisateur.SUSPENDU);
@@ -188,7 +193,7 @@ public class AuthService {
         Role role2 = roleRepository.findByRoleName("CLIENT")
                 .orElseThrow(() -> new RoleNotFoundException("Role not found with name : CLIENT "));
         org.setRoles(List.of(role,role2));
-        org.setVerified(true);
+        org.setVerified(false);
         org = organisateurRepo.save(org);
 
         return "Demande envoyée. Votre compte sera activé après validation par l'admin.";

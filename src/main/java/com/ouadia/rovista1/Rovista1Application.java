@@ -81,9 +81,11 @@ public class Rovista1Application {
                     o1.setRoles(List.of(r1, r2));
                     o1.setNumRegistre(667899799L);
                     o1.setSiret("667899799L");
-                    o1.setNom("orgnaisateur1");
+                    o1.setNomOrganisation("orgnaisateur1");
+                    o1.setPrenom("Mohamed");
+                    o1.setNom("Zahi");
                     o1.setDateValidation(LocalDateTime.now());
-                    o1.setLogoUrl("../assets/image1");
+                    o1.setAvatar("../assets/image1");
             o1.setCreatedAt(LocalDateTime.now());
 
 
@@ -104,9 +106,11 @@ public class Rovista1Application {
             o2.setStatutOrganisateur(StatutOrganisateur.ACTIF);
             o2.setVerified(true);
             o2.setNumRegistre(622399799L);
-            o2.setNom("orgnaisateur2");
+            o2.setNomOrganisation("orgnaisateur2");
+            o2.setPrenom("Hajar");
+            o2.setNom("El Alami");
             o2.setDateValidation(LocalDateTime.now());
-            o2.setLogoUrl("../assets/image2");
+            o2.setAvatar("../assets/image2");
 
             organisateurRepository.save(o2);
 
@@ -125,9 +129,11 @@ public class Rovista1Application {
             o3.setVerified(true);
             o3.setStatutOrganisateur(StatutOrganisateur.ACTIF);
             o3.setNumRegistre(667835499L);
-            o3.setNom("orgnaisateur3");
+            o3.setNomOrganisation("orgnaisateur3");
+            o3.setPrenom("Ahmed");
+            o3.setNom("Ben Ali");
             o3.setDateValidation(LocalDateTime.now());
-            o3.setLogoUrl("../assets/image3");
+            o3.setAvatar("../assets/image3");
 
 
             organisateurRepository.save(o3);

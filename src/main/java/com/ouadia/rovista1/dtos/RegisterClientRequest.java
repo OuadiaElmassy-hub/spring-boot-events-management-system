@@ -12,6 +12,7 @@ public class RegisterClientRequest {
     String email;
     String password;
     String nom;
+    String prenom;
     String phone;
     String ville;
 }

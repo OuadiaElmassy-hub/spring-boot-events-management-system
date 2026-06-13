@@ -69,14 +69,24 @@ public interface EventRepository extends JpaRepository<Evenement,Long>,
 
     // Pour le dashboard Admin : ____________________________________
 
+
     @Query("""
         SELECT e FROM Evenement e
         WHERE (:search    IS NULL OR LOWER(e.titre) LIKE LOWER(CONCAT('%',:search,'%'))
                                   OR LOWER(e.organisateur.nom) LIKE LOWER(CONCAT('%',:search,'%')))
-        AND   (:status    IS NULL OR e.statutEvenement    = :status)
-        AND   (:categorie IS NULL OR e.categorie.nom = :categorie)
-        AND   (:ville     IS NULL OR e.ville     = :ville)
-    """)
+        AND   (:status    IS NULL OR e.statutEvenement = :status)
+        AND   (:categorie IS NULL OR e.categorie.nom   = :categorie)
+        AND   (:ville     IS NULL OR e.ville           = :ville)
+        AND   e.statutEvenement != com.ouadia.rovista1.entities.enums.StatutEvenement.BROUILLON
+        ORDER BY
+            CASE e.statutEvenement
+                WHEN com.ouadia.rovista1.entities.enums.StatutEvenement.EN_ATTENTE THEN 0
+                WHEN com.ouadia.rovista1.entities.enums.StatutEvenement.APPROUVE   THEN 1
+                WHEN com.ouadia.rovista1.entities.enums.StatutEvenement.REJETE     THEN 2
+                ELSE 3
+            END ASC,
+        e.dateCreation DESC
+""")
     Page<Evenement> searchAdmin(
             @Param("search")    String search,
             @Param("status")    StatutEvenement status,

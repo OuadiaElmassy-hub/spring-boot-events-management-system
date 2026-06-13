@@ -7,12 +7,15 @@ import lombok.Setter;
 @Setter
 @Builder
 public class RegisterOrganisateurRequest{
-        String username;
-        String email;
-        String password;
-        String phone;
-        String adresse;
-        String organisationNom;
-        String siret;
-        Long numRegister;
+
+    String nom;
+    String prenom;
+    String username;
+    String email;
+    String password;
+    String phone;
+    String adresse;
+    String organisationNom;
+    String siret;
+    Long numRegister;
 }

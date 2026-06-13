@@ -24,6 +24,7 @@ public interface OrganisateurRepository extends JpaRepository<Organisateur,Long>
                LOWER(op.nom) LIKE LOWER(CONCAT('%', :search, '%')) OR
                LOWER(op.email) LIKE LOWER(CONCAT('%', :search, '%')))
         AND   (:verified IS NULL OR op.verified = :verified)
+        ORDER BY op.verified ASC
     """)
     Page<Organisateur> search(
             @Param("search")   String search,

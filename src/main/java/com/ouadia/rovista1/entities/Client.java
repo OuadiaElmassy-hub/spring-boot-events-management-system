@@ -18,9 +18,6 @@ import java.util.List;
 @PrimaryKeyJoinColumn(name = "utilisateur_id")
 public class Client extends Utilisateur{
 
-    @Column(nullable = false)
-    private String prenom;
-    @Column(nullable = false)
     private LocalDate dateNaissance;
 
     @ManyToMany(mappedBy = "clients" )
@@ -35,8 +32,7 @@ public class Client extends Utilisateur{
 
 
     public Client(Long id, String username, String nom, String email, String motDePasse, StatutCompte statutCompte, String phone, String adresse, List<Notification> notifications, List<Role> roles, String prenom, LocalDate dateNaissance, List<Promotion> promotions, List<Reservation> reservations, List<Avis> avis, List<Favorie> favories) {
-        super(id, username, nom, email, motDePasse, statutCompte, phone, adresse);
-        this.prenom = prenom;
+        super(id, username, nom, prenom, email, motDePasse, statutCompte, phone, adresse);
         this.dateNaissance = dateNaissance;
         this.promotions = promotions;
         this.reservations = reservations;
@@ -44,9 +40,10 @@ public class Client extends Utilisateur{
         this.favories = favories;
     }
 
-    public Client(Long id, String username, String email, String motDePasse, StatutCompte statutCompte, String phone, String adresse, String nom, String prenom, LocalDate dateNaissance, List<Promotion> promotions, List<Reservation> reservations, List<Avis> avis, List<Favorie> favories) {
-        super(id, username, nom, email, motDePasse, statutCompte, phone, adresse);
-        this.prenom = prenom;
+    public Client(Long id, String username, String email, String motDePasse, StatutCompte statutCompte, String phone,
+                  String adresse, String nom, String prenom, LocalDate dateNaissance, List<Promotion> promotions,
+                  List<Reservation> reservations, List<Avis> avis, List<Favorie> favories) {
+        super(id, username, nom, prenom, email, motDePasse, statutCompte, phone, adresse);
         this.dateNaissance = dateNaissance;
         this.promotions = promotions;
         this.reservations = reservations;
@@ -55,7 +52,7 @@ public class Client extends Utilisateur{
     }
 
 
-    public Client(Long id, String username, String email, String motDePasse, StatutCompte statutCompte, String phone, String adresse, String nom) {
-        super(id, username, nom, email, motDePasse, statutCompte, phone, adresse);
+    public Client(Long id, String username, String email, String motDePasse, StatutCompte statutCompte, String phone, String adresse, String nom, String prenom) {
+        super(id, username, nom, prenom, email, motDePasse, statutCompte, phone, adresse);
     }
 }

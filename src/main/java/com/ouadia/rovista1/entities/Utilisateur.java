@@ -28,6 +28,8 @@ public class Utilisateur {
     @Column(nullable = false)
     private String nom;
     @Column(nullable = false)
+    private String prenom;
+    @Column(nullable = false)
     private String username;
     @Column(nullable = false)
     private String motDePasse;
@@ -41,6 +43,7 @@ public class Utilisateur {
     private String adresse;
 
     private String avatar;
+    @Column(nullable = false)
     private LocalDateTime createdAt;
 
     @OneToMany(mappedBy = "destinataire")
@@ -50,34 +53,37 @@ public class Utilisateur {
 
 
 
-    public Utilisateur(Long id, String username, String nom, String email, String motDePasse,
+    public Utilisateur(Long id, String username, String nom, String prenom, String email, String motDePasse,
             StatutCompte statutCompte, String phone, String adresse) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.nom = nom;
+        this.prenom = prenom;
         this.motDePasse = motDePasse;
         this.statutCompte = statutCompte;
         this.phone = phone;
         this.adresse = adresse;
     }
 
-    public Utilisateur(String username, String nom, String email, String motDePasse,
+    public Utilisateur(String username, String nom, String prenom, String email, String motDePasse,
                        StatutCompte statutCompte, String phone, String adresse) {
         this.username = username;
         this.email = email;
         this.nom = nom;
+        this.prenom = prenom;
         this.motDePasse = motDePasse;
         this.statutCompte = statutCompte;
         this.phone = phone;
         this.adresse = adresse;
     }
-    public Utilisateur(Long id, String username, String nom, String email, String motDePasse,
+    public Utilisateur(Long id, String username, String nom, String prenom, String email, String motDePasse,
                        StatutCompte statutCompte, String phone, String adresse, List<Notification> notifications, List<Role> roles) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.nom = nom;
+        this.prenom = prenom;
         this.motDePasse = motDePasse;
         this.statutCompte = statutCompte;
         this.phone = phone;

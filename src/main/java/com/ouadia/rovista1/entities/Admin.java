@@ -21,15 +21,12 @@ import java.util.List;
 @PrimaryKeyJoinColumn(name = "utilisateur_id")
 public class Admin extends Utilisateur{
 
-    @Column(nullable = false)
-    private String prenom;
     private LocalDate dateNaissance;
 
     public Admin(Long id, String username, String email, String motDePasse, StatutCompte statutCompte, String phone,
                     String adresse, List<Notification> notifications, List<Role> roles, String nom, String prenom,
                     LocalDate dateNaissance) {
-        super(id, username, nom, email, motDePasse, statutCompte, phone, adresse, notifications, roles);
-        this.prenom = prenom;
+        super(id, username, nom, prenom, email, motDePasse, statutCompte, phone, adresse, notifications, roles);
         this.dateNaissance = dateNaissance;
     }
 }
