@@ -65,7 +65,7 @@ public interface EventRepository extends JpaRepository<Evenement,Long>,
             " LOWER(c.nom) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<Evenement> searchEvents(String keyword);
 
-    Evenement findByIdAndStatutEvenement(Long id, StatutEvenement statutEvenement);
+    Optional<Evenement> findByIdAndStatutEvenement(Long id, StatutEvenement statutEvenement);
 
     // Pour le dashboard Admin : ____________________________________
 

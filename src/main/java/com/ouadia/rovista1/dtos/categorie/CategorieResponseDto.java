@@ -12,6 +12,6 @@ public class CategorieResponseDto {
     private Long id;
     private String nom;
     private String description;
-    private String imageUrl;
+    private String iconUrl;
 
 }

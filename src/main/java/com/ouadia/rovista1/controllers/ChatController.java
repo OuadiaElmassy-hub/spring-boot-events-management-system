@@ -24,6 +24,7 @@ public class ChatController {
     @PostMapping("/ask")
     public ResponseEntity<String> askChatbot(@RequestBody Map<String, String> payload) throws PromotionNotFoundException, ReservationNotFoundException, BilletNotFoundException, FavorieNotFoundException, JsonProcessingException {
         String question = payload.get("question");
+
         if (question == null || question.isBlank()) {
             return ResponseEntity.badRequest().body("La question ne peut pas être vide.");
         }

@@ -13,10 +13,6 @@ import java.util.Map;
 
 public interface ICategorieService {
 
-    CategorieResponseDto addCategorie(CategorieRequestDto categorieDto, MultipartFile image) throws BusinessException, StorageProblemException;
-
-    public CategorieResponseDto editCategorie(CategorieRequestDto categorieDto , Long id) throws CategorieNotFoundException;
-    public CategorieResponseDto editCategorieMap(Long id , Map<String,Object> map) throws CategorieNotFoundException;
     public CategorieResponseDto getCategorieById(Long id )throws  CategorieNotFoundException;
     public List<CategorieResponseDto> getAllCategories();
     public void deleteCategorieById( Long id);

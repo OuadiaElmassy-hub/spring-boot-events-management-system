@@ -48,6 +48,7 @@ public class EvenementMapper {
                 .dateFin(e.getDateFin())
                 .capacite(e.getCapacite())
                 .placesRestants(e.getPlacesRestants())
+                .nbPlacesVIP(e.getNbPlacesVIP())
                 .prix(e.getPrix())
                 .categorieId(e.getCategorie().getId())
                 .organisateurId(e.getOrganisateur().getId())

@@ -1,6 +1,7 @@
 package com.ouadia.rovista1.entities.enums;
 
 public enum TypePromotion {
+    POURCENTAGE,
     REDUCTION_PORCENTAGE,
     REDUCTION_PRIX_FIX,
     EARLY_BIRD,

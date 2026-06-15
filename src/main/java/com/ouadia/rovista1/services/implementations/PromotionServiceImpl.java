@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -67,10 +68,10 @@ public class PromotionServiceImpl implements IPromotionService {
                 promotion1.setTitre((String) map.get("titre"));
             }
             if (map.containsKey("dateDebut")) {
-                promotion1.setDateDebut((LocalDateTime) map.get("dateDebut"));
+                promotion1.setDateDebut((LocalDate) map.get("dateDebut"));
             }
             if (map.containsKey("dateFin")) {
-                promotion1.setDateFin((LocalDateTime) map.get("dateFin"));
+                promotion1.setDateFin((LocalDate) map.get("dateFin"));
             }
             if (map.containsKey("typePromotion")) {
                 promotion1.setType(TypePromotion.valueOf(map.get("typePromotion").toString()));

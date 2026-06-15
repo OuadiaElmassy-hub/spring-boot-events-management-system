@@ -38,5 +38,7 @@ public class EvenementResponseDto {
     private Long categorieId;
     private Long organisateurId;
 
+    private int nbPlacesVIP;
+
     private double rating;
 }

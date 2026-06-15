@@ -25,7 +25,7 @@ public class Notification {
     @Enumerated(EnumType.STRING)
     private TypeMessage typeMessage; // "EVENT_SUBMITTED", "USER_REGISTERED", etc.
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Utilisateur destinataire;
 
     @PrePersist void onCreate() { this.createdAt = LocalDateTime.now(); }

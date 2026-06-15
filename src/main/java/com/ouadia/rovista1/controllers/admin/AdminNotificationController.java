@@ -41,7 +41,7 @@ public class AdminNotificationController {
     }
 
     // PATCH /api/admin/notifications/lit-tout
-    @PatchMapping("/lit-tout")
+    @PatchMapping("/lire-tout")
     public ResponseEntity<Void> markAllRead() {
         notifService.markAllRead();
         return ResponseEntity.ok().build();

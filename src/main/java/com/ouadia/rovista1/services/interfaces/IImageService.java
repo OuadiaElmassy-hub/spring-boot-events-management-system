@@ -12,6 +12,5 @@ public interface IImageService {
     Image creatImage(Image img);
     List<String> getAllImagesUrls(List<Image> images);
     Evenement stockageDesImagesEvenement(Evenement evenement, List<MultipartFile> images) throws StorageProblemException;
-    Categorie stockageDesImagesCategorie(Categorie categorie, MultipartFile image) throws StorageProblemException;
     void deleteImage(Long id);
 }

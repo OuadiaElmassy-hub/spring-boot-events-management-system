@@ -19,12 +19,17 @@ public class CreateUpdateEventRequest {
     String titre;
     String description;
     @NotNull
-    LocalDateTime date;
-    @NotBlank String lieu;
+    LocalDateTime dateDebut;
+    @NotNull
+    LocalDateTime dateFin;
+    @NotBlank String lieuSpecifique;
+    @NotBlank String ville;
     @NotNull @PositiveOrZero
     Double prix;
     @NotNull @Positive
     Integer capacite;
+    Integer nbPlacesVIP;
+    Integer categorieId;
     String categorie;
-    String status;          // "Brouillon" | "Publié"
+    String statutEvenement;          // "Brouillon" | "Publié"
 }

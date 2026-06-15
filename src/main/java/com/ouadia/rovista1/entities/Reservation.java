@@ -28,9 +28,9 @@ public class Reservation {
     @Column(nullable = false)
     private BigDecimal montant;
 
-    @OneToMany(mappedBy = "reservation")
+    @OneToMany(mappedBy = "reservation", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Billet> billets;
-    @OneToOne(mappedBy = "reservation")
+    @OneToOne(mappedBy = "reservation", cascade = CascadeType.ALL, orphanRemoval = true)
     private Paiement paiement;
     @ManyToOne
     private Evenement evenement;

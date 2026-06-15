@@ -90,13 +90,8 @@ public class JwtFilter extends OncePerRequestFilter {
             }
         }
 
-
-
-
-
         // Token invalide ou expiré → on laisse passer sans authentifier
         // Spring renverra 401 automatiquement sur les routes protégées
         filterChain.doFilter(request, response);
-
     }
 }

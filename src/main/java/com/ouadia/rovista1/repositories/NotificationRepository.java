@@ -31,4 +31,17 @@ public interface NotificationRepository extends JpaRepository<Notification,Long>
     void markOneRead(@Param("id") Long id);
 
     long countByDestinataireIdAndEstLuFalse(Long userId);
+
+    @Query("SELECT COUNT(n) FROM Notification n WHERE n.destinataire IS NULL AND n.estLu = false")
+    long countAdminUnread();
+
+    /** Notifications d'un utilisateur spécifique */
+    Page<Notification> findByDestinataireIdOrderByCreatedAtDesc(Long userId, Pageable pageable);
+
+    @Query("SELECT COUNT(n) FROM Notification n WHERE n.destinataire.id = :uid AND n.estLu = false")
+    long countUnreadByUser(@Param("uid") Long uid);
+
+    @Modifying
+    @Query("UPDATE Notification n SET n.estLu = true WHERE n.destinataire.id = :uid")
+    void markAllUserRead(@Param("uid") Long uid);
 }

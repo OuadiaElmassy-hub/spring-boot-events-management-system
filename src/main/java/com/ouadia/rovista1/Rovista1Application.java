@@ -200,7 +200,7 @@ public class Rovista1Application {
             e1.setCategorie(c2);
             e1.setStatutEvenement(StatutEvenement.APPROUVE);
             e1.setCapacite(500);
-            e1.setVille("CasaBlanca");
+            e1.setVille("Casablanca");
             e1.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
             e1.setDateCreation(LocalDateTime.now());
             e1.setOrganisateur(o1);
@@ -248,7 +248,7 @@ public class Rovista1Application {
             e4.setCategorie(c3);
             e4.setStatutEvenement(StatutEvenement.APPROUVE);
             e4.setCapacite(150);
-            e4.setVille("Esawira");
+            e4.setVille("Essaouira");
             e4.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
             e4.setDateCreation(LocalDateTime.now());
             e4.setOrganisateur(o1);
@@ -264,7 +264,7 @@ public class Rovista1Application {
             e5.setCategorie(c5);
             e5.setStatutEvenement(StatutEvenement.APPROUVE);
             e5.setCapacite(150);
-            e5.setVille("Casa");
+            e5.setVille("Casablanca");
             e5.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
             e5.setDateCreation(LocalDateTime.now());
             e5.setOrganisateur(o1);
@@ -280,7 +280,7 @@ public class Rovista1Application {
             e6.setCategorie(c2);
             e6.setStatutEvenement(StatutEvenement.APPROUVE);
             e6.setCapacite(150);
-            e6.setVille("Casa");
+            e6.setVille("Casablanca");
             e6.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
             e6.setDateCreation(LocalDateTime.now());
             e6.setOrganisateur(o2);

@@ -140,61 +140,6 @@ public class ImageServiceImpl implements IImageService {
 
 
     @Override
-    public Categorie stockageDesImagesCategorie(Categorie categorie, MultipartFile image) throws StorageProblemException {
-        if (image == null || image.isEmpty()) {
-            return categorie;
-        }
-
-        try {
-            Path categorieFolder = Paths.get(
-                    uploadDir,
-                    "categories-images",
-                    "cat_num_" + categorie.getId()
-            );
-
-            // Création du dossier s'il n'existe pas
-            Files.createDirectories(categorieFolder);
-
-            // Génération d'un nom unique
-            String imageName =
-                    UUID.randomUUID() + "_" +
-                            image.getOriginalFilename();
-
-            Path imagePath = categorieFolder.resolve(imageName);
-
-            // Sauvegarde physique du fichier
-            Files.copy(
-                    image.getInputStream(),
-                    imagePath,
-                    StandardCopyOption.REPLACE_EXISTING
-            );
-            // URL accessible depuis le frontend
-            String imageUrl =
-                    "/uploads/categories-images/cat_num_"
-                            + categorie.getId()
-                            + "/"
-                            + imageName;
-
-            Image img = repository.save(
-                    Image.builder()
-                            .nom(imageName)
-                            .url(imageUrl)
-                            .type(image.getContentType())
-                            .categorie(categorie)
-                            .build()
-            );
-            categorie.setImage(img);
-
-        return categorie;
-        } catch (IOException e) {
-            throw new StorageProblemException(
-                    "Erreur lors du stockage des images : "
-                            + e.getMessage()
-            );
-        }
-    }
-
-    @Override
     public void deleteImage(Long id) {
         repository.deleteById(id);
     }

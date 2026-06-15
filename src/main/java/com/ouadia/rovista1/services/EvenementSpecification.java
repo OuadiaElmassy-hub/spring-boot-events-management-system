@@ -1,6 +1,7 @@
 package com.ouadia.rovista1.services;
 
 import com.ouadia.rovista1.entities.Evenement;
+import com.ouadia.rovista1.entities.enums.StatutEvenement;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -22,6 +23,8 @@ public class EvenementSpecification {
             if (date != null){
                 predicates.add(criteriaBuilder.equal(root.get("dateDebut"), date));
             }
+
+            predicates.add(criteriaBuilder.equal(root.get("statutEvenement"), StatutEvenement.APPROUVE));
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }
@@ -82,6 +85,7 @@ public class EvenementSpecification {
                 predicates.add(cb.lessThanOrEqualTo(root.get("prix"), prixMax));
             }
 
+            predicates.add(cb.equal(root.get("statutEvenement"), StatutEvenement.APPROUVE));
             return cb.and(predicates.toArray(new Predicate[0]));
         };
     }

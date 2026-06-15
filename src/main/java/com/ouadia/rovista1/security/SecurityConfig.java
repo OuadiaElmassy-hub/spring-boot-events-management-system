@@ -55,11 +55,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         //.anyRequest().permitAll()
                         // Routes publiques
-                        .requestMatchers("/api/auth/register/client", "/api/auth/register/organisateur", "/api/auth/login").permitAll()
+                        .requestMatchers("/api/auth/register/client", "/api/auth/register/organisateur",
+                                "/api/auth/login").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/public/events/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/public/categories/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/uploads/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/uploads/**").permitAll()
                         .requestMatchers("/api/auth/me").authenticated() // pas permitAll
                         // Routes par rôle
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")

@@ -1,15 +1,16 @@
 package com.ouadia.rovista1.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Data // pour les methode getter, setter, toString() , hachcode() ,equals()
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -19,12 +20,31 @@ public class Categorie {
     private Long id;
     @Column(nullable = false)
     private String nom;
-    @Column(nullable = false,columnDefinition = "text")
+
+    @Column(length = 500, nullable = false,columnDefinition = "text")
     private String description;
-    @OneToMany(mappedBy = "categorie")
+
+    /** URL publique de l'icône stockée (S3 ou /uploads) */
+    @Column(name = "icon_url")
+    private String iconUrl;
+
+    /** Couleur hex d'accentuation ex: "#6366f1" */
+    @Column(length = 20)
+    private String couleur;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private Boolean active = true;
+
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
+    @OneToMany(mappedBy = "categorie", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Evenement> evenements;
-    @OneToOne(mappedBy = "categorie")
-    private Image image;
 
     public Categorie(String nom, String description) {
         this.nom = nom;

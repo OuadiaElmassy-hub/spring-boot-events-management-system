@@ -3,10 +3,14 @@ package com.ouadia.rovista1.controllers.organisateur;
 import com.ouadia.rovista1.dtos.organisateur.CreateUpdateEventRequest;
 import com.ouadia.rovista1.dtos.organisateur.OrgEventDTO;
 import com.ouadia.rovista1.dtos.organisateur.PatchEventStatusRequest;
+import com.ouadia.rovista1.entities.Evenement;
 import com.ouadia.rovista1.entities.Organisateur;
 import com.ouadia.rovista1.exceptions.CategorieNotFoundException;
+import com.ouadia.rovista1.exceptions.EventNotFoundException;
 import com.ouadia.rovista1.repositories.OrganisateurRepository;
+import com.ouadia.rovista1.security.MyUserDetails;
 import com.ouadia.rovista1.security.SecurityUtils;
+import com.ouadia.rovista1.services.FileStorageService;
 import com.ouadia.rovista1.services.organisateur.OrganizerEventService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +18,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/organisateur/events")
@@ -49,34 +59,21 @@ public class OrganizerEventController {
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
-    /*
-        @PostMapping("/{eventId}/images")
-        public void uploadImage(
+
+    @PostMapping("/{eventId}/images")
+        public ResponseEntity<?> uploadImage(
                 @PathVariable Long eventId,
                 @AuthenticationPrincipal MyUserDetails user,
-                @RequestParam MultipartFile image){
-            eventImageService.upload(user.getId(), eventId, image );
+                @RequestParam List<MultipartFile> images){
+        try {
+            eventService.storeEventImages(user.getId(), eventId, images );
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        } catch (EventNotFoundException e) {
+            return ResponseEntity.badRequest().build();
+        } catch (IOException e) {
+            return ResponseEntity.internalServerError().build();
         }
-
-        Service :
-         public void upload(Long orgId, Long eventId, MultipartFile image ){
-
-            Evenement event = eventRepo .findByIdAndOrganisateurId( eventId, orgId )
-                            .orElseThrow(() -> new ResponseStatusException(
-                            HttpStatus.FORBIDDEN));
-          // upload image
-        }
-
-        Ainsi :
-        Organisateur A
-            ↓
-        Upload image événement A
-            OK
-        Organisateur A
-            ↓
-        Upload image événement B
-            403 Forbidden
-    */
+    }
 
     // PUT /api/organisateur/events/{id}
     @PutMapping("/{id}")

@@ -293,9 +293,10 @@ public class EventServiceImpl implements IEventService {
 
     @Override
     @Transactional(readOnly = true)
-    public EvenementResponseDto getPublishedEvenementById(Long id) {
+    public EvenementResponseDto getPublishedEvenementById(Long id) throws EventNotFoundException {
         return evenementMapper.mappingEvenementToEvenementDtoResponse
-                (repository.findByIdAndStatutEvenement(id, StatutEvenement.APPROUVE));
+                (repository.findByIdAndStatutEvenement(id, StatutEvenement.APPROUVE)
+                        .orElseThrow(() -> new EventNotFoundException("Event not found with id : " + id)));
     }
 
     @Override

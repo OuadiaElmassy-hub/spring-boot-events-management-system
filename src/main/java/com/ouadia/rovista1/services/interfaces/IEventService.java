@@ -52,7 +52,7 @@ public interface IEventService {
     void validAndPublieEvent(Long id) throws EventNotFoundException;
     void rejeterEvent(Long id) throws EventNotFoundException;
 
-    EvenementResponseDto getPublishedEvenementById(Long id);
+    EvenementResponseDto getPublishedEvenementById(Long id) throws EventNotFoundException;
 
     List<VilleResponseDto> getVilles();
 

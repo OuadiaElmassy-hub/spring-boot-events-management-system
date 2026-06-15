@@ -22,13 +22,6 @@ public class CategorieController {
 
     final ICategorieService service;
 
-    @PostMapping(path = "admin/categories", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<CategorieResponseDto> creatCategorie(
-            @RequestPart CategorieRequestDto categorieDto,
-            @RequestPart MultipartFile image) throws BusinessException, StorageProblemException {
-        return ResponseEntity.ok(service.addCategorie(categorieDto, image));
-    }
-
     @GetMapping("/public/categories")
     public ResponseEntity<List<CategorieResponseDto>> getAllCategories(){
         return ResponseEntity.ok(service.getAllCategories());
@@ -39,9 +32,4 @@ public class CategorieController {
         return ResponseEntity.ok(service.getCategorieById(id));
     }
 
-    @DeleteMapping("/admin/categories/{id}")
-    public ResponseEntity<Void> deleteCategorieById(@PathVariable Long id) throws CategorieNotFoundException {
-        service.deleteCategorieById(id);
-        return ResponseEntity.noContent().build();
-    }
 }

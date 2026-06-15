@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,8 +21,8 @@ import java.util.List;
 public class PromotionResponseDto {
     private Long id;
     private String titre;
-    private LocalDateTime dateDebut;
-    private LocalDateTime dateFin;
+    private LocalDate dateDebut;
+    private LocalDate dateFin;
     private TypePromotion type;
     private boolean estApprove;
     private Long organisateurId;
