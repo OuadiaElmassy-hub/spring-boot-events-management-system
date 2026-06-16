@@ -67,6 +67,7 @@ public class Rovista1Application {
 
             adminRepository.save(a);
 
+            String BASE_URL_CAT = "http://localhost:8080/api/uploads/categories/";
 
             Organisateur o1 = new Organisateur();
                     o1.setUsername("organisateur1");
@@ -141,11 +142,13 @@ public class Rovista1Application {
             Categorie c1 = new Categorie();
             c1.setNom("Sports");
             c1.setDescription("Evenements sportifs");
+            c1.setIconUrl(BASE_URL_CAT+"sport.svg");
             categorieRepository.save(c1);
 
             Categorie c2 = new Categorie();
             c2.setNom("Festivals");
             c2.setDescription("festivals and music");
+            c2.setIconUrl(BASE_URL_CAT+"festival.svg");
             categorieRepository.save(c2);
 
             Categorie c3 = new Categorie();
@@ -156,16 +159,19 @@ public class Rovista1Application {
             Categorie c4 = new Categorie();
             c4.setNom("Conferences");
             c4.setDescription("Conferences and courses");
+            c4.setIconUrl(BASE_URL_CAT+"conference.svg");
             categorieRepository.save(c4);
 
             Categorie c5 = new Categorie();
             c5.setNom("Concerts");
-            c5.setDescription("Conserts");
+            c5.setDescription("Concerts");
+            c5.setIconUrl(BASE_URL_CAT+"celebration.svg");
             categorieRepository.save(c5);
 
             Categorie c6 = new Categorie();
             c6.setNom("Théâtre");
             c6.setDescription("Théâtre");
+            c6.setIconUrl(BASE_URL_CAT+"theatre.svg");
             categorieRepository.save(c6);
 
             Categorie c7 = new Categorie();
@@ -186,6 +192,7 @@ public class Rovista1Application {
             Categorie c10 = new Categorie();
             c10.setNom("Culture");
             c10.setDescription("Local Culture");
+            c10.setIconUrl(BASE_URL_CAT+"culture.svg");
             categorieRepository.save(c10);
 
 

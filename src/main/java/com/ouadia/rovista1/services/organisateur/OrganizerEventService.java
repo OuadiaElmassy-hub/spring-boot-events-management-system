@@ -196,21 +196,24 @@ public class OrganizerEventService {
                 .mapToDouble(r -> e.getPrix() != 0 ? e.getPrix() : 0)
                 .sum()
             : 0.0;
+        System.out.println("Capacite >>>>>>>>>>> "+e.getCapacite());
+        System.out.println("Lieu >>>>>>>>>>> "+e.getLieuSpecifique());
+        return OrgEventDTO.builder()
+                .id(e.getId())
+                .titre(e.getTitre())
+                .description(e.getDescription())
+                .date(e.getDateDebut() != null ? e.getDateDebut().toString() : null)
+                .lieu(e.getLieuSpecifique())
+                .ville(e.getVille())
+                .prix(e.getPrix())
+                .capacite(e.getCapacite())
+                .participants((int) participants)
+                .revenus(revenus)
+                .status(formatStatus(e.getStatutEvenement()))
+                .categorie(e.getCategorie() != null ? e.getCategorie().getNom() : null)
+                .createdAt(e.getDateCreation() != null ? e.getDateCreation().toString() : null)
+                .build();
 
-        return new OrgEventDTO(
-            e.getId(),
-            e.getTitre(),
-            e.getDescription(),
-            e.getDateDebut() != null ? e.getDateDebut().toString() : null,
-            e.getVille(),
-            e.getPrix(),
-            e.getCapacite(),
-            (int) participants,
-            revenus,
-            formatStatus(e.getStatutEvenement()),
-            e.getCategorie() != null ? e.getCategorie().getNom() : null,
-            e.getDateCreation() != null ? e.getDateCreation().toString() : null
-        );
     }
 
     private StatutEvenement parseStatus(String s) {

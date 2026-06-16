@@ -15,6 +15,8 @@ public class AdminEventDTO{
     private String categorie;
     private String date;
     private String lieu;
+    private String ville;
+    private int capacite;
     private Double prix;
     private String status;
     private String motif;
