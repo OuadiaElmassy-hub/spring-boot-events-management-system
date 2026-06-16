@@ -62,6 +62,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/uploads/**").permitAll()
 
                         // Routes protégées par rôle
+                        .requestMatchers("/api/chat/**").permitAll()
+                        .requestMatchers("/api/auth/me").authenticated() // pas permitAll
+                        // Routes par rôle
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/organisateur/**").hasRole("ORGANISATEUR")
                         .requestMatchers("/api/client/**").hasRole("CLIENT")
@@ -80,7 +83,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173")); // autorise ton frontend
+        config.setAllowedOriginPatterns(List.of("http://localhost:*"));  // autorise ton frontend
         config.setAllowedMethods(List.of("GET","POST","PUT","DELETE", "PATCH", "OPTIONS"));
         config.setAllowedHeaders(
                 List.of(
