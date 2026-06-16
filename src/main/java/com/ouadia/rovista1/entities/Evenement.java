@@ -38,6 +38,14 @@ public class Evenement {
 
     private int placesRestants;
     @Column(nullable = false)
+    private int nbPlaceVIP = 0;
+
+    @Column(nullable = false)
+    private int placesVIPRestantes = 0;
+
+    @Column(nullable = false)
+    private double prixVIP = 0;
+    @Column(nullable = false)
     private double prix; // pour une place normale
     @CreationTimestamp
     private LocalDateTime dateCreation;
