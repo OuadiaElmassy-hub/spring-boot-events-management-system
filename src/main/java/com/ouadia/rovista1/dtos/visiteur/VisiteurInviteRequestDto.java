@@ -14,5 +14,5 @@ public class VisiteurInviteRequestDto {
     private  String prenom;
     private String email;
     private String phone;
-    private String adresse;
+
 }

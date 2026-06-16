@@ -200,14 +200,18 @@ public class Rovista1Application {
             c11.setNom("Excursion");
             c11.setDescription("Circuit avec des amis");
             categorieRepository.save(c11);
-
+// e1 - Festival Casa
             Evenement e1 = new Evenement();
             e1.setTitre("Festival Casa 3rd Edition");
             e1.setDescription("festival a casa");
             e1.setCategorie(c2);
             e1.setStatutEvenement(StatutEvenement.APPROUVE);
             e1.setCapacite(500);
-            e1.setVille("Casablanca");
+            e1.setPlacesRestants(500);
+            e1.setNbPlacesVIP(50);
+            e1.setPlacesVIPRestantes(50);
+            e1.setPrixVIP(250.0);
+            e1.setVille("CasaBlanca");
             e1.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
             e1.setDateCreation(LocalDateTime.now());
             e1.setOrganisateur(o1);
@@ -217,12 +221,17 @@ public class Rovista1Application {
             e1.setDateValidation(LocalDateTime.now());
             eventRepository.save(e1);
 
+// e2 - Marathon Marrakech
             Evenement e2 = new Evenement();
             e2.setTitre("Marathon Marrakech");
             e2.setDescription("Big marathon de marrakech");
             e2.setCategorie(c1);
             e2.setStatutEvenement(StatutEvenement.APPROUVE);
             e2.setCapacite(500);
+            e2.setPlacesRestants(500);
+            e2.setNbPlacesVIP(0);
+            e2.setPlacesVIPRestantes(0);
+            e2.setPrixVIP(0);
             e2.setVille("Marrakech");
             e2.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
             e2.setDateCreation(LocalDateTime.now());
@@ -233,12 +242,17 @@ public class Rovista1Application {
             e2.setDateValidation(LocalDateTime.now());
             eventRepository.save(e2);
 
+// e3 - Conference AI
             Evenement e3 = new Evenement();
             e3.setTitre("Conference sur l' AI");
             e3.setDescription("Big Conference sur l'AI et Tech");
             e3.setCategorie(c4);
             e3.setStatutEvenement(StatutEvenement.APPROUVE);
             e3.setCapacite(100);
+            e3.setPlacesRestants(100);
+            e3.setNbPlacesVIP(20);
+            e3.setPlacesVIPRestantes(20);
+            e3.setPrixVIP(350.0);
             e3.setVille("Rabat");
             e3.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
             e3.setDateCreation(LocalDateTime.now());
@@ -249,13 +263,18 @@ public class Rovista1Application {
             e3.setDateValidation(LocalDateTime.now());
             eventRepository.save(e3);
 
+// e4 - Exposition Maroc
             Evenement e4 = new Evenement();
-            e4.setTitre("Exposition international du Maroc ");
+            e4.setTitre("Exposition international du Maroc");
             e4.setDescription("Salon des produits marocaines traditionnel");
             e4.setCategorie(c3);
             e4.setStatutEvenement(StatutEvenement.APPROUVE);
             e4.setCapacite(150);
-            e4.setVille("Essaouira");
+            e4.setPlacesRestants(150);
+            e4.setNbPlacesVIP(0);
+            e4.setPlacesVIPRestantes(0);
+            e4.setPrixVIP(0);
+            e4.setVille("Esawira");
             e4.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
             e4.setDateCreation(LocalDateTime.now());
             e4.setOrganisateur(o1);
@@ -265,13 +284,18 @@ public class Rovista1Application {
             e4.setDateValidation(LocalDateTime.now());
             eventRepository.save(e4);
 
+// e5 - Concert Rock
             Evenement e5 = new Evenement();
             e5.setTitre("Concert Rock Legends");
             e5.setDescription("Concert Rock Legends");
             e5.setCategorie(c5);
             e5.setStatutEvenement(StatutEvenement.APPROUVE);
             e5.setCapacite(150);
-            e5.setVille("Casablanca");
+            e5.setPlacesRestants(150);
+            e5.setNbPlacesVIP(30);
+            e5.setPlacesVIPRestantes(30);
+            e5.setPrixVIP(299.99);
+            e5.setVille("Casa");
             e5.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
             e5.setDateCreation(LocalDateTime.now());
             e5.setOrganisateur(o1);
@@ -281,13 +305,18 @@ public class Rovista1Application {
             e5.setDateValidation(LocalDateTime.now());
             eventRepository.save(e5);
 
+// e6 - Festival Jazz
             Evenement e6 = new Evenement();
             e6.setTitre("Festival Jazz & Blues");
             e6.setDescription("Festival Jazz & Blues");
             e6.setCategorie(c2);
             e6.setStatutEvenement(StatutEvenement.APPROUVE);
             e6.setCapacite(150);
-            e6.setVille("Casablanca");
+            e6.setPlacesRestants(150);
+            e6.setNbPlacesVIP(20);
+            e6.setPlacesVIPRestantes(20);
+            e6.setPrixVIP(250.0);
+            e6.setVille("Casa");
             e6.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
             e6.setDateCreation(LocalDateTime.now());
             e6.setOrganisateur(o2);
@@ -297,12 +326,17 @@ public class Rovista1Application {
             e6.setDateValidation(LocalDateTime.now());
             eventRepository.save(e6);
 
+// e7 - Conference Tech
             Evenement e7 = new Evenement();
             e7.setTitre("Conférence Tech 2026");
             e7.setDescription("Conférence Tech 2026");
             e7.setCategorie(c4);
             e7.setStatutEvenement(StatutEvenement.APPROUVE);
             e7.setCapacite(150);
+            e7.setPlacesRestants(150);
+            e7.setNbPlacesVIP(25);
+            e7.setPlacesVIPRestantes(25);
+            e7.setPrixVIP(300.0);
             e7.setVille("Rabat");
             e7.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
             e7.setDateCreation(LocalDateTime.now());
@@ -313,12 +347,17 @@ public class Rovista1Application {
             e7.setDateValidation(LocalDateTime.now());
             eventRepository.save(e7);
 
+// e8 - Exposition Art
             Evenement e8 = new Evenement();
             e8.setTitre("Exposition Art Moderne");
             e8.setDescription("Exposition Art Moderne");
             e8.setCategorie(c3);
             e8.setStatutEvenement(StatutEvenement.APPROUVE);
             e8.setCapacite(150);
+            e8.setPlacesRestants(150);
+            e8.setNbPlacesVIP(0);
+            e8.setPlacesVIPRestantes(0);
+            e8.setPrixVIP(0);
             e8.setVille("Marrakech");
             e8.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
             e8.setDateCreation(LocalDateTime.now());
@@ -329,12 +368,17 @@ public class Rovista1Application {
             e8.setDateValidation(LocalDateTime.now());
             eventRepository.save(e8);
 
+// e9 - Theatre
             Evenement e9 = new Evenement();
             e9.setTitre("Théâtre: Le Malade Imaginaire");
             e9.setDescription("Exposition Art Moderne");
             e9.setCategorie(c6);
             e9.setStatutEvenement(StatutEvenement.APPROUVE);
             e9.setCapacite(150);
+            e9.setPlacesRestants(150);
+            e9.setNbPlacesVIP(15);
+            e9.setPlacesVIPRestantes(15);
+            e9.setPrixVIP(400.0);
             e9.setVille("Marrakech");
             e9.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
             e9.setDateCreation(LocalDateTime.now());

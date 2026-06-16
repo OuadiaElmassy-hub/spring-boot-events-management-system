@@ -19,7 +19,7 @@ public class VisiteurMapper {
                 .prenom(dto.getPrenom())
                 .email(dto.getEmail())
                 .phone(dto.getPhone())
-                .adresse(dto.getAdresse())
+
                 .build();
     }
     public VisiteurInviteResponseDto mappingVisiteurInviteToVisiteurInviteDtoResponse(VisiteurInvite e){

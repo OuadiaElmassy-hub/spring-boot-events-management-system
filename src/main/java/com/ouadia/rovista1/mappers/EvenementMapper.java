@@ -24,6 +24,9 @@ public class EvenementMapper {
                 .dateDebut(dto.getDateDebut())
                 .dateFin(dto.getDateFin())
                 .capacite(dto.getCapacite())
+                .nbPlacesVIP(dto.getNbPlaceVIP())      // ← ajoute
+                .placesVIPRestantes(dto.getNbPlaceVIP()) // ← ajoute (au début = nbPlaceVIP)
+                .prixVIP(dto.getPrixVIP())
                 .prix(dto.getPrix())
                 .build();
     }
@@ -49,6 +52,8 @@ public class EvenementMapper {
                 .capacite(e.getCapacite())
                 .placesRestants(e.getPlacesRestants())
                 .nbPlacesVIP(e.getNbPlacesVIP())
+                .placesVIPRestantes(e.getPlacesVIPRestantes())
+                .prixVIP(e.getPrixVIP())
                 .prix(e.getPrix())
                 .categorieId(e.getCategorie().getId())
                 .organisateurId(e.getOrganisateur().getId())

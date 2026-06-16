@@ -1,24 +1,12 @@
 package com.ouadia.rovista1.controllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ouadia.rovista1.dtos.PageResponse;
 import com.ouadia.rovista1.dtos.VilleResponseDto;
-
-import com.ouadia.rovista1.dtos.evenement.EvenementRequestDto;
 import com.ouadia.rovista1.dtos.evenement.EvenementResponseDto;
-import com.ouadia.rovista1.dtos.evenement.UpdateEvenementRequestDto;
-
 import com.ouadia.rovista1.exceptions.*;
-import com.ouadia.rovista1.services.interfaces.IAvisService;
 import com.ouadia.rovista1.services.interfaces.IEventService;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,42 +20,6 @@ import java.util.List;
 public class EventController {
 
     private final IEventService service;
-    private final ObjectMapper mapper;
-
-    // on doit separer les end points de chque type de user !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-    private final IAvisService avisservice;
-
-    @PostMapping(path = "/organisateur/events", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<EvenementResponseDto> addEvent(@RequestPart
-                                                         @Valid @Parameter(content = @Content(mediaType = "application/json")) EvenementRequestDto dto,
-                                                         @RequestPart("imagesFiles")
-                                                         List<MultipartFile> imagesFiles,
-                                                         @RequestParam Long organisateurId) throws BusinessException,
-            CategorieNotFoundException, StorageProblemException, OrganisateurNotFoundException {
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(service.createEvenement(dto, imagesFiles, organisateurId));
-    }
-
-    // version 2 pour swagger
-
-//    @PostMapping(path = "/organisateur/events", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//    public ResponseEntity<EvenementResponseDto> addEventJson(@RequestPart("dto") String dtoJson,
-//                                                         @RequestPart("imageFile")
-//                                                         List<MultipartFile> imagesFiles,
-//                                                         @RequestParam Long organisateurId) throws BusinessException,
-//            CategorieNotFoundException, StorageProblemException, OrganisateurNotFoundException, JsonProcessingException {
-//
-//        EvenementRequestDto dto = mapper.readValue(dtoJson, EvenementRequestDto.class);
-//        return ResponseEntity.status(HttpStatus.CREATED)
-//                .body(service.createEvenement(dto, imagesFiles, organisateurId)); // 201 Created + body
-//    }
-
-// pour l'admin
-    @GetMapping("/admin/events/{id}")
-    public ResponseEntity<EvenementResponseDto> getEventById(@PathVariable Long id) throws EventNotFoundException {
-        return ResponseEntity.ok(service.getEvenementById(id));
-    }
 
     @GetMapping("/public/events/search/{id}")
     public ResponseEntity<EvenementResponseDto> getPublishedEventById(@PathVariable Long id) throws EventNotFoundException {
@@ -88,7 +40,7 @@ public class EventController {
             @RequestParam(required = false) String keyword,
             @RequestParam(required = false) Long categorieId,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "8") int size) {
+            @RequestParam(defaultValue = "9") int size) {
 
         return ResponseEntity.ok(service.searchEvents(page, size,
                 categorieId,
@@ -114,21 +66,6 @@ public class EventController {
         return ResponseEntity.ok(service.getAllPublishedEvenementsForCategorie(categorieId, numPage, size));
     }
 
-//    @GetMapping("/public/events/{id}/avis")
-//    public ResponseEntity<PageResponse<AvisResponseDto>> getListAvisByEvenementId(
-//            @RequestParam(name = "page", defaultValue = "0") int page,
-//            @RequestParam(name = "size", defaultValue = "5") int size,
-//            @PathVariable Long id) throws EventNotFoundException {
-//        return ResponseEntity.ok(avisservice.getListAvisByEvenementId(page, size, id));
-//    }
-
-    //@PutMapping("/organisateur/events/{id}")
-    public ResponseEntity<EvenementResponseDto> updateEvenement(@PathVariable Long id,
-                                                @RequestPart UpdateEvenementRequestDto dto)
-            throws BusinessException, EventNotFoundException, PromotionNotFoundException, CategorieNotFoundException {
-        return ResponseEntity.ok(service.updateEvenement(id, dto));
-    }
-
     @PutMapping("/organisateur/events/{id}/images")
     public ResponseEntity<EvenementResponseDto> updateImagesEvenement(
             @PathVariable Long id,
@@ -142,9 +79,4 @@ public class EventController {
         return ResponseEntity.ok(service.demandeValidation(id));
     }
 
-    //@DeleteMapping("/organisateur/events/{id}")
-    public ResponseEntity<String> deleteEventById(@PathVariable Long id) throws EventNotFoundException {
-        service.deleteEvenement(id);
-        return ResponseEntity.noContent().build();
-    }
 }

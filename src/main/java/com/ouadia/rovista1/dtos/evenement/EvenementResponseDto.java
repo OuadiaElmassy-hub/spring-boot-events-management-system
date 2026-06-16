@@ -29,7 +29,9 @@ public class EvenementResponseDto {
 
     private int capacite;
     private int placesRestants;
-
+    private int nbPlacesVIP;
+    private int placesVIPRestantes;
+    private double prixVIP;
     private double prix; // pour une place normale
     private StatutEvenement statutEvenement;
 
@@ -37,8 +39,6 @@ public class EvenementResponseDto {
 
     private Long categorieId;
     private Long organisateurId;
-
-    private int nbPlacesVIP;
 
     private double rating;
 }

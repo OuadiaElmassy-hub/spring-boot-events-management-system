@@ -1,4 +1,4 @@
-package com.ouadia.rovista1.Mapper;
+package com.ouadia.rovista1.mappers;
 
 import com.ouadia.rovista1.dtos.AdminDto;
 import com.ouadia.rovista1.entities.Admin;

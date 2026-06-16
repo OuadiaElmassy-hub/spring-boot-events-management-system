@@ -3,7 +3,6 @@ package com.ouadia.rovista1.services.admin;
 import com.ouadia.rovista1.dtos.PageResponse;
 import com.ouadia.rovista1.dtos.admin.AdminCategorieDTO;
 import com.ouadia.rovista1.dtos.categorie.CategorieResponseDto;
-import com.ouadia.rovista1.dtos.evenement.EvenementResponseDto;
 import com.ouadia.rovista1.exceptions.BusinessException;
 import com.ouadia.rovista1.exceptions.CategorieNotFoundException;
 import com.ouadia.rovista1.mappers.CategorieMapper;

@@ -40,9 +40,7 @@ public class SecurityConfig {
                         sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults()) // active CORS
-                //.httpBasic(Customizer.withDefaults()) toujour envouyer header Authorisation contient username et password
-                // alors on vas utiliser jwt
-                //.formLogin(Customizer.withDefaults())
+
                 .headers(h -> h.frameOptions(f -> f.disable()))
                 .exceptionHandling(e -> e
                         .authenticationEntryPoint((request, response, authException) -> {
@@ -53,26 +51,30 @@ public class SecurityConfig {
                             response.getWriter().write("{\"message\":\"" + msg + "\"}");
                         }))
                 .authorizeHttpRequests(auth -> auth
-                        //.anyRequest().permitAll()
+
                         // Routes publiques
-                        .requestMatchers("/api/auth/register/client", "/api/auth/register/organisateur",
+                        .requestMatchers("/api/auth/register/client",
+                                "/api/auth/register/organisateur",
                                 "/api/auth/login").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/public/events/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/public/categories/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/uploads/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/public/events/**").permitAll()
+                        .requestMatchers("/api/public/checkout/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/uploads/**").permitAll()
+
+                        .requestMatchers("/api/chat/**").permitAll()
                         .requestMatchers("/api/auth/me").authenticated() // pas permitAll
                         // Routes par rôle
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/organisateur/**").hasRole("ORGANISATEUR")
                         .requestMatchers("/api/client/**").hasRole("CLIENT")
 
-                        // Tout le reste → authentifié
+                        // Tout le reste -> authentifié
                         .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider)
 
-                // Placer le filtre JWT AVANT le filtre username/password de Spring
+                // On place le filtre JWT AVANT le filtre username/password de Spring
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(loginRateLimitFilter, JwtFilter.class);
         return http.build();
@@ -81,7 +83,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("http://localhost:5173")); // autorise ton frontend
+        config.setAllowedOriginPatterns(List.of("http://localhost:*"));  // autorise ton frontend
         config.setAllowedMethods(List.of("GET","POST","PUT","DELETE", "PATCH", "OPTIONS"));
         config.setAllowedHeaders(
                 List.of(
@@ -96,26 +98,13 @@ public class SecurityConfig {
         return source;
     }
 
-    //Règle : Tu dois toujours avoir UserDetailsService.
-    //AuthenticationProvider = optionnel si tu fais que du JWT stateless sans page /login.
-    //Mais si tu as un endpoint /auth/login → il te faut AuthenticationProvider qui utilise
-    // ton UserDetailsService.Sans AuthenticationProvider, Spring sait pas comment comparer
-    // le password reçu au login avec le hash en DB.
-
     @Bean
     public AuthenticationProvider authenticationProvider(UserDetailsServiceImpl userDetailsService, PasswordEncoder passwordEncoder) {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService); // <- injecté
+        authProvider.setUserDetailsService(userDetailsService);
         authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
-
-    // AuthenticationManager n’est pas lié à InMemory/JDBC.
-    // Il est lié au fait que tu as un endpoint /auth/login.
-    // Controller → AuthenticationManager.authenticate(token)
-    //→ DaoAuthenticationProvider
-    //→ UserDetailsService.loadUserByUsername()
-    //→ PasswordEncoder.matches()
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
@@ -127,26 +116,4 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .formLogin(form -> form
-//                        .loginPage("/login")           // your custom login page
-//                        .defaultSuccessUrl("/home")
-//                        .failureUrl("/login?error")
-//                        .permitAll()
-//                )
-//                .logout(logout -> logout
-//                        .logoutUrl("/logout")
-//                        .logoutSuccessUrl("/login")
-//                        .permitAll()
-//                ).cors(Customizer.withDefaults())
-//                .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/public/**", "/login", "/register").permitAll()
-//                        .requestMatchers("/admin/**").hasRole("ADMIN")
-//                        .anyRequest().authenticated()
-//                );
-//        return http.build();
-//    }
 }
