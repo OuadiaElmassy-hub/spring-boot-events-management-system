@@ -29,7 +29,9 @@ public class EvenementResponseDto {
 
     private int capacite;
     private int placesRestants;
-
+    private int nbPlaceVIP;
+    private int placesVIPRestantes;
+    private double prixVIP;
     private double prix; // pour une place normale
     private StatutEvenement statutEvenement;
 

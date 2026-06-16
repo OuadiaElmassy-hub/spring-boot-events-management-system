@@ -30,6 +30,8 @@ public class EvenementRequestDto {
     private String ville; //enum
     @Min(10)
     private int capacite;
+    private int nbPlaceVIP = 0;
+    private double prixVIP = 0;
     @Positive
     private double prix; // pour une place normale
     @Positive
