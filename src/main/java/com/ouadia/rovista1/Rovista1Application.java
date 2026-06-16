@@ -67,7 +67,7 @@ public class Rovista1Application {
 
             adminRepository.save(a);
 
-            String BASE_URL_CAT = "http://localhost:8080/api/uploads/categories/";
+            String BASE_URL_CAT = "/uploads/categories/";
 
             Organisateur o1 = new Organisateur();
                     o1.setUsername("organisateur1");
@@ -154,6 +154,7 @@ public class Rovista1Application {
             Categorie c3 = new Categorie();
             c3.setNom("Expositions");
             c3.setDescription("Local Products");
+            c3.setIconUrl(BASE_URL_CAT+"exposition.svg");
             categorieRepository.save(c3);
 
             Categorie c4 = new Categorie();
@@ -173,21 +174,25 @@ public class Rovista1Application {
             c6.setDescription("Théâtre");
             c6.setIconUrl(BASE_URL_CAT+"theatre.svg");
             categorieRepository.save(c6);
-
-            Categorie c7 = new Categorie();
-            c7.setNom("Gastronomie");
-            c7.setDescription("Gastronomie");
-            categorieRepository.save(c7);
-
-            Categorie c8 = new Categorie();
-            c8.setNom("Randonnée");
-            c8.setDescription("Randonnée");
-            categorieRepository.save(c8);
-
-            Categorie c9 = new Categorie();
-            c9.setNom("Désert");
-            c9.setDescription("Désert");
-            categorieRepository.save(c9);
+//
+//            Categorie c7 = new Categorie();
+//            c7.setNom("Gastronomie");
+//            c7.setDescription("Gastronomie");
+//            categorieRepository.save(c7);
+//
+//            Categorie c8 = new Categorie();
+//            c8.setNom("Randonnée");
+//            c8.setDescription("Randonnée");
+//            categorieRepository.save(c8);
+//
+//            Categorie c9 = new Categorie();
+//            c9.setNom("Désert");
+//            c9.setDescription("Désert");
+//            categorieRepository.save(c9);
+//            Categorie c11 = new Categorie();
+//            c11.setNom("Excursion");
+//            c11.setDescription("Circuit avec des amis");
+//            categorieRepository.save(c11);
 
             Categorie c10 = new Categorie();
             c10.setNom("Culture");
@@ -196,10 +201,7 @@ public class Rovista1Application {
             categorieRepository.save(c10);
 
 
-            Categorie c11 = new Categorie();
-            c11.setNom("Excursion");
-            c11.setDescription("Circuit avec des amis");
-            categorieRepository.save(c11);
+
 // e1 - Festival Casa
             Evenement e1 = new Evenement();
             e1.setTitre("Festival Casa 3rd Edition");

@@ -60,7 +60,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/public/categories/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/public/events/**").permitAll()
                         .requestMatchers("/api/public/checkout/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/uploads/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/uploads/**").permitAll()
 
                         .requestMatchers("/api/chat/**").permitAll()
                         .requestMatchers("/api/auth/me").authenticated() // pas permitAll
