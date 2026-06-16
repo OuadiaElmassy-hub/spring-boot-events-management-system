@@ -135,9 +135,9 @@ public class Rovista1Application {
             o3.setNom("Ben Ali");
             o3.setDateValidation(LocalDateTime.now());
             o3.setAvatar("../assets/image3");
-
-
             organisateurRepository.save(o3);
+
+            //c6 = Théâtre/Arts
 
             Categorie c1 = new Categorie();
             c1.setNom("Sports");
@@ -200,196 +200,383 @@ public class Rovista1Application {
             c10.setIconUrl(BASE_URL_CAT+"culture.svg");
             categorieRepository.save(c10);
 
-
-
-// e1 - Festival Casa
+// e1 - Mawazine Rabat
             Evenement e1 = new Evenement();
-            e1.setTitre("Festival Casa 3rd Edition");
-            e1.setDescription("festival a casa");
+            e1.setTitre("Mawazine Festival 2026");
+            e1.setDescription("Plus grand festival musical d'Afrique avec artistes internationaux et marocains");
             e1.setCategorie(c2);
             e1.setStatutEvenement(StatutEvenement.APPROUVE);
-            e1.setCapacite(500);
-            e1.setPlacesRestants(500);
-            e1.setNbPlacesVIP(50);
-            e1.setPlacesVIPRestantes(50);
-            e1.setPrixVIP(250.0);
-            e1.setVille("CasaBlanca");
-            e1.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
+            e1.setCapacite(20000);
+            e1.setPlacesRestants(20000);
+            e1.setNbPlacesVIP(500);
+            e1.setPlacesVIPRestantes(500);
+            e1.setPrixVIP(800.0);
+            e1.setVille("Rabat");
+            e1.setLieuSpecifique("Esplanade Salé - Boureg");
             e1.setDateCreation(LocalDateTime.now());
             e1.setOrganisateur(o1);
-            e1.setDateDebut(LocalDateTime.of(2026, 6, 2, 10, 0));
-            e1.setDateFin(LocalDateTime.of(2026, 6, 4, 20, 0));
-            e1.setPrix(100.0);
+            e1.setDateDebut(LocalDateTime.of(2026, 6, 20, 18, 0));
+            e1.setDateFin(LocalDateTime.of(2026, 6, 28, 2, 0));
+            e1.setPrix(150.0);
             e1.setDateValidation(LocalDateTime.now());
             eventRepository.save(e1);
 
-// e2 - Marathon Marrakech
+// e2 - Marathon International Marrakech
             Evenement e2 = new Evenement();
-            e2.setTitre("Marathon Marrakech");
-            e2.setDescription("Big marathon de marrakech");
-            e2.setCategorie(c1);
+            e2.setTitre("Marathon International de Marrakech");
+            e2.setDescription("42km, 21km et 10km à travers la ville ocre");
+            e1.setCategorie(c1);
             e2.setStatutEvenement(StatutEvenement.APPROUVE);
-            e2.setCapacite(500);
-            e2.setPlacesRestants(500);
+            e2.setCapacite(12000);
+            e2.setPlacesRestants(12000);
             e2.setNbPlacesVIP(0);
             e2.setPlacesVIPRestantes(0);
             e2.setPrixVIP(0);
             e2.setVille("Marrakech");
-            e2.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
+            e2.setLieuSpecifique("Bab Kouch - Hivernage");
             e2.setDateCreation(LocalDateTime.now());
             e2.setOrganisateur(o2);
-            e2.setDateDebut(LocalDateTime.of(2026, 6, 2, 10, 0));
-            e2.setDateFin(LocalDateTime.of(2026, 6, 4, 20, 0));
-            e2.setPrix(100.0);
+            e2.setDateDebut(LocalDateTime.of(2026, 1, 25, 7, 0));
+            e2.setDateFin(LocalDateTime.of(2026, 1, 25, 14, 0));
+            e2.setPrix(300.0);
             e2.setDateValidation(LocalDateTime.now());
             eventRepository.save(e2);
 
-// e3 - Conference AI
+// e3 - GITEX Africa
             Evenement e3 = new Evenement();
-            e3.setTitre("Conference sur l' AI");
-            e3.setDescription("Big Conference sur l'AI et Tech");
+            e3.setTitre("GITEX Africa Morocco 2026");
+            e3.setDescription("Plus grand salon Tech & AI d'Afrique avec startups et investisseurs");
             e3.setCategorie(c4);
             e3.setStatutEvenement(StatutEvenement.APPROUVE);
-            e3.setCapacite(100);
-            e3.setPlacesRestants(100);
-            e3.setNbPlacesVIP(20);
-            e3.setPlacesVIPRestantes(20);
-            e3.setPrixVIP(350.0);
-            e3.setVille("Rabat");
-            e3.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
+            e3.setCapacite(5000);
+            e3.setPlacesRestants(5000);
+            e3.setNbPlacesVIP(200);
+            e3.setPlacesVIPRestantes(200);
+            e3.setPrixVIP(1200.0);
+            e3.setVille("Marrakech");
+            e3.setLieuSpecifique("Bab Jdid Exhibition Center");
             e3.setDateCreation(LocalDateTime.now());
             e3.setOrganisateur(o3);
-            e3.setDateDebut(LocalDateTime.of(2026, 6, 2, 10, 0));
-            e3.setDateFin(LocalDateTime.of(2026, 6, 4, 20, 0));
-            e3.setPrix(150.0);
+            e3.setDateDebut(LocalDateTime.of(2026, 4, 15, 9, 0));
+            e3.setDateFin(LocalDateTime.of(2026, 4, 17, 18, 0));
+            e3.setPrix(500.0);
             e3.setDateValidation(LocalDateTime.now());
             eventRepository.save(e3);
 
-// e4 - Exposition Maroc
+// e4 - Festival Gnaoua Essaouira
             Evenement e4 = new Evenement();
-            e4.setTitre("Exposition international du Maroc");
-            e4.setDescription("Salon des produits marocaines traditionnel");
-            e4.setCategorie(c3);
+            e4.setTitre("Festival Gnaoua et Musiques du Monde");
+            e4.setDescription("Musique gnaoua, jazz et musiques du monde sur les remparts d'Essaouira");
+            e4.setCategorie(c2);
             e4.setStatutEvenement(StatutEvenement.APPROUVE);
-            e4.setCapacite(150);
-            e4.setPlacesRestants(150);
-            e4.setNbPlacesVIP(0);
-            e4.setPlacesVIPRestantes(0);
-            e4.setPrixVIP(0);
-            e4.setVille("Esawira");
-            e4.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
+            e4.setCapacite(8000);
+            e4.setPlacesRestants(8000);
+            e4.setNbPlacesVIP(300);
+            e4.setPlacesVIPRestantes(300);
+            e4.setPrixVIP(450.0);
+            e4.setVille("Essaouira");
+            e4.setLieuSpecifique("Place Moulay Hassan + Plage");
             e4.setDateCreation(LocalDateTime.now());
             e4.setOrganisateur(o1);
-            e4.setDateDebut(LocalDateTime.of(2026, 6, 2, 10, 0));
-            e4.setDateFin(LocalDateTime.of(2026, 6, 4, 20, 0));
-            e4.setPrix(50.99);
+            e4.setDateDebut(LocalDateTime.of(2026, 6, 25, 19, 0));
+            e4.setDateFin(LocalDateTime.of(2026, 6, 27, 1, 0));
+            e4.setPrix(120.0);
             e4.setDateValidation(LocalDateTime.now());
             eventRepository.save(e4);
 
-// e5 - Concert Rock
+// e5 - Jazzablanca
             Evenement e5 = new Evenement();
-            e5.setTitre("Concert Rock Legends");
-            e5.setDescription("Concert Rock Legends");
-            e5.setCategorie(c5);
+            e5.setTitre("Jazzablanca Festival 2026");
+            e5.setDescription("Festival jazz et musiques actuelles au coeur de Casablanca");
+            e5.setCategorie(c2);
             e5.setStatutEvenement(StatutEvenement.APPROUVE);
-            e5.setCapacite(150);
-            e5.setPlacesRestants(150);
-            e5.setNbPlacesVIP(30);
-            e5.setPlacesVIPRestantes(30);
-            e5.setPrixVIP(299.99);
-            e5.setVille("Casa");
-            e5.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
+            e5.setCapacite(4000);
+            e5.setPlacesRestants(4000);
+            e5.setNbPlacesVIP(150);
+            e5.setPlacesVIPRestantes(150);
+            e5.setPrixVIP(600.0);
+            e5.setVille("Casablanca");
+            e5.setLieuSpecifique("Parc de la Ligue Arabe");
             e5.setDateCreation(LocalDateTime.now());
             e5.setOrganisateur(o1);
-            e5.setDateDebut(LocalDateTime.of(2026, 6, 4, 10, 0));
-            e5.setDateFin(LocalDateTime.of(2026, 6, 6, 20, 0));
-            e5.setPrix(99.99);
+            e5.setDateDebut(LocalDateTime.of(2026, 5, 7, 20, 0));
+            e5.setDateFin(LocalDateTime.of(2026, 5, 9, 23, 30));
+            e5.setPrix(250.0);
             e5.setDateValidation(LocalDateTime.now());
             eventRepository.save(e5);
 
-// e6 - Festival Jazz
+// e6 - Salon du Livre Casablanca
             Evenement e6 = new Evenement();
-            e6.setTitre("Festival Jazz & Blues");
-            e6.setDescription("Festival Jazz & Blues");
-            e6.setCategorie(c2);
+            e6.setTitre("SIEL - Salon International du Livre");
+            e6.setDescription("Plus grand salon du livre au Maroc avec auteurs nationaux et internationaux");
+            e6.setCategorie(c3);
             e6.setStatutEvenement(StatutEvenement.APPROUVE);
-            e6.setCapacite(150);
-            e6.setPlacesRestants(150);
-            e6.setNbPlacesVIP(20);
-            e6.setPlacesVIPRestantes(20);
-            e6.setPrixVIP(250.0);
-            e6.setVille("Casa");
-            e6.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
+            e6.setCapacite(3000);
+            e6.setPlacesRestants(3000);
+            e6.setNbPlacesVIP(0);
+            e6.setPlacesVIPRestantes(0);
+            e6.setPrixVIP(0);
+            e6.setVille("Casablanca");
+            e6.setLieuSpecifique("Parc d'Expositions de l'OFEC");
             e6.setDateCreation(LocalDateTime.now());
             e6.setOrganisateur(o2);
-            e6.setDateDebut(LocalDateTime.of(2026, 6, 5, 10, 0));
-            e6.setDateFin(LocalDateTime.of(2026, 6, 6, 20, 0));
-            e6.setPrix(109.99);
+            e6.setDateDebut(LocalDateTime.of(2026, 2, 12, 10, 0));
+            e6.setDateFin(LocalDateTime.of(2026, 2, 22, 20, 0));
+            e6.setPrix(10.0);
             e6.setDateValidation(LocalDateTime.now());
             eventRepository.save(e6);
 
-// e7 - Conference Tech
+// e7 - Festival National des Arts Populaires Marrakech
             Evenement e7 = new Evenement();
-            e7.setTitre("Conférence Tech 2026");
-            e7.setDescription("Conférence Tech 2026");
-            e7.setCategorie(c4);
+            e7.setTitre("Festival National des Arts Populaires");
+            e7.setDescription("Folklore marocain, troupes du monde entier et défilés à Marrakech");
+            e7.setCategorie(c6);
             e7.setStatutEvenement(StatutEvenement.APPROUVE);
-            e7.setCapacite(150);
-            e7.setPlacesRestants(150);
-            e7.setNbPlacesVIP(25);
-            e7.setPlacesVIPRestantes(25);
-            e7.setPrixVIP(300.0);
-            e7.setVille("Rabat");
-            e7.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
+            e7.setCapacite(5000);
+            e7.setPlacesRestants(5000);
+            e7.setNbPlacesVIP(100);
+            e7.setPlacesVIPRestantes(100);
+            e7.setPrixVIP(200.0);
+            e7.setVille("Marrakech");
+            e7.setLieuSpecifique("Palais Badii + Place Jemaa el-Fna");
             e7.setDateCreation(LocalDateTime.now());
             e7.setOrganisateur(o3);
-            e7.setDateDebut(LocalDateTime.of(2026, 6, 3, 10, 0));
-            e7.setDateFin(LocalDateTime.of(2026, 6, 6, 20, 0));
-            e7.setPrix(109.99);
+            e7.setDateDebut(LocalDateTime.of(2026, 7, 10, 20, 0));
+            e7.setDateFin(LocalDateTime.of(2026, 7, 15, 23, 0));
+            e7.setPrix(80.0);
             e7.setDateValidation(LocalDateTime.now());
             eventRepository.save(e7);
 
-// e8 - Exposition Art
+// e8 - Tanger Jazz Festival
             Evenement e8 = new Evenement();
-            e8.setTitre("Exposition Art Moderne");
-            e8.setDescription("Exposition Art Moderne");
-            e8.setCategorie(c3);
+            e8.setTitre("Tanjazz Festival 2026");
+            e8.setDescription("Festival international de jazz et blues au détroit");
+            e8.setCategorie(c2);
             e8.setStatutEvenement(StatutEvenement.APPROUVE);
-            e8.setCapacite(150);
-            e8.setPlacesRestants(150);
-            e8.setNbPlacesVIP(0);
-            e8.setPlacesVIPRestantes(0);
-            e8.setPrixVIP(0);
-            e8.setVille("Marrakech");
-            e8.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
+            e8.setCapacite(2500);
+            e8.setPlacesRestants(2500);
+            e8.setNbPlacesVIP(80);
+            e8.setPlacesVIPRestantes(80);
+            e8.setPrixVIP(350.0);
+            e8.setVille("Tanger");
+            e8.setLieuSpecifique("Palais des Institutions Italiennes");
             e8.setDateCreation(LocalDateTime.now());
-            e8.setOrganisateur(o3);
-            e8.setDateDebut(LocalDateTime.of(2026, 6, 3, 10, 0));
-            e8.setDateFin(LocalDateTime.of(2026, 6, 5, 20, 0));
-            e8.setPrix(80.99);
+            e8.setOrganisateur(o2);
+            e8.setDateDebut(LocalDateTime.of(2026, 9, 10, 20, 30));
+            e8.setDateFin(LocalDateTime.of(2026, 9, 13, 0, 30));
+            e8.setPrix(180.0);
             e8.setDateValidation(LocalDateTime.now());
             eventRepository.save(e8);
 
-// e9 - Theatre
+// e9 - Fes Festival of World Sacred Music
             Evenement e9 = new Evenement();
-            e9.setTitre("Théâtre: Le Malade Imaginaire");
-            e9.setDescription("Exposition Art Moderne");
-            e9.setCategorie(c6);
+            e9.setTitre("Festival de Fès des Musiques Sacrées du Monde");
+            e9.setDescription("Musiques spirituelles et sacrés dans le cadre historique de Fès");
+            e9.setCategorie(c2);
             e9.setStatutEvenement(StatutEvenement.APPROUVE);
-            e9.setCapacite(150);
-            e9.setPlacesRestants(150);
-            e9.setNbPlacesVIP(15);
-            e9.setPlacesVIPRestantes(15);
-            e9.setPrixVIP(400.0);
-            e9.setVille("Marrakech");
-            e9.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
+            e9.setCapacite(3500);
+            e9.setPlacesRestants(3500);
+            e9.setNbPlacesVIP(120);
+            e9.setPlacesVIPRestantes(120);
+            e9.setPrixVIP(500.0);
+            e9.setVille("Fès");
+            e9.setLieuSpecifique("Bathâ Museum + Dar Batha");
             e9.setDateCreation(LocalDateTime.now());
-            e9.setOrganisateur(o2);
-            e9.setDateDebut(LocalDateTime.of(2026, 6, 4, 10, 0));
-            e9.setDateFin(LocalDateTime.of(2026, 6, 6, 20, 0));
-            e9.setPrix(160.99);
+            e9.setOrganisateur(o3);
+            e9.setDateDebut(LocalDateTime.of(2026, 5, 15, 20, 0));
+            e9.setDateFin(LocalDateTime.of(2026, 5, 23, 23, 30));
+            e9.setPrix(200.0);
             e9.setDateValidation(LocalDateTime.now());
             eventRepository.save(e9);
+
+//// e1 - Festival Casa
+//            Evenement e1 = new Evenement();
+//            e1.setTitre("Festival Casa 3rd Edition");
+//            e1.setDescription("festival a casa");
+//            e1.setCategorie(c2);
+//            e1.setStatutEvenement(StatutEvenement.APPROUVE);
+//            e1.setCapacite(500);
+//            e1.setPlacesRestants(500);
+//            e1.setNbPlacesVIP(50);
+//            e1.setPlacesVIPRestantes(50);
+//            e1.setPrixVIP(250.0);
+//            e1.setVille("Casablanca");
+//            e1.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
+//            e1.setDateCreation(LocalDateTime.now());
+//            e1.setOrganisateur(o1);
+//            e1.setDateDebut(LocalDateTime.of(2026, 6, 2, 10, 0));
+//            e1.setDateFin(LocalDateTime.of(2026, 6, 4, 20, 0));
+//            e1.setPrix(100.0);
+//            e1.setDateValidation(LocalDateTime.now());
+//            eventRepository.save(e1);
+//
+//// e2 - Marathon Marrakech
+//            Evenement e2 = new Evenement();
+//            e2.setTitre("Marathon Marrakech");
+//            e2.setDescription("Big marathon de marrakech");
+//            e2.setCategorie(c1);
+//            e2.setStatutEvenement(StatutEvenement.APPROUVE);
+//            e2.setCapacite(500);
+//            e2.setPlacesRestants(500);
+//            e2.setNbPlacesVIP(0);
+//            e2.setPlacesVIPRestantes(0);
+//            e2.setPrixVIP(0);
+//            e2.setVille("Marrakech");
+//            e2.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
+//            e2.setDateCreation(LocalDateTime.now());
+//            e2.setOrganisateur(o2);
+//            e2.setDateDebut(LocalDateTime.of(2026, 6, 2, 10, 0));
+//            e2.setDateFin(LocalDateTime.of(2026, 6, 4, 20, 0));
+//            e2.setPrix(100.0);
+//            e2.setDateValidation(LocalDateTime.now());
+//            eventRepository.save(e2);
+//
+//// e3 - Conference AI
+//            Evenement e3 = new Evenement();
+//            e3.setTitre("Conference sur l' AI");
+//            e3.setDescription("Big Conference sur l'AI et Tech");
+//            e3.setCategorie(c4);
+//            e3.setStatutEvenement(StatutEvenement.APPROUVE);
+//            e3.setCapacite(100);
+//            e3.setPlacesRestants(100);
+//            e3.setNbPlacesVIP(20);
+//            e3.setPlacesVIPRestantes(20);
+//            e3.setPrixVIP(350.0);
+//            e3.setVille("Rabat");
+//            e3.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
+//            e3.setDateCreation(LocalDateTime.now());
+//            e3.setOrganisateur(o3);
+//            e3.setDateDebut(LocalDateTime.of(2026, 6, 2, 10, 0));
+//            e3.setDateFin(LocalDateTime.of(2026, 6, 4, 20, 0));
+//            e3.setPrix(150.0);
+//            e3.setDateValidation(LocalDateTime.now());
+//            eventRepository.save(e3);
+//
+//// e4 - Exposition Maroc
+//            Evenement e4 = new Evenement();
+//            e4.setTitre("Exposition international du Maroc");
+//            e4.setDescription("Salon des produits marocaines traditionnel");
+//            e4.setCategorie(c3);
+//            e4.setStatutEvenement(StatutEvenement.APPROUVE);
+//            e4.setCapacite(150);
+//            e4.setPlacesRestants(150);
+//            e4.setNbPlacesVIP(0);
+//            e4.setPlacesVIPRestantes(0);
+//            e4.setPrixVIP(0);
+//            e4.setVille("Esawira");
+//            e4.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
+//            e4.setDateCreation(LocalDateTime.now());
+//            e4.setOrganisateur(o1);
+//            e4.setDateDebut(LocalDateTime.of(2026, 6, 2, 10, 0));
+//            e4.setDateFin(LocalDateTime.of(2026, 6, 4, 20, 0));
+//            e4.setPrix(50.99);
+//            e4.setDateValidation(LocalDateTime.now());
+//            eventRepository.save(e4);
+//
+//// e5 - Concert Rock
+//            Evenement e5 = new Evenement();
+//            e5.setTitre("Concert Rock Legends");
+//            e5.setDescription("Concert Rock Legends");
+//            e5.setCategorie(c5);
+//            e5.setStatutEvenement(StatutEvenement.APPROUVE);
+//            e5.setCapacite(150);
+//            e5.setPlacesRestants(150);
+//            e5.setNbPlacesVIP(30);
+//            e5.setPlacesVIPRestantes(30);
+//            e5.setPrixVIP(299.99);
+//            e5.setVille("Casa");
+//            e5.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
+//            e5.setDateCreation(LocalDateTime.now());
+//            e5.setOrganisateur(o1);
+//            e5.setDateDebut(LocalDateTime.of(2026, 6, 4, 10, 0));
+//            e5.setDateFin(LocalDateTime.of(2026, 6, 6, 20, 0));
+//            e5.setPrix(99.99);
+//            e5.setDateValidation(LocalDateTime.now());
+//            eventRepository.save(e5);
+//
+//// e6 - Festival Jazz
+//            Evenement e6 = new Evenement();
+//            e6.setTitre("Festival Jazz & Blues");
+//            e6.setDescription("Festival Jazz & Blues");
+//            e6.setCategorie(c2);
+//            e6.setStatutEvenement(StatutEvenement.APPROUVE);
+//            e6.setCapacite(150);
+//            e6.setPlacesRestants(150);
+//            e6.setNbPlacesVIP(20);
+//            e6.setPlacesVIPRestantes(20);
+//            e6.setPrixVIP(250.0);
+//            e6.setVille("Casa");
+//            e6.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
+//            e6.setDateCreation(LocalDateTime.now());
+//            e6.setOrganisateur(o2);
+//            e6.setDateDebut(LocalDateTime.of(2026, 6, 5, 10, 0));
+//            e6.setDateFin(LocalDateTime.of(2026, 6, 6, 20, 0));
+//            e6.setPrix(109.99);
+//            e6.setDateValidation(LocalDateTime.now());
+//            eventRepository.save(e6);
+//
+//// e7 - Conference Tech
+//            Evenement e7 = new Evenement();
+//            e7.setTitre("Conférence Tech 2026");
+//            e7.setDescription("Conférence Tech 2026");
+//            e7.setCategorie(c4);
+//            e7.setStatutEvenement(StatutEvenement.APPROUVE);
+//            e7.setCapacite(150);
+//            e7.setPlacesRestants(150);
+//            e7.setNbPlacesVIP(25);
+//            e7.setPlacesVIPRestantes(25);
+//            e7.setPrixVIP(300.0);
+//            e7.setVille("Rabat");
+//            e7.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
+//            e7.setDateCreation(LocalDateTime.now());
+//            e7.setOrganisateur(o3);
+//            e7.setDateDebut(LocalDateTime.of(2026, 6, 3, 10, 0));
+//            e7.setDateFin(LocalDateTime.of(2026, 6, 6, 20, 0));
+//            e7.setPrix(109.99);
+//            e7.setDateValidation(LocalDateTime.now());
+//            eventRepository.save(e7);
+//
+//// e8 - Exposition Art
+//            Evenement e8 = new Evenement();
+//            e8.setTitre("Exposition Art Moderne");
+//            e8.setDescription("Exposition Art Moderne");
+//            e8.setCategorie(c3);
+//            e8.setStatutEvenement(StatutEvenement.APPROUVE);
+//            e8.setCapacite(150);
+//            e8.setPlacesRestants(150);
+//            e8.setNbPlacesVIP(0);
+//            e8.setPlacesVIPRestantes(0);
+//            e8.setPrixVIP(0);
+//            e8.setVille("Marrakech");
+//            e8.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
+//            e8.setDateCreation(LocalDateTime.now());
+//            e8.setOrganisateur(o3);
+//            e8.setDateDebut(LocalDateTime.of(2026, 6, 3, 10, 0));
+//            e8.setDateFin(LocalDateTime.of(2026, 6, 5, 20, 0));
+//            e8.setPrix(80.99);
+//            e8.setDateValidation(LocalDateTime.now());
+//            eventRepository.save(e8);
+//
+//// e9 - Theatre
+//            Evenement e9 = new Evenement();
+//            e9.setTitre("Théâtre: Le Malade Imaginaire");
+//            e9.setDescription("Exposition Art Moderne");
+//            e9.setCategorie(c6);
+//            e9.setStatutEvenement(StatutEvenement.APPROUVE);
+//            e9.setCapacite(150);
+//            e9.setPlacesRestants(150);
+//            e9.setNbPlacesVIP(15);
+//            e9.setPlacesVIPRestantes(15);
+//            e9.setPrixVIP(400.0);
+//            e9.setVille("Marrakech");
+//            e9.setLieuSpecifique("Rue 1, Drb Rlf, Emeuble 45");
+//            e9.setDateCreation(LocalDateTime.now());
+//            e9.setOrganisateur(o2);
+//            e9.setDateDebut(LocalDateTime.of(2026, 6, 4, 10, 0));
+//            e9.setDateFin(LocalDateTime.of(2026, 6, 6, 20, 0));
+//            e9.setPrix(160.99);
+//            e9.setDateValidation(LocalDateTime.now());
+//            eventRepository.save(e9);
 
             Client cl1 = new Client();
             cl1.setUsername("client1");

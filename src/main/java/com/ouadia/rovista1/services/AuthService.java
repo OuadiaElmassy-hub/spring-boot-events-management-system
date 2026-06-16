@@ -105,7 +105,10 @@ public class AuthService {
         Map<String, Object> extraClaims = Map.of(
                 "id", userDetails.getId(),
                 "nom", userDetails.getNom(),
-                "email", userDetails.getUsername(),
+                "username", userDetails.getUsername(),
+                "email", userDetails.getEmail(),
+                "phone", userDetails.getPhone(),
+                "prenom", userDetails.getPrenom(),
                 "roles", roles // ["ADMIN"] ou ["ORGANISATEUR"] ou ["CLIENT"]
         );
 
@@ -152,7 +155,8 @@ public class AuthService {
                 "nom", userDetails.getNom(),
                 "username", userDetails.getUsername(),
                 "email", userDetails.getEmail(),
-                "prenom", userDetails.getUsername(),
+                "phone", userDetails.getPhone(),
+                "prenom", userDetails.getPrenom(),
                 "roles", List.of(role.getRoleName()) // ["CLIENT"]
         );
 

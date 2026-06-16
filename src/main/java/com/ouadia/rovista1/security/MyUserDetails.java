@@ -89,6 +89,9 @@ public class MyUserDetails implements UserDetails {
     public String getEmail() {
         return user.getEmail();
     }
+    public String getPrenom() {
+        return user.getPrenom();
+    }
 
     public List<Role> getRoles() {
         return user.getRoles();
