@@ -225,7 +225,7 @@ public class Rovista1Application {
             Evenement e2 = new Evenement();
             e2.setTitre("Marathon International de Marrakech");
             e2.setDescription("42km, 21km et 10km à travers la ville ocre");
-            e1.setCategorie(c1);
+            e2.setCategorie(c1);
             e2.setStatutEvenement(StatutEvenement.APPROUVE);
             e2.setCapacite(12000);
             e2.setPlacesRestants(12000);
