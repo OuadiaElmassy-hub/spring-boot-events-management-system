@@ -69,8 +69,9 @@ public class Evenement {
     private Categorie categorie;
     @ManyToOne(fetch = FetchType.LAZY)
     private Promotion promotion;
-    @ManyToMany(mappedBy = "evenement", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Favorie> favories;
+    @OneToMany(mappedBy = "evenement", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Favorie> favories = new ArrayList<>();
+
     @OneToMany(mappedBy = "evenement", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images = new ArrayList<>();
 

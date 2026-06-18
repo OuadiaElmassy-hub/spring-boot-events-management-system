@@ -29,6 +29,7 @@ public class CreateUpdateEventRequest {
     @NotNull @Positive
     Integer capacite;
     Integer nbPlacesVIP;
+    Double prixVIP;
     Integer categorieId;
     String categorie;
     String statutEvenement;          // "Brouillon" | "Publié"

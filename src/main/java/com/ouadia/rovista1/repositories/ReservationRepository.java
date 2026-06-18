@@ -96,28 +96,28 @@ public interface ReservationRepository extends JpaRepository<Reservation,Long> {
 //        ORDER BY MIN(r.dateReservation)
 //    """)
     // pour MySQL
+    @Query(value = """
+        SELECT DATE_FORMAT(r.date_reservation, '%Y-%m') AS month,
+                           COUNT(*) AS count
+                    FROM reservation r
+                    JOIN evenement e ON r.evenement_id = e.id
+                    WHERE e.organisateur_utilisateur_id = :orgId
+                      AND r.date_reservation >= DATE_SUB(NOW(), INTERVAL 6 MONTH)
+                    GROUP BY DATE_FORMAT(r.date_reservation, '%Y-%m')
+                    ORDER BY DATE_FORMAT(r.date_reservation, '%Y-%m')
+    """, nativeQuery = true)
+
+    // pour H2
 //    @Query(value = """
-//        SELECT DATE_FORMAT(r.date_reservation, '%b %Y') AS month,
-//               COUNT(*) AS count
+//        SELECT FORMATDATETIME(r.date_reservation, 'MMM yyyy') AS "month",
+//               COUNT(*) AS "count"
 //        FROM reservation r
 //        JOIN evenement e ON r.evenement_id = e.id
 //        WHERE e.ORGANISATEUR_UTILISATEUR_ID = :orgId
-//        AND   r.date_reservation  >= DATE_SUB(NOW(), INTERVAL 6 MONTH)
-//        GROUP BY DATE_FORMAT(r.date_reservation, '%Y-%m')
+//        AND   r.date_reservation >= DATEADD('MONTH', -6, CURRENT_DATE)
+//        GROUP BY FORMATDATETIME(r.date_reservation, 'yyyy-MM')
 //        ORDER BY MIN(r.date_reservation)
 //    """, nativeQuery = true)
-
-    // pour H2
-    @Query(value = """
-        SELECT FORMATDATETIME(r.date_reservation, 'MMM yyyy') AS "month",
-               COUNT(*) AS "count"
-        FROM reservation r
-        JOIN evenement e ON r.evenement_id = e.id
-        WHERE e.ORGANISATEUR_UTILISATEUR_ID = :orgId
-        AND   r.date_reservation >= DATEADD('MONTH', -6, CURRENT_DATE)
-        GROUP BY FORMATDATETIME(r.date_reservation, 'yyyy-MM')
-        ORDER BY MIN(r.date_reservation)
-    """, nativeQuery = true)
     List<Object[]> bookingsByMonth(@Param("orgId") Long orgId);
 
     // Pour l'export : toutes les réservations sans pagination

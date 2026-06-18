@@ -24,10 +24,10 @@ public class Favorie {
     @Column(nullable = false)
     private LocalDateTime dateCreation;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)//, cascade = CascadeType.ALL)
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)//, cascade = CascadeType.ALL)
     @JoinColumn(name = "evenement_id", nullable = false)
     private Evenement evenement;
 

@@ -2,16 +2,14 @@ package com.ouadia.rovista1.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data // pour les methode getter, setter, toString() , hachcode() ,equals()
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

@@ -198,14 +198,20 @@ public class OrganizerEventService {
             : 0.0;
         System.out.println("Capacite >>>>>>>>>>> "+e.getCapacite());
         System.out.println("Lieu >>>>>>>>>>> "+e.getLieuSpecifique());
+        System.out.println("places VIP >>>>>>>>>>> "+e.getNbPlacesVIP());
+        System.out.println("prix VIP >>>>>>>>>>> "+e.getPrixVIP());
+
         return OrgEventDTO.builder()
                 .id(e.getId())
                 .titre(e.getTitre())
                 .description(e.getDescription())
-                .date(e.getDateDebut() != null ? e.getDateDebut().toString() : null)
-                .lieu(e.getLieuSpecifique())
+                .dateDebut(e.getDateDebut() != null ? e.getDateDebut().toString() : null)
+                .dateFin(e.getDateFin() != null ? e.getDateFin().toString() : null)
+                .lieuSpecifique(e.getLieuSpecifique())
                 .ville(e.getVille())
                 .prix(e.getPrix())
+                .prixVIP(e.getPrixVIP())
+                .nbPlacesVIP(e.getNbPlacesVIP())
                 .capacite(e.getCapacite())
                 .participants((int) participants)
                 .revenus(revenus)

@@ -13,11 +13,14 @@ public class OrgEventDTO {
     Long id;
     String titre;
     String description;
-    String date;
-    String lieu;
+    String dateDebut;
+    String dateFin;
+    String lieuSpecifique;
     String ville;
     Double prix;
+    Double prixVIP;
     Integer capacite;
+    Integer nbPlacesVIP;
     Integer participants;
     Double  revenus;
     String  status;

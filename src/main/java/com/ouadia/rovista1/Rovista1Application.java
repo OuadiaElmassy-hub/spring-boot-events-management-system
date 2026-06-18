@@ -39,141 +39,141 @@ public class Rovista1Application {
                                    PasswordEncoder passwordEncoder){
         return args -> {
 
-            Role r3 = new Role();
-            r3.setRoleName("ADMIN");
-            roleRepository.save(r3);
-
-            Role r1 = new Role();
-            r1.setRoleName("ORGANISATEUR");
-            roleRepository.save(r1);
-
-            Role r2 = new Role();
-            r2.setRoleName("CLIENT");
-            roleRepository.save(r2);
-
-            Admin a = new Admin();
-            a.setUsername("admin1");
-            a.setEmail("admin1@gmail.com");
-            a.setPhone("0788394921");
-            a.setMotDePasse(passwordEncoder.encode("12345"));
-            a.setAdresse("Casa");
-            a.setRoles(List.of(r3, r1, r2));
-            a.setCreatedAt(LocalDateTime.now());
-            a.setEnabled(true);
-            a.setAvatar("");
-            a.setStatutCompte(StatutCompte.ACTIF);
-            a.setNom("SLAMI");
-            a.setPrenom("Amin");
-
-            adminRepository.save(a);
-
-            String BASE_URL_CAT = "/uploads/categories/";
-
-            Organisateur o1 = new Organisateur();
-                    o1.setUsername("organisateur1");
-                    o1.setEmail("organisateur1@gmail.com");
-                    o1.setPhone("0666754921");
-                    o1.setMotDePasse(passwordEncoder.encode("12345"));
-                    o1.setAdresse("Beni Mellal");
-                    o1.setStatutCompte(StatutCompte.ACTIF);
-                    o1.setStatutOrganisateur(StatutOrganisateur.ACTIF);
-                    o1.setEnabled(true);
-                    o1.setVerified(true);
-                    o1.setRoles(List.of(r1, r2));
-                    o1.setNumRegistre(667899799L);
-                    o1.setSiret("667899799L");
-                    o1.setNomOrganisation("orgnaisateur1");
-                    o1.setPrenom("Mohamed");
-                    o1.setNom("Zahi");
-                    o1.setDateValidation(LocalDateTime.now());
-                    o1.setAvatar("../assets/image1");
-            o1.setCreatedAt(LocalDateTime.now());
-
-
-            organisateurRepository.save(o1);
-
-            Organisateur o2 = new Organisateur();
-            o2.setUsername("organisateur2");
-            o2.setEmail("organisateur3@gmail.com");
-            o2.setPhone("0788394921");
-            o2.setMotDePasse(passwordEncoder.encode("12345"));
-            o2.setAdresse("Casa");
-            o2.setSiret("667899799L");
-            o2.setRoles(List.of(r1, r2));
-            o2.setCreatedAt(LocalDateTime.now());
-
-            o2.setEnabled(true);
-            o2.setStatutCompte(StatutCompte.ACTIF);
-            o2.setStatutOrganisateur(StatutOrganisateur.ACTIF);
-            o2.setVerified(true);
-            o2.setNumRegistre(622399799L);
-            o2.setNomOrganisation("orgnaisateur2");
-            o2.setPrenom("Hajar");
-            o2.setNom("El Alami");
-            o2.setDateValidation(LocalDateTime.now());
-            o2.setAvatar("../assets/image2");
-
-            organisateurRepository.save(o2);
-
-            Organisateur o3 = new Organisateur();
-            o3.setUsername("organisateur3");
-            o3.setEmail("organisateur3@gmail.com");
-            o3.setPhone("0666755361");
-            o3.setSiret("667899799L");
-            o3.setRoles(List.of(r1, r2));
-            o3.setMotDePasse(passwordEncoder.encode("12345"));
-            o3.setAdresse("Rabat");
-            o3.setEnabled(true);
-            o3.setCreatedAt(LocalDateTime.now());
-
-            o3.setStatutCompte(StatutCompte.ACTIF);
-            o3.setVerified(true);
-            o3.setStatutOrganisateur(StatutOrganisateur.ACTIF);
-            o3.setNumRegistre(667835499L);
-            o3.setNomOrganisation("orgnaisateur3");
-            o3.setPrenom("Ahmed");
-            o3.setNom("Ben Ali");
-            o3.setDateValidation(LocalDateTime.now());
-            o3.setAvatar("../assets/image3");
-            organisateurRepository.save(o3);
-
-            //c6 = Théâtre/Arts
-
-            Categorie c1 = new Categorie();
-            c1.setNom("Sports");
-            c1.setDescription("Evenements sportifs");
-            c1.setIconUrl(BASE_URL_CAT+"sport.svg");
-            categorieRepository.save(c1);
-
-            Categorie c2 = new Categorie();
-            c2.setNom("Festivals");
-            c2.setDescription("festivals and music");
-            c2.setIconUrl(BASE_URL_CAT+"festival.svg");
-            categorieRepository.save(c2);
-
-            Categorie c3 = new Categorie();
-            c3.setNom("Expositions");
-            c3.setDescription("Local Products");
-            c3.setIconUrl(BASE_URL_CAT+"exposition.svg");
-            categorieRepository.save(c3);
-
-            Categorie c4 = new Categorie();
-            c4.setNom("Conferences");
-            c4.setDescription("Conferences and courses");
-            c4.setIconUrl(BASE_URL_CAT+"conference.svg");
-            categorieRepository.save(c4);
-
-            Categorie c5 = new Categorie();
-            c5.setNom("Concerts");
-            c5.setDescription("Concerts");
-            c5.setIconUrl(BASE_URL_CAT+"celebration.svg");
-            categorieRepository.save(c5);
-
-            Categorie c6 = new Categorie();
-            c6.setNom("Théâtre");
-            c6.setDescription("Théâtre");
-            c6.setIconUrl(BASE_URL_CAT+"theatre.svg");
-            categorieRepository.save(c6);
+//            Role r3 = new Role();
+//            r3.setRoleName("ADMIN");
+//            roleRepository.save(r3);
+//
+//            Role r1 = new Role();
+//            r1.setRoleName("ORGANISATEUR");
+//            roleRepository.save(r1);
+//
+//            Role r2 = new Role();
+//            r2.setRoleName("CLIENT");
+//            roleRepository.save(r2);
+//
+//            Admin a = new Admin();
+//            a.setUsername("admin1");
+//            a.setEmail("admin1@gmail.com");
+//            a.setPhone("0788394921");
+//            a.setMotDePasse(passwordEncoder.encode("12345"));
+//            a.setAdresse("Casa");
+//            a.setRoles(List.of(r3, r1, r2));
+//            a.setCreatedAt(LocalDateTime.now());
+//            a.setEnabled(true);
+//            a.setAvatar("");
+//            a.setStatutCompte(StatutCompte.ACTIF);
+//            a.setNom("SLAMI");
+//            a.setPrenom("Amin");
+//
+//            adminRepository.save(a);
+//
+//            String BASE_URL_CAT = "/uploads/categories/";
+//
+//            Organisateur o1 = new Organisateur();
+//                    o1.setUsername("organisateur1");
+//                    o1.setEmail("organisateur1@gmail.com");
+//                    o1.setPhone("0666754921");
+//                    o1.setMotDePasse(passwordEncoder.encode("12345"));
+//                    o1.setAdresse("Beni Mellal");
+//                    o1.setStatutCompte(StatutCompte.ACTIF);
+//                    o1.setStatutOrganisateur(StatutOrganisateur.ACTIF);
+//                    o1.setEnabled(true);
+//                    o1.setVerified(true);
+//                    o1.setRoles(List.of(r1, r2));
+//                    o1.setNumRegistre(667899799L);
+//                    o1.setSiret("667899799L");
+//                    o1.setNomOrganisation("orgnaisateur1");
+//                    o1.setPrenom("Mohamed");
+//                    o1.setNom("Zahi");
+//                    o1.setDateValidation(LocalDateTime.now());
+//                    o1.setAvatar("../assets/image1");
+//            o1.setCreatedAt(LocalDateTime.now());
+//
+//
+//            organisateurRepository.save(o1);
+//
+//            Organisateur o2 = new Organisateur();
+//            o2.setUsername("organisateur2");
+//            o2.setEmail("organisateur3@gmail.com");
+//            o2.setPhone("0788394921");
+//            o2.setMotDePasse(passwordEncoder.encode("12345"));
+//            o2.setAdresse("Casa");
+//            o2.setSiret("667899799L");
+//            o2.setRoles(List.of(r1, r2));
+//            o2.setCreatedAt(LocalDateTime.now());
+//
+//            o2.setEnabled(true);
+//            o2.setStatutCompte(StatutCompte.ACTIF);
+//            o2.setStatutOrganisateur(StatutOrganisateur.ACTIF);
+//            o2.setVerified(true);
+//            o2.setNumRegistre(622399799L);
+//            o2.setNomOrganisation("orgnaisateur2");
+//            o2.setPrenom("Hajar");
+//            o2.setNom("El Alami");
+//            o2.setDateValidation(LocalDateTime.now());
+//            o2.setAvatar("../assets/image2");
+//
+//            organisateurRepository.save(o2);
+//
+//            Organisateur o3 = new Organisateur();
+//            o3.setUsername("organisateur3");
+//            o3.setEmail("organisateur3@gmail.com");
+//            o3.setPhone("0666755361");
+//            o3.setSiret("667899799L");
+//            o3.setRoles(List.of(r1, r2));
+//            o3.setMotDePasse(passwordEncoder.encode("12345"));
+//            o3.setAdresse("Rabat");
+//            o3.setEnabled(true);
+//            o3.setCreatedAt(LocalDateTime.now());
+//
+//            o3.setStatutCompte(StatutCompte.ACTIF);
+//            o3.setVerified(true);
+//            o3.setStatutOrganisateur(StatutOrganisateur.ACTIF);
+//            o3.setNumRegistre(667835499L);
+//            o3.setNomOrganisation("orgnaisateur3");
+//            o3.setPrenom("Ahmed");
+//            o3.setNom("Ben Ali");
+//            o3.setDateValidation(LocalDateTime.now());
+//            o3.setAvatar("../assets/image3");
+//            organisateurRepository.save(o3);
+//
+//            //c6 = Théâtre/Arts
+//
+//            Categorie c1 = new Categorie();
+//            c1.setNom("Sports");
+//            c1.setDescription("Evenements sportifs");
+//            c1.setIconUrl(BASE_URL_CAT+"sport.svg");
+//            categorieRepository.save(c1);
+//
+//            Categorie c2 = new Categorie();
+//            c2.setNom("Festivals");
+//            c2.setDescription("festivals and music");
+//            c2.setIconUrl(BASE_URL_CAT+"festival.svg");
+//            categorieRepository.save(c2);
+//
+//            Categorie c3 = new Categorie();
+//            c3.setNom("Expositions");
+//            c3.setDescription("Local Products");
+//            c3.setIconUrl(BASE_URL_CAT+"exposition.svg");
+//            categorieRepository.save(c3);
+//
+//            Categorie c4 = new Categorie();
+//            c4.setNom("Conferences");
+//            c4.setDescription("Conferences and courses");
+//            c4.setIconUrl(BASE_URL_CAT+"conference.svg");
+//            categorieRepository.save(c4);
+//
+//            Categorie c5 = new Categorie();
+//            c5.setNom("Concerts");
+//            c5.setDescription("Concerts");
+//            c5.setIconUrl(BASE_URL_CAT+"celebration.svg");
+//            categorieRepository.save(c5);
+//
+//            Categorie c6 = new Categorie();
+//            c6.setNom("Théâtre");
+//            c6.setDescription("Théâtre");
+//            c6.setIconUrl(BASE_URL_CAT+"theatre.svg");
+//            categorieRepository.save(c6);
 //
 //            Categorie c7 = new Categorie();
 //            c7.setNom("Gastronomie");
@@ -194,200 +194,200 @@ public class Rovista1Application {
 //            c11.setDescription("Circuit avec des amis");
 //            categorieRepository.save(c11);
 
-            Categorie c10 = new Categorie();
-            c10.setNom("Culture");
-            c10.setDescription("Local Culture");
-            c10.setIconUrl(BASE_URL_CAT+"culture.svg");
-            categorieRepository.save(c10);
+//            Categorie c10 = new Categorie();
+//            c10.setNom("Culture");
+//            c10.setDescription("Local Culture");
+//            c10.setIconUrl(BASE_URL_CAT+"culture.svg");
+//            categorieRepository.save(c10);
 
-// e1 - Mawazine Rabat
-            Evenement e1 = new Evenement();
-            e1.setTitre("Mawazine Festival 2026");
-            e1.setDescription("Plus grand festival musical d'Afrique avec artistes internationaux et marocains");
-            e1.setCategorie(c2);
-            e1.setStatutEvenement(StatutEvenement.APPROUVE);
-            e1.setCapacite(20000);
-            e1.setPlacesRestants(20000);
-            e1.setNbPlacesVIP(500);
-            e1.setPlacesVIPRestantes(500);
-            e1.setPrixVIP(800.0);
-            e1.setVille("Rabat");
-            e1.setLieuSpecifique("Esplanade Salé - Boureg");
-            e1.setDateCreation(LocalDateTime.now());
-            e1.setOrganisateur(o1);
-            e1.setDateDebut(LocalDateTime.of(2026, 6, 20, 18, 0));
-            e1.setDateFin(LocalDateTime.of(2026, 6, 28, 2, 0));
-            e1.setPrix(150.0);
-            e1.setDateValidation(LocalDateTime.now());
-            eventRepository.save(e1);
-
-// e2 - Marathon International Marrakech
-            Evenement e2 = new Evenement();
-            e2.setTitre("Marathon International de Marrakech");
-            e2.setDescription("42km, 21km et 10km à travers la ville ocre");
-            e2.setCategorie(c1);
-            e2.setStatutEvenement(StatutEvenement.APPROUVE);
-            e2.setCapacite(12000);
-            e2.setPlacesRestants(12000);
-            e2.setNbPlacesVIP(0);
-            e2.setPlacesVIPRestantes(0);
-            e2.setPrixVIP(0);
-            e2.setVille("Marrakech");
-            e2.setLieuSpecifique("Bab Kouch - Hivernage");
-            e2.setDateCreation(LocalDateTime.now());
-            e2.setOrganisateur(o2);
-            e2.setDateDebut(LocalDateTime.of(2026, 1, 25, 7, 0));
-            e2.setDateFin(LocalDateTime.of(2026, 1, 25, 14, 0));
-            e2.setPrix(300.0);
-            e2.setDateValidation(LocalDateTime.now());
-            eventRepository.save(e2);
-
-// e3 - GITEX Africa
-            Evenement e3 = new Evenement();
-            e3.setTitre("GITEX Africa Morocco 2026");
-            e3.setDescription("Plus grand salon Tech & AI d'Afrique avec startups et investisseurs");
-            e3.setCategorie(c4);
-            e3.setStatutEvenement(StatutEvenement.APPROUVE);
-            e3.setCapacite(5000);
-            e3.setPlacesRestants(5000);
-            e3.setNbPlacesVIP(200);
-            e3.setPlacesVIPRestantes(200);
-            e3.setPrixVIP(1200.0);
-            e3.setVille("Marrakech");
-            e3.setLieuSpecifique("Bab Jdid Exhibition Center");
-            e3.setDateCreation(LocalDateTime.now());
-            e3.setOrganisateur(o3);
-            e3.setDateDebut(LocalDateTime.of(2026, 4, 15, 9, 0));
-            e3.setDateFin(LocalDateTime.of(2026, 4, 17, 18, 0));
-            e3.setPrix(500.0);
-            e3.setDateValidation(LocalDateTime.now());
-            eventRepository.save(e3);
-
-// e4 - Festival Gnaoua Essaouira
-            Evenement e4 = new Evenement();
-            e4.setTitre("Festival Gnaoua et Musiques du Monde");
-            e4.setDescription("Musique gnaoua, jazz et musiques du monde sur les remparts d'Essaouira");
-            e4.setCategorie(c2);
-            e4.setStatutEvenement(StatutEvenement.APPROUVE);
-            e4.setCapacite(8000);
-            e4.setPlacesRestants(8000);
-            e4.setNbPlacesVIP(300);
-            e4.setPlacesVIPRestantes(300);
-            e4.setPrixVIP(450.0);
-            e4.setVille("Essaouira");
-            e4.setLieuSpecifique("Place Moulay Hassan + Plage");
-            e4.setDateCreation(LocalDateTime.now());
-            e4.setOrganisateur(o1);
-            e4.setDateDebut(LocalDateTime.of(2026, 6, 25, 19, 0));
-            e4.setDateFin(LocalDateTime.of(2026, 6, 27, 1, 0));
-            e4.setPrix(120.0);
-            e4.setDateValidation(LocalDateTime.now());
-            eventRepository.save(e4);
-
-// e5 - Jazzablanca
-            Evenement e5 = new Evenement();
-            e5.setTitre("Jazzablanca Festival 2026");
-            e5.setDescription("Festival jazz et musiques actuelles au coeur de Casablanca");
-            e5.setCategorie(c2);
-            e5.setStatutEvenement(StatutEvenement.APPROUVE);
-            e5.setCapacite(4000);
-            e5.setPlacesRestants(4000);
-            e5.setNbPlacesVIP(150);
-            e5.setPlacesVIPRestantes(150);
-            e5.setPrixVIP(600.0);
-            e5.setVille("Casablanca");
-            e5.setLieuSpecifique("Parc de la Ligue Arabe");
-            e5.setDateCreation(LocalDateTime.now());
-            e5.setOrganisateur(o1);
-            e5.setDateDebut(LocalDateTime.of(2026, 5, 7, 20, 0));
-            e5.setDateFin(LocalDateTime.of(2026, 5, 9, 23, 30));
-            e5.setPrix(250.0);
-            e5.setDateValidation(LocalDateTime.now());
-            eventRepository.save(e5);
-
-// e6 - Salon du Livre Casablanca
-            Evenement e6 = new Evenement();
-            e6.setTitre("SIEL - Salon International du Livre");
-            e6.setDescription("Plus grand salon du livre au Maroc avec auteurs nationaux et internationaux");
-            e6.setCategorie(c3);
-            e6.setStatutEvenement(StatutEvenement.APPROUVE);
-            e6.setCapacite(3000);
-            e6.setPlacesRestants(3000);
-            e6.setNbPlacesVIP(0);
-            e6.setPlacesVIPRestantes(0);
-            e6.setPrixVIP(0);
-            e6.setVille("Casablanca");
-            e6.setLieuSpecifique("Parc d'Expositions de l'OFEC");
-            e6.setDateCreation(LocalDateTime.now());
-            e6.setOrganisateur(o2);
-            e6.setDateDebut(LocalDateTime.of(2026, 2, 12, 10, 0));
-            e6.setDateFin(LocalDateTime.of(2026, 2, 22, 20, 0));
-            e6.setPrix(10.0);
-            e6.setDateValidation(LocalDateTime.now());
-            eventRepository.save(e6);
-
-// e7 - Festival National des Arts Populaires Marrakech
-            Evenement e7 = new Evenement();
-            e7.setTitre("Festival National des Arts Populaires");
-            e7.setDescription("Folklore marocain, troupes du monde entier et défilés à Marrakech");
-            e7.setCategorie(c6);
-            e7.setStatutEvenement(StatutEvenement.APPROUVE);
-            e7.setCapacite(5000);
-            e7.setPlacesRestants(5000);
-            e7.setNbPlacesVIP(100);
-            e7.setPlacesVIPRestantes(100);
-            e7.setPrixVIP(200.0);
-            e7.setVille("Marrakech");
-            e7.setLieuSpecifique("Palais Badii + Place Jemaa el-Fna");
-            e7.setDateCreation(LocalDateTime.now());
-            e7.setOrganisateur(o3);
-            e7.setDateDebut(LocalDateTime.of(2026, 7, 10, 20, 0));
-            e7.setDateFin(LocalDateTime.of(2026, 7, 15, 23, 0));
-            e7.setPrix(80.0);
-            e7.setDateValidation(LocalDateTime.now());
-            eventRepository.save(e7);
-
-// e8 - Tanger Jazz Festival
-            Evenement e8 = new Evenement();
-            e8.setTitre("Tanjazz Festival 2026");
-            e8.setDescription("Festival international de jazz et blues au détroit");
-            e8.setCategorie(c2);
-            e8.setStatutEvenement(StatutEvenement.APPROUVE);
-            e8.setCapacite(2500);
-            e8.setPlacesRestants(2500);
-            e8.setNbPlacesVIP(80);
-            e8.setPlacesVIPRestantes(80);
-            e8.setPrixVIP(350.0);
-            e8.setVille("Tanger");
-            e8.setLieuSpecifique("Palais des Institutions Italiennes");
-            e8.setDateCreation(LocalDateTime.now());
-            e8.setOrganisateur(o2);
-            e8.setDateDebut(LocalDateTime.of(2026, 9, 10, 20, 30));
-            e8.setDateFin(LocalDateTime.of(2026, 9, 13, 0, 30));
-            e8.setPrix(180.0);
-            e8.setDateValidation(LocalDateTime.now());
-            eventRepository.save(e8);
-
-// e9 - Fes Festival of World Sacred Music
-            Evenement e9 = new Evenement();
-            e9.setTitre("Festival de Fès des Musiques Sacrées du Monde");
-            e9.setDescription("Musiques spirituelles et sacrés dans le cadre historique de Fès");
-            e9.setCategorie(c2);
-            e9.setStatutEvenement(StatutEvenement.APPROUVE);
-            e9.setCapacite(3500);
-            e9.setPlacesRestants(3500);
-            e9.setNbPlacesVIP(120);
-            e9.setPlacesVIPRestantes(120);
-            e9.setPrixVIP(500.0);
-            e9.setVille("Fès");
-            e9.setLieuSpecifique("Bathâ Museum + Dar Batha");
-            e9.setDateCreation(LocalDateTime.now());
-            e9.setOrganisateur(o3);
-            e9.setDateDebut(LocalDateTime.of(2026, 5, 15, 20, 0));
-            e9.setDateFin(LocalDateTime.of(2026, 5, 23, 23, 30));
-            e9.setPrix(200.0);
-            e9.setDateValidation(LocalDateTime.now());
-            eventRepository.save(e9);
+//// e1 - Mawazine Rabat
+//            Evenement e1 = new Evenement();
+//            e1.setTitre("Mawazine Festival 2026");
+//            e1.setDescription("Plus grand festival musical d'Afrique avec artistes internationaux et marocains");
+//            e1.setCategorie(c2);
+//            e1.setStatutEvenement(StatutEvenement.APPROUVE);
+//            e1.setCapacite(20000);
+//            e1.setPlacesRestants(20000);
+//            e1.setNbPlacesVIP(500);
+//            e1.setPlacesVIPRestantes(500);
+//            e1.setPrixVIP(800.0);
+//            e1.setVille("Rabat");
+//            e1.setLieuSpecifique("Esplanade Salé - Boureg");
+//            e1.setDateCreation(LocalDateTime.now());
+//            e1.setOrganisateur(o1);
+//            e1.setDateDebut(LocalDateTime.of(2026, 6, 20, 18, 0));
+//            e1.setDateFin(LocalDateTime.of(2026, 6, 28, 2, 0));
+//            e1.setPrix(150.0);
+//            e1.setDateValidation(LocalDateTime.now());
+//            eventRepository.save(e1);
+//
+//// e2 - Marathon International Marrakech
+//            Evenement e2 = new Evenement();
+//            e2.setTitre("Marathon International de Marrakech");
+//            e2.setDescription("42km, 21km et 10km à travers la ville ocre");
+//            e2.setCategorie(c1);
+//            e2.setStatutEvenement(StatutEvenement.APPROUVE);
+//            e2.setCapacite(12000);
+//            e2.setPlacesRestants(12000);
+//            e2.setNbPlacesVIP(0);
+//            e2.setPlacesVIPRestantes(0);
+//            e2.setPrixVIP(0);
+//            e2.setVille("Marrakech");
+//            e2.setLieuSpecifique("Bab Kouch - Hivernage");
+//            e2.setDateCreation(LocalDateTime.now());
+//            e2.setOrganisateur(o2);
+//            e2.setDateDebut(LocalDateTime.of(2026, 1, 25, 7, 0));
+//            e2.setDateFin(LocalDateTime.of(2026, 1, 25, 14, 0));
+//            e2.setPrix(300.0);
+//            e2.setDateValidation(LocalDateTime.now());
+//            eventRepository.save(e2);
+//
+//// e3 - GITEX Africa
+//            Evenement e3 = new Evenement();
+//            e3.setTitre("GITEX Africa Morocco 2026");
+//            e3.setDescription("Plus grand salon Tech & AI d'Afrique avec startups et investisseurs");
+//            e3.setCategorie(c4);
+//            e3.setStatutEvenement(StatutEvenement.APPROUVE);
+//            e3.setCapacite(5000);
+//            e3.setPlacesRestants(5000);
+//            e3.setNbPlacesVIP(200);
+//            e3.setPlacesVIPRestantes(200);
+//            e3.setPrixVIP(1200.0);
+//            e3.setVille("Marrakech");
+//            e3.setLieuSpecifique("Bab Jdid Exhibition Center");
+//            e3.setDateCreation(LocalDateTime.now());
+//            e3.setOrganisateur(o3);
+//            e3.setDateDebut(LocalDateTime.of(2026, 4, 15, 9, 0));
+//            e3.setDateFin(LocalDateTime.of(2026, 4, 17, 18, 0));
+//            e3.setPrix(500.0);
+//            e3.setDateValidation(LocalDateTime.now());
+//            eventRepository.save(e3);
+//
+//// e4 - Festival Gnaoua Essaouira
+//            Evenement e4 = new Evenement();
+//            e4.setTitre("Festival Gnaoua et Musiques du Monde");
+//            e4.setDescription("Musique gnaoua, jazz et musiques du monde sur les remparts d'Essaouira");
+//            e4.setCategorie(c2);
+//            e4.setStatutEvenement(StatutEvenement.APPROUVE);
+//            e4.setCapacite(8000);
+//            e4.setPlacesRestants(8000);
+//            e4.setNbPlacesVIP(300);
+//            e4.setPlacesVIPRestantes(300);
+//            e4.setPrixVIP(450.0);
+//            e4.setVille("Essaouira");
+//            e4.setLieuSpecifique("Place Moulay Hassan + Plage");
+//            e4.setDateCreation(LocalDateTime.now());
+//            e4.setOrganisateur(o1);
+//            e4.setDateDebut(LocalDateTime.of(2026, 6, 25, 19, 0));
+//            e4.setDateFin(LocalDateTime.of(2026, 6, 27, 1, 0));
+//            e4.setPrix(120.0);
+//            e4.setDateValidation(LocalDateTime.now());
+//            eventRepository.save(e4);
+//
+//// e5 - Jazzablanca
+//            Evenement e5 = new Evenement();
+//            e5.setTitre("Jazzablanca Festival 2026");
+//            e5.setDescription("Festival jazz et musiques actuelles au coeur de Casablanca");
+//            e5.setCategorie(c2);
+//            e5.setStatutEvenement(StatutEvenement.APPROUVE);
+//            e5.setCapacite(4000);
+//            e5.setPlacesRestants(4000);
+//            e5.setNbPlacesVIP(150);
+//            e5.setPlacesVIPRestantes(150);
+//            e5.setPrixVIP(600.0);
+//            e5.setVille("Casablanca");
+//            e5.setLieuSpecifique("Parc de la Ligue Arabe");
+//            e5.setDateCreation(LocalDateTime.now());
+//            e5.setOrganisateur(o1);
+//            e5.setDateDebut(LocalDateTime.of(2026, 5, 7, 20, 0));
+//            e5.setDateFin(LocalDateTime.of(2026, 5, 9, 23, 30));
+//            e5.setPrix(250.0);
+//            e5.setDateValidation(LocalDateTime.now());
+//            eventRepository.save(e5);
+//
+//// e6 - Salon du Livre Casablanca
+//            Evenement e6 = new Evenement();
+//            e6.setTitre("SIEL - Salon International du Livre");
+//            e6.setDescription("Plus grand salon du livre au Maroc avec auteurs nationaux et internationaux");
+//            e6.setCategorie(c3);
+//            e6.setStatutEvenement(StatutEvenement.APPROUVE);
+//            e6.setCapacite(3000);
+//            e6.setPlacesRestants(3000);
+//            e6.setNbPlacesVIP(0);
+//            e6.setPlacesVIPRestantes(0);
+//            e6.setPrixVIP(0);
+//            e6.setVille("Casablanca");
+//            e6.setLieuSpecifique("Parc d'Expositions de l'OFEC");
+//            e6.setDateCreation(LocalDateTime.now());
+//            e6.setOrganisateur(o2);
+//            e6.setDateDebut(LocalDateTime.of(2026, 2, 12, 10, 0));
+//            e6.setDateFin(LocalDateTime.of(2026, 2, 22, 20, 0));
+//            e6.setPrix(10.0);
+//            e6.setDateValidation(LocalDateTime.now());
+//            eventRepository.save(e6);
+//
+//// e7 - Festival National des Arts Populaires Marrakech
+//            Evenement e7 = new Evenement();
+//            e7.setTitre("Festival National des Arts Populaires");
+//            e7.setDescription("Folklore marocain, troupes du monde entier et défilés à Marrakech");
+//            e7.setCategorie(c6);
+//            e7.setStatutEvenement(StatutEvenement.APPROUVE);
+//            e7.setCapacite(5000);
+//            e7.setPlacesRestants(5000);
+//            e7.setNbPlacesVIP(100);
+//            e7.setPlacesVIPRestantes(100);
+//            e7.setPrixVIP(200.0);
+//            e7.setVille("Marrakech");
+//            e7.setLieuSpecifique("Palais Badii + Place Jemaa el-Fna");
+//            e7.setDateCreation(LocalDateTime.now());
+//            e7.setOrganisateur(o3);
+//            e7.setDateDebut(LocalDateTime.of(2026, 7, 10, 20, 0));
+//            e7.setDateFin(LocalDateTime.of(2026, 7, 15, 23, 0));
+//            e7.setPrix(80.0);
+//            e7.setDateValidation(LocalDateTime.now());
+//            eventRepository.save(e7);
+//
+//// e8 - Tanger Jazz Festival
+//            Evenement e8 = new Evenement();
+//            e8.setTitre("Tanjazz Festival 2026");
+//            e8.setDescription("Festival international de jazz et blues au détroit");
+//            e8.setCategorie(c2);
+//            e8.setStatutEvenement(StatutEvenement.APPROUVE);
+//            e8.setCapacite(2500);
+//            e8.setPlacesRestants(2500);
+//            e8.setNbPlacesVIP(80);
+//            e8.setPlacesVIPRestantes(80);
+//            e8.setPrixVIP(350.0);
+//            e8.setVille("Tanger");
+//            e8.setLieuSpecifique("Palais des Institutions Italiennes");
+//            e8.setDateCreation(LocalDateTime.now());
+//            e8.setOrganisateur(o2);
+//            e8.setDateDebut(LocalDateTime.of(2026, 9, 10, 20, 30));
+//            e8.setDateFin(LocalDateTime.of(2026, 9, 13, 0, 30));
+//            e8.setPrix(180.0);
+//            e8.setDateValidation(LocalDateTime.now());
+//            eventRepository.save(e8);
+//
+//// e9 - Fes Festival of World Sacred Music
+//            Evenement e9 = new Evenement();
+//            e9.setTitre("Festival de Fès des Musiques Sacrées du Monde");
+//            e9.setDescription("Musiques spirituelles et sacrés dans le cadre historique de Fès");
+//            e9.setCategorie(c2);
+//            e9.setStatutEvenement(StatutEvenement.APPROUVE);
+//            e9.setCapacite(3500);
+//            e9.setPlacesRestants(3500);
+//            e9.setNbPlacesVIP(120);
+//            e9.setPlacesVIPRestantes(120);
+//            e9.setPrixVIP(500.0);
+//            e9.setVille("Fès");
+//            e9.setLieuSpecifique("Bathâ Museum + Dar Batha");
+//            e9.setDateCreation(LocalDateTime.now());
+//            e9.setOrganisateur(o3);
+//            e9.setDateDebut(LocalDateTime.of(2026, 5, 15, 20, 0));
+//            e9.setDateFin(LocalDateTime.of(2026, 5, 23, 23, 30));
+//            e9.setPrix(200.0);
+//            e9.setDateValidation(LocalDateTime.now());
+//            eventRepository.save(e9);
 
 //// e1 - Festival Casa
 //            Evenement e1 = new Evenement();
@@ -578,92 +578,92 @@ public class Rovista1Application {
 //            e9.setDateValidation(LocalDateTime.now());
 //            eventRepository.save(e9);
 
-            Client cl1 = new Client();
-            cl1.setUsername("client1");
-            cl1.setEmail("client1@gmail.com");
-            cl1.setPhone("0666755361");
-            cl1.setMotDePasse(passwordEncoder.encode("12345"));
-            cl1.setAdresse("Rabat");
-            cl1.setStatutCompte(StatutCompte.ACTIF);
-            cl1.setEnabled(true);
-            cl1.setRoles(List.of(r2));
-            cl1.setNom("Ahmed");
-            cl1.setPrenom("Ahmed");
-            cl1.setCreatedAt(LocalDateTime.now());
-            cl1.setDateNaissance(LocalDate.of(2026, 6, 4));
-            clientRepository.save(cl1);
+//            Client cl1 = new Client();
+//            cl1.setUsername("client1");
+//            cl1.setEmail("client1@gmail.com");
+//            cl1.setPhone("0666755361");
+//            cl1.setMotDePasse(passwordEncoder.encode("12345"));
+//            cl1.setAdresse("Rabat");
+//            cl1.setStatutCompte(StatutCompte.ACTIF);
+//            cl1.setEnabled(true);
+//            cl1.setRoles(List.of(r2));
+//            cl1.setNom("Ahmed");
+//            cl1.setPrenom("Ahmed");
+//            cl1.setCreatedAt(LocalDateTime.now());
+//            cl1.setDateNaissance(LocalDate.of(2026, 6, 4));
+//            clientRepository.save(cl1);
 
-            Avis a1 = new Avis();
-            a1.setNote(4.5);
-            a1.setComment("bon");
-            a1.setDateAvis(LocalDateTime.of(2026, 6, 4,22,33,0));
-            a1.setEvenement(e1);
-            a1.setClient(cl1);
-            avisRepository.save(a1);
-
-            Avis a2 = new Avis();
-            a2.setNote(4.5);
-            a2.setComment("bon");
-            a2.setDateAvis(LocalDateTime.of(2026, 6, 4,22,33,0));
-            a2.setEvenement(e2);
-            a2.setClient(cl1);
-            avisRepository.save(a2);
-
-            Avis a3 = new Avis();
-            a3.setNote(4.5);
-            a3.setComment("bon");
-            a3.setDateAvis(LocalDateTime.of(2026, 6, 4,22,33,0));
-            a3.setEvenement(e3);
-            a3.setClient(cl1);
-            avisRepository.save(a3);
-
-            Avis a4 = new Avis();
-            a4.setNote(4.5);
-            a4.setComment("bon");
-            a4.setDateAvis(LocalDateTime.of(2026, 6, 4,22,33,0));
-            a4.setEvenement(e4);
-            a4.setClient(cl1);
-            avisRepository.save(a4);
-
-            Avis a5 = new Avis();
-            a5.setNote(4.5);
-            a5.setComment("bon");
-            a5.setDateAvis(LocalDateTime.of(2026, 6, 4,22,33,0));
-            a5.setEvenement(e5);
-            a5.setClient(cl1);
-            avisRepository.save(a5);
-
-            Avis a6 = new Avis();
-            a6.setNote(4.5);
-            a6.setComment("bon");
-            a6.setDateAvis(LocalDateTime.of(2026, 6, 4,22,33,0));
-            a6.setEvenement(e6);
-            a6.setClient(cl1);
-            avisRepository.save(a6);
-
-            Avis a7 = new Avis();
-            a7.setNote(4.5);
-            a7.setComment("bon");
-            a7.setDateAvis(LocalDateTime.of(2026, 6, 4,22,33,0));
-            a7.setEvenement(e7);
-            a7.setClient(cl1);
-            avisRepository.save(a7);
-
-            Avis a8 = new Avis();
-            a8.setNote(4.5);
-            a8.setComment("bon");
-            a8.setDateAvis(LocalDateTime.of(2026, 6, 4,22,33,0));
-            a8.setEvenement(e8);
-            a8.setClient(cl1);
-            avisRepository.save(a8);
-
-            Avis a9 = new Avis();
-            a9.setNote(4.5);
-            a9.setComment("bon");
-            a9.setDateAvis(LocalDateTime.of(2026, 6, 4,22,33,0));
-            a9.setEvenement(e9);
-            a9.setClient(cl1);
-            avisRepository.save(a9);
+//            Avis a1 = new Avis();
+//            a1.setNote(4.5);
+//            a1.setComment("bon");
+//            a1.setDateAvis(LocalDateTime.of(2026, 6, 4,22,33,0));
+//            a1.setEvenement(e1);
+//            a1.setClient(cl1);
+//            avisRepository.save(a1);
+//
+//            Avis a2 = new Avis();
+//            a2.setNote(4.5);
+//            a2.setComment("bon");
+//            a2.setDateAvis(LocalDateTime.of(2026, 6, 4,22,33,0));
+//            a2.setEvenement(e2);
+//            a2.setClient(cl1);
+//            avisRepository.save(a2);
+//
+//            Avis a3 = new Avis();
+//            a3.setNote(4.5);
+//            a3.setComment("bon");
+//            a3.setDateAvis(LocalDateTime.of(2026, 6, 4,22,33,0));
+//            a3.setEvenement(e3);
+//            a3.setClient(cl1);
+//            avisRepository.save(a3);
+//
+//            Avis a4 = new Avis();
+//            a4.setNote(4.5);
+//            a4.setComment("bon");
+//            a4.setDateAvis(LocalDateTime.of(2026, 6, 4,22,33,0));
+//            a4.setEvenement(e4);
+//            a4.setClient(cl1);
+//            avisRepository.save(a4);
+//
+//            Avis a5 = new Avis();
+//            a5.setNote(4.5);
+//            a5.setComment("bon");
+//            a5.setDateAvis(LocalDateTime.of(2026, 6, 4,22,33,0));
+//            a5.setEvenement(e5);
+//            a5.setClient(cl1);
+//            avisRepository.save(a5);
+//
+//            Avis a6 = new Avis();
+//            a6.setNote(4.5);
+//            a6.setComment("bon");
+//            a6.setDateAvis(LocalDateTime.of(2026, 6, 4,22,33,0));
+//            a6.setEvenement(e6);
+//            a6.setClient(cl1);
+//            avisRepository.save(a6);
+//
+//            Avis a7 = new Avis();
+//            a7.setNote(4.5);
+//            a7.setComment("bon");
+//            a7.setDateAvis(LocalDateTime.of(2026, 6, 4,22,33,0));
+//            a7.setEvenement(e7);
+//            a7.setClient(cl1);
+//            avisRepository.save(a7);
+//
+//            Avis a8 = new Avis();
+//            a8.setNote(4.5);
+//            a8.setComment("bon");
+//            a8.setDateAvis(LocalDateTime.of(2026, 6, 4,22,33,0));
+//            a8.setEvenement(e8);
+//            a8.setClient(cl1);
+//            avisRepository.save(a8);
+//
+//            Avis a9 = new Avis();
+//            a9.setNote(4.5);
+//            a9.setComment("bon");
+//            a9.setDateAvis(LocalDateTime.of(2026, 6, 4,22,33,0));
+//            a9.setEvenement(e9);
+//            a9.setClient(cl1);
+//            avisRepository.save(a9);
 
         };
     }
