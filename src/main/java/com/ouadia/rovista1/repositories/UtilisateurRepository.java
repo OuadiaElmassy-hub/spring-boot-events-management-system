@@ -28,7 +28,7 @@ public interface UtilisateurRepository extends JpaRepository<Utilisateur,Long> {
         JOIN u.roles r
         WHERE (:search IS NULL OR LOWER(u.email) LIKE LOWER(CONCAT('%', :search, '%')))
         OR (:search IS NULL OR LOWER(u.nom) LIKE LOWER(CONCAT('%', :search, '%')))
-        AND   (:role IS NULL OR r.roleName LIKE LOWER(CONCAT('%', :role, '%'))))
+        AND   (:role IS NULL OR r.roleName LIKE LOWER(CONCAT('%', :role, '%')))
     """)
     Page<Utilisateur> search(
             @Param("search") String search,

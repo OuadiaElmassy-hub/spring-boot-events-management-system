@@ -506,19 +506,19 @@ public class Rovista1Application {
             avisRepository.save(a9);
 
             Client cl2 = new Client();
-            cl1.setUsername("client2");
-            cl1.setEmail("mohammedkhalil@gmail.com");
-            cl1.setPhone("0666990361");
-            cl1.setMotDePasse(passwordEncoder.encode("12345"));
-            cl1.setAdresse("Casablanca");
-            cl1.setStatutCompte(StatutCompte.ACTIF);
-            cl1.setEnabled(true);
-            cl1.setRoles(List.of(r2));
-            cl1.setNom("KHALIL");
-            cl1.setPrenom("Mohammed");
-            cl1.setCreatedAt(LocalDateTime.now());
-            cl1.setDateNaissance(LocalDate.of(2000, 6, 4));
-            clientRepository.save(cl1);
+            cl2.setUsername("client2");
+            cl2.setEmail("mohammedkhalil@gmail.com");
+            cl2.setPhone("0666990361");
+            cl2.setMotDePasse(passwordEncoder.encode("12345"));
+            cl2.setAdresse("Casablanca");
+            cl2.setStatutCompte(StatutCompte.ACTIF);
+            cl2.setEnabled(true);
+            cl2.setRoles(List.of(r2));
+            cl2.setNom("KHALIL");
+            cl2.setPrenom("Mohammed");
+            cl2.setCreatedAt(LocalDateTime.now());
+            cl2.setDateNaissance(LocalDate.of(2000, 6, 4));
+            clientRepository.save(cl2);
 
             Avis a10 = new Avis();
             a10.setNote(4.5);
