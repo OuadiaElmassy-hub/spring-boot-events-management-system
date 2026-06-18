@@ -100,6 +100,25 @@ public class OrganizerEventService {
     }
 
     @Transactional
+    public void storeEventImagesTeste(Long orgId, Long eventId, String nom, String type, String url )
+            throws EventNotFoundException, IOException {
+
+        Evenement event = eventRepo.findByIdAndOrganisateurId(eventId, orgId)
+                .orElseThrow(() -> new EventNotFoundException("Evenement non trouvé avec id : "+eventId));
+
+        Image img = new Image();
+        img.setNom(nom);
+        img.setType(type);
+        img.setEvenement(event);
+        img.setUrl(url);
+        img = imageRepository.save(img);
+
+        event.getImages().add(img);
+
+        eventRepo.save(event);
+    }
+
+    @Transactional
     public OrgEventDTO updateEvent(Long orgId, Long eventId,
                                    CreateUpdateEventRequest req) throws CategorieNotFoundException {
         Evenement e = findOwnEvent(orgId, eventId);
