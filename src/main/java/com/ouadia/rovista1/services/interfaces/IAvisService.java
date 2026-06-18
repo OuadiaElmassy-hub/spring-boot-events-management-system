@@ -20,5 +20,6 @@ public interface IAvisService {
     List<AvisResponseDto> getAllAvis();
     void deleteAvisById(Long id);
     void deleteAllByIds(Long ... ids);
+    AvisResponseDto addAvisClient(Long clientId, Long evenementId, double note, String comment);
 }
 
