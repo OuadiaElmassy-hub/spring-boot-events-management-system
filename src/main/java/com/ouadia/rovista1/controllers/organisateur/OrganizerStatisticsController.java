@@ -23,5 +23,6 @@ public class OrganizerStatisticsController {
     public ResponseEntity<OrgStatisticsDTO> getStatistics() {
         return ResponseEntity.ok(
             statisticsService.getStatistics(securityUtils.getCurrentUserId()));
+
     }
 }

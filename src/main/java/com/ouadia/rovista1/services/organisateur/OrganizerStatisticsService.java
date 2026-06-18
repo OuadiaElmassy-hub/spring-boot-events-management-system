@@ -31,17 +31,18 @@ public class OrganizerStatisticsService {
             orgId, null, StatutEvenement.APPROUVE, PageRequest.of(0, 200)
         ).getContent();
 
-        double avgFillRate = approvedEvents.stream()
-            .filter(e -> e.getCapacite() > 0)
-            .mapToDouble(e -> {
-                long p = e.getReservations() != null
-                    ? e.getReservations().stream()
-                        .filter(r -> r.getStatut() == StatutReservation.CONFIRME)
-                        .count()
-                    : 0;
-                return (p * 100.0) / e.getCapacite();
-            })
-            .average().orElse(0.0);
+        Long totalReservations = approvedEvents.stream()
+                .flatMap(e -> e.getReservations().stream())
+                .filter(r -> r.getStatut() == StatutReservation.CONFIRME)
+                .count();
+
+        int totalCapacity = approvedEvents.stream()
+                .mapToInt(Evenement::getCapacite)
+                .sum();
+
+        double fillRate = totalCapacity > 0
+                ? (totalReservations * 100.0) / totalCapacity
+                : 0.0;
 
         // Revenus par événement
         List<OrgStatisticsDTO.RevenueItem> revenueByEvent =
@@ -82,7 +83,7 @@ public class OrganizerStatisticsService {
         return new OrgStatisticsDTO(
             totalRevenue,
             totalParticipants,
-            avgFillRate,
+                totalReservations,
             activeEvents,
             revenueByEvent,
             fillRateByEvent,

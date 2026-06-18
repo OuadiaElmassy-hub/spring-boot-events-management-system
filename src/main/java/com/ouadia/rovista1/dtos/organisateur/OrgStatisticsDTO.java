@@ -1,6 +1,7 @@
 package com.ouadia.rovista1.dtos.organisateur;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,11 +9,12 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
+@Builder
 public class OrgStatisticsDTO {
 
     Double              totalRevenue;
     long                totalParticipants;
-    Double              avgFillRate;
+    Long              avgFillRate;
     long                activeEvents;
     List<RevenueItem> revenueByEvent;
     List<FillRateItem>  fillRateByEvent;
