@@ -1,4 +1,5 @@
 package com.ouadia.rovista1.services;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,7 +9,6 @@ import com.ouadia.rovista1.dtos.chat.SearchCriteria;
 import com.ouadia.rovista1.dtos.evenement.EvenementResponseDto;
 import com.ouadia.rovista1.entities.Categorie;
 import com.ouadia.rovista1.entities.Client;
-import com.ouadia.rovista1.exceptions.*;
 import com.ouadia.rovista1.repositories.ClientRepository;
 import com.ouadia.rovista1.services.implementations.EventServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +18,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -36,84 +37,111 @@ public class ChatbotService {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
     private final ClientRepository clientRepository;
-    private final EventServiceImpl evenementService; // ton service existant
+    private final EventServiceImpl evenementService;
 
-    // ─── Point d'entrée principal ────────────────────────────────
     public ChatResponse ask(String question, String username) throws Exception {
-
-        // ÉTAPE 1 : extraire les critères via LLM
         SearchCriteria criteria = extractCriteria(question);
+        log.info("Ville = {}", criteria.getVille());
+        log.info("Categorie = {}", criteria.getCategorie());
+        log.info("PrixMax = {}", criteria.getPrixMax());
+        log.info("Keyword = {}", criteria.getKeyword());
         log.info("Critères extraits : {}", criteria);
 
-        // ÉTAPE 2 : enrichir avec le profil si connecté
+        boolean hasExplicitCriteria =
+                criteria.getVille() != null
+                        || criteria.getCategorie() != null
+                        || criteria.getPrixMax() != null
+                        || criteria.getKeyword() != null;
+
         boolean isConnected = false;
-        if (username != null) {
+        if (username != null && hasExplicitCriteria) {
             isConnected = enrichWithUserProfile(criteria, username);
+            log.info("Après enrichissement : {}", criteria);
         }
 
-        // ÉTAPE 3 : recherche avec TON endpoint existant
         PageResponse<EvenementResponseDto> results = evenementService.searchEvents(
-                0,                        // page
-                5,                        // max 5 résultats
+                0, 5,
                 criteria.getCategorieId(),
                 criteria.getKeyword(),
                 criteria.getVille(),
-                null,                     // date (non extrait pour l'instant)
+                null,
                 criteria.getPrixMax()
         );
 
-        // ÉTAPE 4 : construire la réponse naturelle
         String message = buildMessage(criteria, results, isConnected);
-
-        return new ChatResponse(message, results.getContent(), criteria);
+        return new ChatResponse(message, results.getContent(), criteria, results.getTotalElements());
     }
-
-    // ─── Extraction des critères via LLM ─────────────────────────
     private SearchCriteria extractCriteria(String question) {
         String prompt = """
-            Tu es un extracteur de critères de recherche d'événements.
-            Réponds UNIQUEMENT avec un objet JSON valide, sans texte avant ou après.
-            
+            Tu es un extracteur de critères strict pour un système d'événements au Maroc.
+            Examine le message de l'utilisateur et extrait les critères.
+            ⚠️ RÈGLE CRITIQUE : Ne devine JAMAIS et n'invente JAMAIS une ville ou un mot-clé si ce n'est pas écrit textuellement. Si un champ n'est pas mentionné, mets obligatoirement null.
+
             Champs disponibles :
-            - "ville" : ville marocaine mentionnée (Casablanca, Rabat, Marrakech, Fès, Tanger, Agadir, etc.) ou null
-            - "categorie" : parmi [Concert, Festival, Theatre, Sport, Conference, Art, Comedie, Cinema] ou null
-            - "prixMax" : nombre entier si un budget/prix max est mentionné ou null
-            - "keyword" : mot-clé du titre de l'événement ou null
-            
-            Exemples :
-            Question: "concert pas cher à Casablanca"
+            - "ville" : Uniquement si une ville marocaine est explicitement écrite (Casablanca, Rabat, Marrakech, Fès, Tanger, Agadir, etc.), sinon null.
+            - "categorie" : Uniquement parmi ces choix exacts [Concert, Festival, Theatre, Sport, Conference, Art, Comedie, Cinema], sinon null.
+            - "prixMax" : Un nombre entier pour le budget maximum, sinon null.
+            - "keyword" : Le nom propre de l'événement s'il est mentionné (ex: Mawazine, Jazzablanca), sinon null.
+
+            Exemples de comportement attendu :
+            Question: "concert à Casablanca moins de 150dh"
             Réponse: {"ville":"Casablanca","categorie":"Concert","prixMax":150,"keyword":null}
-            
-            Question: "événements sportifs à Rabat ce week-end"
-            Réponse: {"ville":"Rabat","categorie":"Sport","prixMax":null,"keyword":null}
-            
+
+            Question: "mawazine festival"
+            Réponse: {"ville":null,"categorie":"Festival","prixMax":null,"keyword":"Mawazine"}
+
+            Question: "théâtre à Rabat"
+            Réponse: {"ville":"Rabat","categorie":"Theatre","prixMax":null,"keyword":null}
+
             Question: "%s"
-            Réponse:
+            Réponse STRICTEMENT au format JSON valide :
             """.formatted(question);
 
         try {
             String raw = callOllama(prompt);
-            // Nettoyer la réponse (le LLM peut ajouter du texte autour)
+            log.info("Réponse brute Ollama : {}", raw);
             String json = extractJson(raw);
             SearchCriteria criteria = objectMapper.readValue(json, SearchCriteria.class);
 
-            // Mapper categorie → categorieId si besoin
-            criteria.setCategorieId(mapCategorieToId(criteria.getCategorie()));
+
+            if (criteria.getCategorie() != null) {
+                criteria.setCategorieId(mapCategorieToId(criteria.getCategorie().trim()));
+            }
+            if (criteria.getVille() != null) {
+                criteria.setVille(normalizeVille(criteria.getVille().trim()));
+            }
             return criteria;
 
         } catch (Exception e) {
             log.warn("Parsing critères échoué, retour critères vides : {}", e.getMessage());
-            return new SearchCriteria(); // recherche large
+            return new SearchCriteria();
         }
     }
 
-    // ─── Enrichissement avec profil client ───────────────────────
+    private String normalizeVille(String ville) {
+        if (ville == null) return null;
+
+        Map<String, String> villesMap = Map.of(
+                "casablanca", "Casablanca",
+                "casablanc",  "Casablanca",
+                "casa",       "Casablanca",
+                "rabat",      "Rabat",
+                "marrakech",  "Marrakech",
+                "marrakesh",  "Marrakech",
+                "fes",        "Fès",
+                "fès",        "Fès",
+                "tanger",     "Tanger",
+                "agadir",     "Agadir"
+        );
+
+        return villesMap.getOrDefault(ville.toLowerCase().trim(), ville);
+    }
+
     private boolean enrichWithUserProfile(SearchCriteria criteria, String username) {
         try {
             Client client = clientRepository.findByUsername(username).orElse(null);
             if (client == null) return false;
 
-            // Ville préférée (si non précisée dans la question)
             if (criteria.getVille() == null && client.getReservations() != null) {
                 String villePreferee = client.getReservations().stream()
                         .map(r -> r.getEvenement().getVille())
@@ -127,7 +155,6 @@ public class ChatbotService {
                 log.info("Ville enrichie depuis profil : {}", villePreferee);
             }
 
-            // Catégorie préférée (si non précisée dans la question)
             if (criteria.getCategorie() == null && client.getReservations() != null) {
                 Categorie catPreferee = client.getReservations().stream()
                         .filter(r -> r.getEvenement() != null)
@@ -145,60 +172,49 @@ public class ChatbotService {
                 }
             }
 
-            // Favoris : ajouter keyword depuis les titres favoris si rien d'autre
-            if (criteria.getKeyword() == null && client.getFavories() != null
-                    && !client.getFavories().isEmpty()) {
-                // on ne force pas le keyword depuis les favoris,
-                // mais on pourrait enrichir la recherche plus tard
-            }
-
             return true;
-
         } catch (Exception e) {
             log.warn("Enrichissement profil échoué : {}", e.getMessage());
             return false;
         }
     }
 
-    // ─── Construction du message naturel ─────────────────────────
-    private String buildMessage(SearchCriteria c,
-                                PageResponse<EvenementResponseDto> results,
-                                boolean isConnected) {
+    private String buildMessage(SearchCriteria c, PageResponse<EvenementResponseDto> results, boolean isConnected) {
         long total = results.getTotalElements();
 
         if (total == 0) {
-            StringBuilder msg = new StringBuilder("Désolé, ");
-            msg.append("aucun événement trouvé");
+            StringBuilder msg = new StringBuilder("Désolé, aucun événement trouvé");
             if (c.getVille() != null)     msg.append(" à ").append(c.getVille());
             if (c.getCategorie() != null) msg.append(" dans la catégorie ").append(c.getCategorie());
             if (c.getPrixMax() != null)   msg.append(" sous ").append(c.getPrixMax()).append(" DH");
+            if (c.getKeyword() != null)   msg.append(" avec le mot-clé \"").append(c.getKeyword()).append("\"");
             msg.append(". Essayez d'élargir vos critères 🔍");
             return msg.toString();
         }
 
-        StringBuilder msg = new StringBuilder();
-        msg.append("J'ai trouvé **").append(total).append(" événement")
-                .append(total > 1 ? "s**" : "**");
+        StringBuilder msg = new StringBuilder("J'ai trouvé ").append(total)
+                .append(" événement").append(total > 1 ? "s" : "");
 
-        if (c.getVille() != null)     msg.append(" à **").append(c.getVille()).append("**");
-        if (c.getCategorie() != null) msg.append(" · catégorie **").append(c.getCategorie()).append("**");
-        if (c.getPrixMax() != null)   msg.append(" · max **").append(c.getPrixMax()).append(" DH**");
+        if (c.getVille() != null)     msg.append(" à ").append(c.getVille());
+        if (c.getCategorie() != null) msg.append(" · catégorie ").append(c.getCategorie());
+        if (c.getPrixMax() != null)   msg.append(" · max ").append(c.getPrixMax()).append(" DH");
+        if (c.getKeyword() != null)   msg.append(" · pour \"").append(c.getKeyword()).append("\"");
 
-        if (isConnected) {
-            msg.append(" _(recommandations basées sur votre profil)_");
-        }
-
+        if (isConnected) msg.append(" (recommandations basées sur votre profil)");
         msg.append(" ✨");
         return msg.toString();
     }
 
-    // ─── Appel Ollama ─────────────────────────────────────────────
     private String callOllama(String prompt) throws JsonProcessingException {
+        Map<String, Object> options = Map.of("temperature", 0.0);
+
         Map<String, Object> body = Map.of(
                 "model", model,
                 "prompt", prompt,
-                "stream", false
+                "stream", false,
+                "options", options
         );
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> entity = new HttpEntity<>(
@@ -211,31 +227,29 @@ public class ChatbotService {
         return root.path("response").asText("");
     }
 
-    // ─── Extraire le JSON depuis la réponse brute du LLM ─────────
     private String extractJson(String raw) {
-        // Le LLM peut répondre avec du texte avant/après le JSON
         int start = raw.indexOf('{');
         int end   = raw.lastIndexOf('}');
         if (start != -1 && end != -1 && end > start) {
             return raw.substring(start, end + 1);
         }
-        return "{}"; // fallback
+        return "{}";
     }
 
-    // ─── Mapper nom catégorie → ID ────────────────────────────────
     private Long mapCategorieToId(String categorie) {
         if (categorie == null) return null;
-        // Adapter selon tes vraies IDs en BDD
-        Map<String, Long> map = Map.of(
-                "Concert",    1L,
-                "Festival",   2L,
-                "Theatre",    3L,
-                "Sport",      4L,
-                "Conference", 5L,
-                "Art",        6L,
-                "Comedie",    7L,
-                "Cinema",     8L
-        );
-        return map.get(categorie);
+
+
+        Map<String, Long> map = new HashMap<>();
+        map.put("concert",    1L);
+        map.put("festival",   2L);
+        map.put("theatre",    3L);
+        map.put("sport",      4L);
+        map.put("conference", 5L);
+        map.put("art",        6L);
+        map.put("comedie",    7L);
+        map.put("cinema",     8L);
+
+        return map.get(categorie.toLowerCase().trim());
     }
 }

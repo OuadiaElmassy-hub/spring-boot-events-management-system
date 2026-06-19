@@ -50,6 +50,18 @@ public class OrganizerStatisticsService {
                 })
                 .average()
                 .orElse(0.0);
+        Long totalReservations = approvedEvents.stream()
+                .flatMap(e -> e.getReservations().stream())
+                .filter(r -> r.getStatut() == StatutReservation.CONFIRME)
+                .count();
+
+        int totalCapacity = approvedEvents.stream()
+                .mapToInt(Evenement::getCapacite)
+                .sum();
+
+        double fillRate = totalCapacity > 0
+                ? (totalReservations * 100.0) / totalCapacity
+                : 0.0;
 
         // 4. Revenus par événement
         List<OrgStatisticsDTO.RevenueItem> revenueByEvent =
@@ -87,11 +99,12 @@ public class OrganizerStatisticsService {
         return new OrgStatisticsDTO(
                 totalRevenue,
                 totalParticipants,
-                avgFillRate,
-                activeEvents,
-                revenueByEvent,
-                fillRateByEvent,
-                bookingsByMonth
+                //avgFillRate,              
+                totalReservations,
+            activeEvents,
+            revenueByEvent,
+            fillRateByEvent,
+            bookingsByMonth
         );
     }
 }
