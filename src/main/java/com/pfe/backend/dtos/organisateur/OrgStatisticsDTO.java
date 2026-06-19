@@ -14,7 +14,7 @@ public class OrgStatisticsDTO {
 
     Double              totalRevenue;
     long                totalParticipants;
-    Double              avgFillRate;
+    Long              avgFillRate;
     long                activeEvents;
     List<RevenueItem> revenueByEvent;
     List<FillRateItem>  fillRateByEvent;

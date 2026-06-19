@@ -29,5 +29,6 @@ public interface AvisRepository extends JpaRepository<Avis,Long> {
             "LEFT JOIN a.visiteur v " +
             "WHERE a.evenement.id = :eventId")
     Page<AvisResponseDto> findAvisByEvenementId(@Param("eventId") Long eventId, Pageable pageable);
-
+    // Vérifie si le client a déjà laissé un avis pour cet événement
+    boolean existsByClientIdAndEvenementId(Long clientId, Long evenementId);
 }

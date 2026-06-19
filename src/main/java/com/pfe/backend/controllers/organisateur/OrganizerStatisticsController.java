@@ -14,13 +14,17 @@ import org.springframework.security.access.prepost.PreAuthorize;
 @PreAuthorize("hasRole('ORGANISATEUR')")
 public class OrganizerStatisticsController {
 
-    private final OrganizerStatisticsService statisticsService;
+    private final OrganizerStatisticsService statistics;
     private final SecurityUtils              securityUtils;
-
+    private  OrgStatisticsDTO statsDto;
     // GET /api/organisateur/statistiques
     @GetMapping
     public ResponseEntity<OrgStatisticsDTO> getStatistics() {
-        return ResponseEntity.ok(
-            statisticsService.getStatistics(securityUtils.getCurrentUserId()));
+
+        Long orgId = securityUtils.getCurrentUserId();
+        OrgStatisticsDTO statsDto = statistics.getStatistics(orgId);
+
+        return ResponseEntity.ok(statsDto);
     }
+
 }

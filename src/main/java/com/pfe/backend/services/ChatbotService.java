@@ -347,7 +347,11 @@ public class ChatbotService {
         // "Voir les résultats" apparaissait même potentiellement sans résultat).
         boolean hasResults = results.getTotalElements() > 0;
 
-        return new ChatResponse(message, results.getContent(), criteria, hasResults);
+        return ChatResponse.builder()
+                .message(message)
+                .events(results.getContent())
+                .criteresUtilises(criteria)
+                .hasResults(hasResults).build();
     }
 
     // ─── Extraction des critères via LLM ─────────────────────────

@@ -1,14 +1,22 @@
-package com.pfe.backend.controllers;
+package com.ouadia.rovista1.controllers;
 
-import com.pfe.backend.dtos.PageResponse;
-import com.pfe.backend.dtos.avis.AvisRequestDto;
-import com.pfe.backend.dtos.avis.AvisResponseDto;
-import com.pfe.backend.exceptions.AvisNotFoundException;
-import com.pfe.backend.exceptions.EventNotFoundException;
-import com.pfe.backend.services.interfaces.IAvisService;
+import com.ouadia.rovista1.dtos.PageResponse;
+import com.ouadia.rovista1.dtos.avis.AvisRequestDto;
+import com.ouadia.rovista1.dtos.avis.AvisResponseDto;
+import com.ouadia.rovista1.exceptions.BusinessException;
+import com.ouadia.rovista1.exceptions.AvisNotFoundException;
+import com.ouadia.rovista1.exceptions.EventNotFoundException;
+import com.ouadia.rovista1.exceptions.StorageProblemException;
+import com.ouadia.rovista1.security.MyUserDetails;
+import com.ouadia.rovista1.services.interfaces.IAvisService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -41,5 +49,17 @@ public class AvisController {
     public ResponseEntity<Void> deleteAvisById(@PathVariable Long id) throws AvisNotFoundException {
         service.deleteAvisById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/client/events/{eventId}/avis")
+    public ResponseEntity<AvisResponseDto> addAvis(
+            @PathVariable Long eventId,
+            @RequestParam double note,
+            @RequestParam String comment,
+            @AuthenticationPrincipal MyUserDetails userDetails) {
+
+        return ResponseEntity.ok(
+                service.addAvisClient(userDetails.getId(), eventId, note, comment)
+        );
     }
 }
