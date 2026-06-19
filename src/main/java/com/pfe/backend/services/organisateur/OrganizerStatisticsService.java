@@ -1,12 +1,12 @@
-package com.ouadia.rovista1.services.organisateur;
+package com.pfe.backend.services.organisateur;
 
-import com.ouadia.rovista1.dtos.organisateur.OrgStatisticsDTO;
-import com.ouadia.rovista1.entities.Evenement;
-import com.ouadia.rovista1.entities.enums.StatutEvenement;
-import com.ouadia.rovista1.entities.enums.StatutPaiement;
-import com.ouadia.rovista1.entities.enums.StatutReservation;
-import com.ouadia.rovista1.repositories.EventRepository;
-import com.ouadia.rovista1.repositories.ReservationRepository;
+import com.pfe.backend.dtos.organisateur.OrgStatisticsDTO;
+import com.pfe.backend.entities.Evenement;
+import com.pfe.backend.entities.enums.StatutEvenement;
+import com.pfe.backend.entities.enums.StatutPaiement;
+import com.pfe.backend.entities.enums.StatutReservation;
+import com.pfe.backend.repositories.EventRepository;
+import com.pfe.backend.repositories.ReservationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;

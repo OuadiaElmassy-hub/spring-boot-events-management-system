@@ -1,14 +1,14 @@
-package com.ouadia.rovista1.controllers;
+package com.pfe.backend.controllers;
 
-import com.ouadia.rovista1.dtos.PageResponse;
-import com.ouadia.rovista1.dtos.avis.AvisRequestDto;
-import com.ouadia.rovista1.dtos.avis.AvisResponseDto;
-import com.ouadia.rovista1.exceptions.BusinessException;
-import com.ouadia.rovista1.exceptions.AvisNotFoundException;
-import com.ouadia.rovista1.exceptions.EventNotFoundException;
-import com.ouadia.rovista1.exceptions.StorageProblemException;
-import com.ouadia.rovista1.security.MyUserDetails;
-import com.ouadia.rovista1.services.interfaces.IAvisService;
+import com.pfe.backend.dtos.PageResponse;
+import com.pfe.backend.dtos.avis.AvisRequestDto;
+import com.pfe.backend.dtos.avis.AvisResponseDto;
+import com.pfe.backend.exceptions.BusinessException;
+import com.pfe.backend.exceptions.AvisNotFoundException;
+import com.pfe.backend.exceptions.EventNotFoundException;
+import com.pfe.backend.exceptions.StorageProblemException;
+import com.pfe.backend.security.MyUserDetails;
+import com.pfe.backend.services.interfaces.IAvisService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

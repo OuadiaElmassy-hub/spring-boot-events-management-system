@@ -679,7 +679,7 @@ public class ChatbotService {
     }
 
     // ─── Appel Ollama ─────────────────────────────────────────────
-    private String callOllama(String prompt) {
+    private String callOllama(String prompt) throws OllamaUnavailableException {
         Map<String, Object> body = new HashMap<>();
         body.put("model", model);
         body.put("prompt", prompt);
@@ -711,11 +711,11 @@ public class ChatbotService {
             // et les erreurs réseau (connexion refusée, hôte injoignable).
             // On la traduit en exception métier dédiée pour que extractCriteria
             // puisse réagir spécifiquement (fallback recherche large).
-            throw new OllamaUnavailableException("Ollama injoignable ou trop lent", e);
+            throw new OllamaUnavailableException("Ollama injoignable ou trop lent");
 
         } catch (RestClientException e) {
             // Toute autre erreur HTTP (4xx/5xx renvoyée par Ollama, etc.)
-            throw new OllamaUnavailableException("Erreur lors de l'appel à Ollama", e);
+            throw new OllamaUnavailableException("Erreur lors de l'appel à Ollama");
         }
     }
 

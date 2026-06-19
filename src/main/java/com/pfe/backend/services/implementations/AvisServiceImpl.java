@@ -1,19 +1,19 @@
-package com.ouadia.rovista1.services.implementations;
+package com.pfe.backend.services.implementations;
 
-import com.ouadia.rovista1.dtos.PageResponse;
-import com.ouadia.rovista1.dtos.avis.AvisRequestDto;
-import com.ouadia.rovista1.dtos.avis.AvisResponseDto;
-import com.ouadia.rovista1.dtos.evenement.EvenementResponseDto;
-import com.ouadia.rovista1.entities.*;
-import com.ouadia.rovista1.exceptions.AvisNotFoundException;
-import com.ouadia.rovista1.exceptions.EventNotFoundException;
-import com.ouadia.rovista1.mappers.AvisMapper;
-import com.ouadia.rovista1.repositories.AvisRepository;
-import com.ouadia.rovista1.repositories.ClientRepository;
-import com.ouadia.rovista1.repositories.EventRepository;
-import com.ouadia.rovista1.repositories.ReservationRepository;
-import com.ouadia.rovista1.services.EvenementSpecification;
-import com.ouadia.rovista1.services.interfaces.IAvisService;
+import com.pfe.backend.dtos.PageResponse;
+import com.pfe.backend.dtos.avis.AvisRequestDto;
+import com.pfe.backend.dtos.avis.AvisResponseDto;
+import com.pfe.backend.dtos.evenement.EvenementResponseDto;
+import com.pfe.backend.entities.*;
+import com.pfe.backend.exceptions.AvisNotFoundException;
+import com.pfe.backend.exceptions.EventNotFoundException;
+import com.pfe.backend.mappers.AvisMapper;
+import com.pfe.backend.repositories.AvisRepository;
+import com.pfe.backend.repositories.ClientRepository;
+import com.pfe.backend.repositories.EventRepository;
+import com.pfe.backend.repositories.ReservationRepository;
+import com.pfe.backend.services.EvenementSpecification;
+import com.pfe.backend.services.interfaces.IAvisService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import com.ouadia.rovista1.entities.enums.StatutReservation;
+import com.pfe.backend.entities.enums.StatutReservation;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service

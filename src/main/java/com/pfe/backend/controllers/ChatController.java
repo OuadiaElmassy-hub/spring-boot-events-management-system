@@ -60,16 +60,6 @@ public class ChatController {
             ChatResponse response = chatbotService.ask(question, username);
             return ResponseEntity.ok(response);
 
-        } catch (OllamaUnavailableException e) {
-            // CORRECTIF : 503 dédié quand le problème vient du LLM externe,
-            // plutôt qu'un 500 générique. Permet au frontend d'afficher
-            // un message adapté ("le service IA est temporairement indisponible")
-            // et facilite le monitoring (on distingue panne externe vs bug interne).
-            log.error("Ollama indisponible : {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(Map.of(
-                    "error", "Service IA temporairement indisponible. Réessayez dans un instant."
-            ));
-
         } catch (Exception e) {
             // CORRECTIF : log.error avec la stack trace complète (e, pas seulement
             // e.getMessage()) pour faciliter le debug en prod.

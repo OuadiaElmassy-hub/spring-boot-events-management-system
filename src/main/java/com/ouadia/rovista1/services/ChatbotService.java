@@ -3,14 +3,14 @@ package com.ouadia.rovista1.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ouadia.rovista1.dtos.PageResponse;
-import com.ouadia.rovista1.dtos.chat.ChatResponse;
-import com.ouadia.rovista1.dtos.chat.SearchCriteria;
-import com.ouadia.rovista1.dtos.evenement.EvenementResponseDto;
-import com.ouadia.rovista1.entities.Categorie;
-import com.ouadia.rovista1.entities.Client;
-import com.ouadia.rovista1.repositories.ClientRepository;
-import com.ouadia.rovista1.services.implementations.EventServiceImpl;
+import com.pfe.backend.dtos.PageResponse;
+import com.pfe.backend.dtos.chat.ChatResponse;
+import com.pfe.backend.dtos.chat.SearchCriteria;
+import com.pfe.backend.dtos.evenement.EvenementResponseDto;
+import com.pfe.backend.entities.Categorie;
+import com.pfe.backend.entities.Client;
+import com.pfe.backend.repositories.ClientRepository;
+import com.pfe.backend.services.implementations.EventServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -69,7 +69,10 @@ public class ChatbotService {
         );
 
         String message = buildMessage(criteria, results, isConnected);
-        return new ChatResponse(message, results.getContent(), criteria, results.getTotalElements());
+        return ChatResponse.builder()
+                .message(message)
+                .events(results.getContent()).criteresUtilises(criteria)
+                .total(results.getTotalElements()).build();
     }
     private SearchCriteria extractCriteria(String question) {
         String prompt = """
