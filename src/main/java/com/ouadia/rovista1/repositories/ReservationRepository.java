@@ -134,4 +134,7 @@ public interface ReservationRepository extends JpaRepository<Reservation,Long> {
             @Param("eventId") Long eventId,
             @Param("statut")  StatutReservation statut
     );
+    // Vérifie si le client a une réservation confirmée pour cet événement
+    boolean existsByClientIdAndEvenementIdAndStatut(
+            Long clientId, Long evenementId, StatutReservation statut);
 }

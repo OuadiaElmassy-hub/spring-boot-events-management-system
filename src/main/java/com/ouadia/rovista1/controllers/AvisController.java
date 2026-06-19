@@ -7,10 +7,12 @@ import com.ouadia.rovista1.exceptions.BusinessException;
 import com.ouadia.rovista1.exceptions.AvisNotFoundException;
 import com.ouadia.rovista1.exceptions.EventNotFoundException;
 import com.ouadia.rovista1.exceptions.StorageProblemException;
+import com.ouadia.rovista1.security.MyUserDetails;
 import com.ouadia.rovista1.services.interfaces.IAvisService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,5 +49,17 @@ public class AvisController {
     public ResponseEntity<Void> deleteAvisById(@PathVariable Long id) throws AvisNotFoundException {
         service.deleteAvisById(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/client/events/{eventId}/avis")
+    public ResponseEntity<AvisResponseDto> addAvis(
+            @PathVariable Long eventId,
+            @RequestParam double note,
+            @RequestParam String comment,
+            @AuthenticationPrincipal MyUserDetails userDetails) {
+
+        return ResponseEntity.ok(
+                service.addAvisClient(userDetails.getId(), eventId, note, comment)
+        );
     }
 }

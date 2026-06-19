@@ -9,7 +9,9 @@ import com.ouadia.rovista1.exceptions.AvisNotFoundException;
 import com.ouadia.rovista1.exceptions.EventNotFoundException;
 import com.ouadia.rovista1.mappers.AvisMapper;
 import com.ouadia.rovista1.repositories.AvisRepository;
+import com.ouadia.rovista1.repositories.ClientRepository;
 import com.ouadia.rovista1.repositories.EventRepository;
+import com.ouadia.rovista1.repositories.ReservationRepository;
 import com.ouadia.rovista1.services.EvenementSpecification;
 import com.ouadia.rovista1.services.interfaces.IAvisService;
 import jakarta.transaction.Transactional;
@@ -18,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -26,24 +29,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import com.ouadia.rovista1.entities.enums.StatutReservation;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @Transactional
 @AllArgsConstructor
 public class AvisServiceImpl implements IAvisService {
 
-    private final AvisRepository repository;
+
     private final AvisRepository avisRepository;
     private final AvisMapper avisMapper;
     private final EventRepository eventRepository;
-
+    private final ReservationRepository reservationRepository;
+    private final ClientRepository clientRepository;
+    private final EventRepository evenementRepository;
 
 
 
     @Override
     public AvisResponseDto addAvis(AvisRequestDto avisDto) {
         Avis avis = avisMapper.mappingAvisDtoRequestToAvis(avisDto);
-            return  avisMapper.mappingAvisToAvisDtoResponse(repository.save(avis));
+            return  avisMapper.mappingAvisToAvisDtoResponse(avisRepository.save(avis));
     }
 
     @Override
@@ -51,7 +58,7 @@ public class AvisServiceImpl implements IAvisService {
         Avis avis = avisMapper.mappingAvisDtoRequestToAvis(avisDto);
         if (avis == null) return null;
         else {
-            Avis avis1 = repository.findById(idRrch).get();
+            Avis avis1 = avisRepository.findById(idRrch).get();
             if (avis1 == null) {return null;}
             avis1.setComment( avis.getComment());
             avis1.setNote( avis.getNote());
@@ -59,7 +66,7 @@ public class AvisServiceImpl implements IAvisService {
             avis1.setEvenement( avis.getEvenement());
             avis1.setClient( avis.getClient());
             avis1.setVisiteur(avis.getVisiteur());
-            return avisMapper.mappingAvisToAvisDtoResponse(repository.save(avis1));
+            return avisMapper.mappingAvisToAvisDtoResponse(avisRepository.save(avis1));
         }
     }
 
@@ -67,7 +74,7 @@ public class AvisServiceImpl implements IAvisService {
     public AvisResponseDto editAvisMap(Long idRrch, Map<String, Object> map) {
         if (map == null ) return null;
         else {
-            Avis avis1 = repository.findById(idRrch).get();
+            Avis avis1 = avisRepository.findById(idRrch).get();
             if (avis1 == null) {return null;}
             if (map.containsKey("comment")){
                 avis1.setComment((String) map.get("comment"));
@@ -88,13 +95,13 @@ public class AvisServiceImpl implements IAvisService {
             if (map.containsKey("visiteur")) {
                 avis1.setVisiteur((VisiteurInvite) map.get("visiteur"));
             }
-            return avisMapper.mappingAvisToAvisDtoResponse(repository.save(avis1));
+            return avisMapper.mappingAvisToAvisDtoResponse(avisRepository.save(avis1));
         }
     }
 
     @Override
     public AvisResponseDto getAvisById(Long id)throws AvisNotFoundException {
-        Avis avis=repository.findById(id).orElseThrow(()->new AvisNotFoundException("Avis not found"));
+        Avis avis=avisRepository.findById(id).orElseThrow(()->new AvisNotFoundException("Avis not found"));
         return avisMapper.mappingAvisToAvisDtoResponse(avis);
 
     }
@@ -128,14 +135,14 @@ public class AvisServiceImpl implements IAvisService {
 
     @Override
     public List<AvisResponseDto> getAllAvis() {
-        return (repository.findAll().stream().map(avis-> avisMapper.mappingAvisToAvisDtoResponse(avis)).toList());
+        return (avisRepository.findAll().stream().map(avis-> avisMapper.mappingAvisToAvisDtoResponse(avis)).toList());
 
     }
 
 
     @Override
     public void deleteAvisById(Long id) {
-        repository.deleteById(id);
+        avisRepository.deleteById(id);
     }
 
     @Override
@@ -144,5 +151,37 @@ public class AvisServiceImpl implements IAvisService {
             deleteAvisById(id);
         }
     
+    }
+    @Override
+    public AvisResponseDto addAvisClient(Long clientId, Long evenementId, double note, String comment) {
+
+        // Vérifie réservation confirmée
+        boolean aReserve = reservationRepository.existsByClientIdAndEvenementIdAndStatut(
+                clientId, evenementId, StatutReservation.CONFIRME);
+        if (!aReserve)
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Vous devez avoir une réservation confirmée pour laisser un avis");
+        // Vérifie pas déjà d'avis
+        boolean dejaAvis = avisRepository.existsByClientIdAndEvenementId(clientId, evenementId);
+        if (dejaAvis)
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Vous avez déjà laissé un avis pour cet événement");
+
+        // Récupère client et événement
+        Client client = clientRepository.findById(clientId)
+                .orElseThrow(() -> new RuntimeException("Client introuvable"));
+        Evenement evenement = evenementRepository.findById(evenementId)
+                .orElseThrow(() -> new RuntimeException("Événement introuvable"));
+
+        // Crée l'avis
+        Avis avis = Avis.builder()
+                .note(note)
+                .comment(comment)
+                .dateAvis(LocalDateTime.now())
+                .client(client)
+                .evenement(evenement)
+                .build();
+
+        avis = avisRepository.save(avis);
+
+        return avisMapper.mappingAvisToAvisDtoResponse(avis);
     }
 }
