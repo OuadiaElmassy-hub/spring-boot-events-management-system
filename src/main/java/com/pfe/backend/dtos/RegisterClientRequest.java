@@ -1,0 +1,18 @@
+package com.pfe.backend.dtos;
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Builder
+public class RegisterClientRequest {
+    String username;
+    String email;
+    String password;
+    String nom;
+    String prenom;
+    String phone;
+    String ville;
+}
