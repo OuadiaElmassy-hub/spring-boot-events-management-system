@@ -81,6 +81,7 @@ public class OrganizerStatisticsService {
 //                .collect(Collectors.toList());
 
         return new OrgStatisticsDTO(
+                fillRate,
             totalRevenue,
             totalParticipants,
                 totalReservations,

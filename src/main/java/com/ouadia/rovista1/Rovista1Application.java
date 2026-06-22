@@ -141,18 +141,31 @@ public class Rovista1Application {
             organisateurRepository.save(o3);
 
             //c6 = Théâtre/Arts
-
-            Categorie c1 = new Categorie();
-            c1.setNom("Sports");
-            c1.setDescription("Evenements sportifs");
-            c1.setIconUrl(BASE_URL_CAT+"sport.svg");
-            categorieRepository.save(c1);
+            Categorie c5 = new Categorie();
+            c5.setNom("Concerts");
+            c5.setDescription("Concerts");
+            c5.setIconUrl(BASE_URL_CAT+"celebration.svg");
+            categorieRepository.save(c5);
 
             Categorie c2 = new Categorie();
             c2.setNom("Festivals");
             c2.setDescription("festivals and music");
             c2.setIconUrl(BASE_URL_CAT+"festival.svg");
             categorieRepository.save(c2);
+
+            Categorie c6 = new Categorie();
+            c6.setNom("Théâtre");
+            c6.setDescription("Théâtre");
+            c6.setIconUrl(BASE_URL_CAT+"theatre.svg");
+            categorieRepository.save(c6);
+            
+            Categorie c1 = new Categorie();
+            c1.setNom("Sports");
+            c1.setDescription("Evenements sportifs");
+            c1.setIconUrl(BASE_URL_CAT+"sport.svg");
+            categorieRepository.save(c1);
+
+
 
             Categorie c3 = new Categorie();
             c3.setNom("Expositions");
@@ -166,17 +179,9 @@ public class Rovista1Application {
             c4.setIconUrl(BASE_URL_CAT+"conference.svg");
             categorieRepository.save(c4);
 
-            Categorie c5 = new Categorie();
-            c5.setNom("Concerts");
-            c5.setDescription("Concerts");
-            c5.setIconUrl(BASE_URL_CAT+"celebration.svg");
-            categorieRepository.save(c5);
 
-            Categorie c6 = new Categorie();
-            c6.setNom("Théâtre");
-            c6.setDescription("Théâtre");
-            c6.setIconUrl(BASE_URL_CAT+"theatre.svg");
-            categorieRepository.save(c6);
+
+
 //
 //            Categorie c7 = new Categorie();
 //            c7.setNom("Gastronomie");
