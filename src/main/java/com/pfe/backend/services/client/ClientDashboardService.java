@@ -3,6 +3,7 @@ package com.pfe.backend.services.client;
 import com.pfe.backend.dtos.StatistiquesResponseDto;
 import com.pfe.backend.entities.Client;
 import com.pfe.backend.entities.enums.StatutReservation;
+import com.pfe.backend.exceptions.ClientNotFoundException;
 import com.pfe.backend.repositories.ClientRepository;
 import com.pfe.backend.repositories.FavorieRepository;
 import com.pfe.backend.repositories.ReservationRepository;
@@ -21,8 +22,8 @@ public class ClientDashboardService implements IClientDashboardService {
     private final ClientRepository clientRepo;
 
     @Override
-    public StatistiquesResponseDto getStats(Long ClientId) {
-        Client client = clientRepo.findById(ClientId).orElseThrow();
+    public StatistiquesResponseDto getStats(Long ClientId) throws ClientNotFoundException {
+        Client client = clientRepo.findById(ClientId).orElseThrow(()->new ClientNotFoundException("Client not found"));
 
         long totalBookings   = reservationRepo.countByClientId(ClientId);
         long eventsAttended  = reservationRepo

@@ -25,7 +25,8 @@ public class OrganizerNotificationController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
-        return ResponseEntity.ok(notifService.getNotifications(page, size));
+        Long orgId = securityUtils.getCurrentUserId();
+        return ResponseEntity.ok(notifService.getNotifications(orgId, page, size));
     }
 
     // GET /api/organisateur/notifications/nonlu-count

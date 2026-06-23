@@ -63,7 +63,7 @@ public class OrganizerEventService {
         e.setStatutEvenement(StatutEvenement.EN_ATTENTE);
         Evenement saved = eventRepo.save(e);
 
-        // Notifier les admins
+        // Notifier l'admin
         Notification notif = new Notification();
         notif.setDestinataire(null); // notification admin globale
         notif.setMessage("Nouvel événement soumis par "

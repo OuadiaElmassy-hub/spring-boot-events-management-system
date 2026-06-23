@@ -40,7 +40,7 @@ public class ClientController {
 
     @GetMapping("/client/dashboard/stats")
     public ResponseEntity<StatistiquesResponseDto> getStats(
-            @AuthenticationPrincipal UserDetails userDetails) {
+            @AuthenticationPrincipal UserDetails userDetails) throws ClientNotFoundException {
 
         Long userId = securityUtils.getCurrentUserId();
         return ResponseEntity.ok(dashboardService.getStats(userId));

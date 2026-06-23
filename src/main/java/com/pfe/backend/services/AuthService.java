@@ -5,10 +5,12 @@ import com.pfe.backend.dtos.RegisterOrganisateurRequest;
 import com.pfe.backend.dtos.auth.AuthResponse;
 import com.pfe.backend.dtos.auth.LoginRequest;
 import com.pfe.backend.entities.Client;
+import com.pfe.backend.entities.Notification;
 import com.pfe.backend.entities.Organisateur;
 import com.pfe.backend.entities.Role;
 import com.pfe.backend.entities.enums.StatutCompte;
 import com.pfe.backend.entities.enums.StatutOrganisateur;
+import com.pfe.backend.entities.enums.TypeMessage;
 import com.pfe.backend.exceptions.RoleNotFoundException;
 import com.pfe.backend.repositories.*;
 import com.pfe.backend.security.JwtService;
@@ -41,7 +43,7 @@ public class AuthService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
-    private final AdminRepository adminRepository;
+    private final NotificationRepository notifRepo;
 
     public AuthResponse login(LoginRequest request) {
 
@@ -179,7 +181,6 @@ public class AuthService {
         org.setStatutOrganisateur(StatutOrganisateur.INACTIF);
         org.setStatutOrganisateur(StatutOrganisateur.SUSPENDU);
         org.setEnabled(false);
-        //org.setLogoUrl();
         Role role = roleRepository.findByRoleName("ORGANISATEUR")
                 .orElseThrow(() -> new RoleNotFoundException("Role not found with name : ORGANISATEUR "));
         Role role2 = roleRepository.findByRoleName("CLIENT")
@@ -187,6 +188,14 @@ public class AuthService {
         org.setRoles(List.of(role,role2));
         org.setVerified(false);
         org = organisateurRepo.save(org);
+
+        // Notifier l'admin
+        Notification notif = new Notification();
+        notif.setDestinataire(null); // notification admin globale
+        notif.setMessage("Nouvel demande d'inscription par : "
+                + org.getNom() + " " + org.getPrenom());
+        notif.setTypeMessage(TypeMessage.USER_REGISTERED);
+        notifRepo.save(notif);
 
         return "Demande envoyée. Votre compte sera activé après validation par l'admin.";
 

@@ -24,4 +24,6 @@ public class OrgPromotionDTO {
     private int maxUtilisations;
     private int nbUtilisations;
     private BigDecimal montantMinimum;
+    private boolean active;
+    private boolean valide;
 }

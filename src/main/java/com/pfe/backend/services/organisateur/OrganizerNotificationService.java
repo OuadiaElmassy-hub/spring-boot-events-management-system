@@ -17,10 +17,10 @@ public class OrganizerNotificationService {
     private final NotificationRepository notifRepo;
 
 
-    public Page<OrganisateurNotificationDTO> getNotifications(int page, int size) {
+    public Page<OrganisateurNotificationDTO> getNotifications(Long orgId, int page, int size) {
         Pageable pageable = PageRequest.of(page,size);
         return notifRepo
-                .findByDestinataireIsNullOrderByCreatedAtDesc(pageable)
+                .findByDestinataireIdOrderByCreatedAtDesc(orgId, pageable)
                 .map(this::toDTO);
     }
 
