@@ -11,10 +11,9 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 public class OrgStatisticsDTO {
-
+    private Double averageFillRate;
     Double              totalRevenue;
     long                totalParticipants;
-    Long              avgFillRate;
     long                activeEvents;
     List<RevenueItem> revenueByEvent;
     List<FillRateItem>  fillRateByEvent;

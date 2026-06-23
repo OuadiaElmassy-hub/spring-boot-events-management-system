@@ -97,10 +97,9 @@ public class OrganizerStatisticsService {
                         )).toList();
 
         return new OrgStatisticsDTO(
+                avgFillRate,
                 totalRevenue,
                 totalParticipants,
-                //avgFillRate,              
-                totalReservations,
             activeEvents,
             revenueByEvent,
             fillRateByEvent,
