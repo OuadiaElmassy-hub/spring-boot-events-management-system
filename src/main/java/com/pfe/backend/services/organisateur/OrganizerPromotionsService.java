@@ -3,6 +3,7 @@ package com.pfe.backend.services.organisateur;
 import com.pfe.backend.dtos.organisateur.CreateUpdatePromotionRequest;
 import com.pfe.backend.dtos.organisateur.OrgPromotionDTO;
 import com.pfe.backend.dtos.organisateur.PatchPromotionStatusRequest;
+import com.pfe.backend.entities.Evenement;
 import com.pfe.backend.entities.Organisateur;
 import com.pfe.backend.entities.Promotion;
 import com.pfe.backend.entities.enums.StatutPromotion;
@@ -52,6 +53,17 @@ public class OrganizerPromotionsService {
         Promotion p = new Promotion();
         fillPromotion(p, req, organizer);
         p.setStatutPromotion(StatutPromotion.ACTIVE);
+        p.isValide();
+        //Promotion saved = promotionRepository.save(p);
+
+        if (req.getEventId() != null) {
+            Evenement e = eventRepo.findById( req.getEventId())
+                    .orElseThrow(() -> new EventNotFoundException("Event Not Found With id : " + req.getEventId()));
+            p.setEvenement(e);
+            e.setPromotion(p);
+            eventRepo.save(e);
+        }
+
         Promotion saved = promotionRepository.save(p);
 
         return toDTO(saved);
@@ -69,7 +81,8 @@ public class OrganizerPromotionsService {
     @Transactional
     public void deletePromotion(Long orgId, Long eventId) {
         Promotion p = findOwnPromotion(orgId, eventId);
-        if (p.getStatutPromotion() == StatutPromotion.ACTIVE) {
+//        if (p.getStatutPromotion() == StatutPromotion.ACTIVE) {
+        if (p.getActive()) {
             throw new ResponseStatusException(
                 HttpStatus.BAD_REQUEST,
                 "Impossible de supprimer une promotion Active. Contactez l'administration."
@@ -78,7 +91,7 @@ public class OrganizerPromotionsService {
         promotionRepository.delete(p);
     }
 
-    public void toggleCategorie(Long id) throws PromotionNotFoundException {
+    public void togglePromotion(Long id) throws PromotionNotFoundException {
 
         Promotion prom = promotionRepository.findById(id).orElseThrow(() -> new
                 PromotionNotFoundException("Promotion not found with id : "+id));
@@ -135,11 +148,6 @@ public class OrganizerPromotionsService {
         p.setMontantMinimum(req.getMontantMinimum());
 
         p.setOrganisateur(organizer);
-
-        if (req.getEventId() != null) {
-            p.setEvenement(eventRepo.findById( req.getEventId())
-                    .orElseThrow(() -> new EventNotFoundException("Event Not Found With id : " + req.getEventId())));
-        }
     }
 
     private OrgPromotionDTO toDTO(Promotion p) {
@@ -156,6 +164,8 @@ public class OrganizerPromotionsService {
                 .montantMinimum(p.getMontantMinimum())
                 //.nbUtilisations()
                 .maxUtilisations(p.getMaxUtilisations())
+                .active(p.getActive())
+                .valide(p.getValid())
                 .build();
 
     }

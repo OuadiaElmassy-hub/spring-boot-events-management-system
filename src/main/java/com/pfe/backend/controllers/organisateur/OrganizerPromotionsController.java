@@ -63,10 +63,10 @@ public class OrganizerPromotionsController {
     /** PATCH /organisateur/promotions/{id}/toggle */
     @PatchMapping("/{id}/toggle")
     @Transactional
-    public ResponseEntity<Void> toggleCategorie(@PathVariable Long id) {
+    public ResponseEntity<Void> togglePromotion(@PathVariable Long id) {
 
         try {
-            promotionsService.toggleCategorie(id);
+            promotionsService.togglePromotion(id);
             return ResponseEntity.ok().build();
         } catch (PromotionNotFoundException e) {
             return ResponseEntity.notFound().build();
